@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="西湖论剑的初赛题目，质量不是很高，但是由于这是我第一次接触花指令，再加上对MFC不熟悉，有点懵逼，第三题题没做出来。最终卡着线进了决赛。。。 比赛时间：4月7日 下载地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 西湖论剑 线上赛">
+<meta property="og:url" content="http://yoursite.com/2019/04/08/2019xihu_quals/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="西湖论剑的初赛题目，质量不是很高，但是由于这是我第一次接触花指令，再加上对MFC不熟悉，有点懵逼，第三题题没做出来。最终卡着线进了决赛。。。 比赛时间：4月7日 下载地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-08T10:14:17.000Z">
+<meta property="article:modified_time" content="2020-02-10T05:20:36.747Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="花指令">
+<meta property="article:tag" content="base58">
+<meta property="article:tag" content="MFC">
+<meta property="article:tag" content="最短路径">
+<meta property="article:tag" content="ttl">
+<meta property="article:tag" content="编码">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/04/08/2019xihu_quals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>2019 西湖论剑 线上赛 | Apeng's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apeng's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Reverse Everything</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-friends">
+
+    <a href="/friends/" rel="section"><i class="fa fa-fw fa-users"></i>友情链接</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/08/2019xihu_quals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2019 西湖论剑 线上赛
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-08 18:14:17" itemprop="dateCreated datePublished" datetime="2019-04-08T18:14:17+08:00">2019-04-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-10 13:20:36" itemprop="dateModified" datetime="2020-02-10T13:20:36+08:00">2020-02-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF-writeup/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF writeup</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF-writeup/2019/" itemprop="url" rel="index">
+                    <span itemprop="name">2019</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>西湖论剑的初赛题目，质量不是很高，但是由于这是我第一次接触花指令，再加上对MFC不熟悉，有点懵逼，第三题题没做出来。最终卡着线进了决赛。。。</p>
+<p>比赛时间：4月7日</p>
+<p><a href="https://github.com/Apeng7364/ctf/tree/master/ctf2019/xihu_qualify" target="_blank" rel="noopener">下载地址</a></p>
+<a id="more"></a>
+<h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><h3 id="easyCpp"><a href="#easyCpp" class="headerlink" title="easyCpp"></a>easyCpp</h3><p>输入16个数a[16]，用vector保存</p>
+<p>动调中可以发现，依次用a[0]减去a[1]到a[15]的每一个数，然后反序，跟斐波那契数列的前16位对比。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>, <span class="number">34</span>, <span class="number">55</span>, <span class="number">89</span>, <span class="number">144</span>, <span class="number">233</span>, <span class="number">377</span>, <span class="number">610</span>, <span class="number">987</span>]</span><br><span class="line">b = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    b[i] = a[<span class="number">15</span>-i]</span><br><span class="line">c = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>)]</span><br><span class="line">c[<span class="number">0</span>] = b[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">16</span>):</span><br><span class="line">    c[i] = b[i] - b[<span class="number">0</span>]</span><br><span class="line">print(c)</span><br></pre></td></tr></table></figure>
+<h3 id="testre"><a href="#testre" class="headerlink" title="testre"></a>testre</h3><p>输入一串长度16的字符串后，先跟常量异或再加。但是之后并没有用到，所以这一步没用。</p>
+<p>还是原先的输入，将输入转成58进制（其实从%58再/58就能看出来了）存进一个数组，然后按照一个table转成字符，跟常量对比。期间穿插了一个base64的数组，并没什么用直接忽略。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">_i = zero;</span><br><span class="line">current_lenth = n - <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> ( _i &lt; input_lenth )</span><br><span class="line">&#123;</span><br><span class="line">  decnumber = (<span class="keyword">unsigned</span> __int8)input_[_i];</span><br><span class="line">  <span class="keyword">for</span> ( j = n - <span class="number">1</span>; ; --j )</span><br><span class="line">  &#123;</span><br><span class="line">    v10 = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> ( j &lt;= current_lenth )</span><br><span class="line">      v10 = decnumber != <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ( !v10 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    noused = base58bit[j] &lt;&lt; <span class="number">6</span>;</span><br><span class="line">    decnumber += base58bit[j] &lt;&lt; <span class="number">8</span>;</span><br><span class="line">    v9 = <span class="number">64</span>;</span><br><span class="line">    base58bit[j] = decnumber % <span class="number">0x3A</span>;</span><br><span class="line">    b64noused[j] = noused &amp; <span class="number">0x3F</span>;</span><br><span class="line">    noused &gt;&gt;= <span class="number">6</span>;</span><br><span class="line">    decnumber /= <span class="number">0x3A</span>;</span><br><span class="line">    v27 /= v9;</span><br><span class="line">    <span class="keyword">if</span> ( !j )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  ++_i;</span><br><span class="line">  current_lenth = j;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接转dec再转string就行了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'D9cS9N9iHjMLTdA8YSMRMp'</span></span><br><span class="line">t = []</span><br><span class="line">table = <span class="string">'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">    t.append(table.index(s[i]))</span><br><span class="line">res = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">22</span>):</span><br><span class="line">    res+=t[i]*(<span class="number">58</span>**(<span class="number">21</span>-i))</span><br><span class="line">t = hex(res)[<span class="number">2</span>:<span class="number">-1</span>]</span><br><span class="line">print(t.decode(<span class="string">'hex'</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="Junk-Instruction"><a href="#Junk-Instruction" class="headerlink" title="Junk Instruction"></a>Junk Instruction</h3><p>此题为MFC程序。由于不太擅长窗体程序，一开始跟踪了很久，也没找到点击事件函数。后来知道了有xspy这个工具，可以查看到点击事件函数在<code>0x00AA2420</code>。</p>
+<p>进入IDA静态分析，在<code>sub_402420</code>中可以看到有两个分支，里面明显有Correct和Error，跟进去可以看到对应的字符串。<code>sub_402600</code>就是check函数了，一进去也能看到一串常量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( sub_402600(v4 + <span class="number">16</span>) )</span><br><span class="line">&#123;</span><br><span class="line">  sub_401BF0(v5);</span><br><span class="line">  v10 = <span class="number">0</span>;</span><br><span class="line">  v12 = <span class="number">0</span>;</span><br><span class="line">  sub_403DC0(<span class="number">129</span>, <span class="number">0</span>);</span><br><span class="line">  v9 = &amp;CCorrect::`vftable<span class="number">'</span>;</span><br><span class="line">  v19 = <span class="number">0</span>;</span><br><span class="line">  sub_40484E(v7, v8);</span><br><span class="line">  v9 = &amp;CCorrect::`vftable<span class="number">'</span>;</span><br><span class="line">  v19 = <span class="number">2</span>;</span><br><span class="line">  sub_407B3B(&amp;v13);</span><br><span class="line">  LOBYTE(v19) = <span class="number">1</span>;</span><br><span class="line">  v11 = &amp;CBrush::`vftable<span class="number">'</span>;</span><br><span class="line">  sub_401580(&amp;v11);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  sub_401BF0(v5);</span><br><span class="line">  v15 = <span class="number">0</span>;</span><br><span class="line">  v17 = <span class="number">0</span>;</span><br><span class="line">  sub_403DC0(<span class="number">130</span>, <span class="number">0</span>);</span><br><span class="line">  v14 = &amp;CError::`vftable<span class="number">'</span>;</span><br><span class="line">  v19 = <span class="number">3</span>;</span><br><span class="line">  sub_40484E(v7, v8);</span><br><span class="line">  v14 = &amp;CError::`vftable<span class="number">'</span>;</span><br><span class="line">  v19 = <span class="number">5</span>;</span><br><span class="line">  sub_407B3B(&amp;v18);</span><br><span class="line">  LOBYTE(v19) = <span class="number">4</span>;</span><br><span class="line">  v16 = &amp;CBrush::`vftable<span class="number">'</span>;</span><br><span class="line">  sub_401580(&amp;v16);</span><br><span class="line">&#125;</span><br><span class="line">v19 = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">return</span> sub_40434D(v7, v8);</span><br></pre></td></tr></table></figure>
+<p>一进去发现反编译不动，往下看有几条可疑的指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">.text:0040293A 4D8                 call    sub_402CA0</span><br><span class="line">.text:0040293F 4D8                 call    $+5</span><br><span class="line">.text:00402944</span><br><span class="line">.text:00402944     loc_402944:                             ; DATA XREF: check+398↓r</span><br><span class="line">.text:00402944 4DC                 pop     eax</span><br><span class="line">.text:00402945 4D8                 mov     [ebp+var_23C], eax</span><br><span class="line">.text:0040294B 4D8                 call    loc_402953</span><br><span class="line">.text:0040294B     ; --------------------------------------------------------------------</span><br><span class="line">.text:00402950 4D8                 db 0EAh</span><br><span class="line">.text:00402951     ; --------------------------------------------------------------------</span><br><span class="line">.text:00402951 4D8                 jmp     short loc_40295C</span><br><span class="line">.text:00402953     ; --------------------------------------------------------------------</span><br><span class="line">.text:00402953</span><br><span class="line">.text:00402953     loc_402953:                             ; CODE XREF: check+34B↑j</span><br><span class="line">.text:00402953 4D8                 pop     ebx</span><br><span class="line">.text:00402954 4D4                 inc     ebx</span><br><span class="line">.text:00402955 4D4                 push    ebx</span><br><span class="line">.text:00402956 4D8                 mov     eax, 11111111h</span><br><span class="line">.text:0040295B 4D8                 retn</span><br><span class="line">.text:0040295C     ; --------------------------------------------------------------------</span><br><span class="line">.text:0040295C</span><br><span class="line">.text:0040295C     loc_40295C:                             ; CODE XREF: check+351↑j</span><br><span class="line">.text:0040295C 4D8                 call    loc_402968</span><br><span class="line">.text:00402961 4D8                 mov     ebx, 33333333h</span><br><span class="line">.text:00402966 4D8                 jmp     short loc_402975</span><br><span class="line">.text:00402968     ; --------------------------------------------------------------------</span><br><span class="line">.text:00402968</span><br><span class="line">.text:00402968     loc_402968:                             ; CODE XREF: check:loc_40295C↑p</span><br><span class="line">.text:00402968 4D8                 mov     ebx, 11111111h</span><br><span class="line">.text:0040296D 4D8                 pop     ebx</span><br><span class="line">.text:0040296E 4D4                 mov     ebx, offset loc_402975</span><br><span class="line">.text:00402973 4D4                 push    ebx</span><br><span class="line">.text:00402974 4D8                 retn</span><br><span class="line">.text:00402975     ; --------------------------------------------------------------------</span><br><span class="line">.text:00402975</span><br><span class="line">.text:00402975     loc_402975:                             ; CODE XREF: check+366↑j</span><br><span class="line">.text:00402975                                             ; DATA XREF: check+36E↑o</span><br><span class="line">.text:00402975 4D8                 mov     ebx, 22222222h</span><br><span class="line">.text:0040297A 4D8                 lea     ecx, [ebp+var_38]</span><br><span class="line">.text:0040297D 4D8                 mov     [ebp+var_260], ecx</span><br><span class="line">.text:00402983 4D8                 mov     edx, [ebp+var_260]</span><br></pre></td></tr></table></figure>
+<p>0040293F的call就是下一条指令，之后pop eax将返回地址出栈，之后0040294B的call调用到00402953后，返回地址出栈，加一，再入栈，这样返回地址指向的实际是00402951，下一个位于0040295C的call完成了相似的操作，将返回地址改为00402975，之后程序就正常进行了。</p>
+<p>通过刚刚的分析可以看出，虽然经过了三个call，但并没有对数据进行实质的改变，所以中间的指令都没什么用，但是却阻碍了ida的分析，因此我们将第一个call直接改为jmp到00402975，这样ida就能成功分析了。在这些指令中看起来改变了一些寄存器eax,ebx的值，但这些值都没用到，期间保存到栈上的数据（00402945的指令）也没用到，比如eax到最后被幅值为了0x11111111h，再往后看可以发现这个数据没用。</p>
+<p>剩下的部分就照常分析了，期间几个函数内也有相同的花指令，用相同的方式处理即可。</p>
+<p>加密方式：</p>
+<p>将输入除去”flag{}”后反序，再以“qwertyuiop”为密钥进行ARC4加密。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC4</span><br><span class="line">key = <span class="string">'qwertyuiop'</span></span><br><span class="line">arc4 = ARC4.new(key)</span><br><span class="line">a = [<span class="number">0x5B</span>, <span class="number">0xD6</span>, <span class="number">0xD0</span>, <span class="number">0x26</span>, <span class="number">0xC8</span>, <span class="number">0xDD</span>, <span class="number">0x19</span>, <span class="number">0x7E</span>, <span class="number">0x6E</span>, <span class="number">0x3E</span>, <span class="number">0xCB</span>, <span class="number">0x16</span>, <span class="number">0x91</span>, <span class="number">0x7D</span>, <span class="number">0xFF</span>, <span class="number">0xAF</span>, <span class="number">0xDD</span>, <span class="number">0x76</span>, <span class="number">0x64</span>, <span class="number">0xB0</span>, <span class="number">0xF7</span>, <span class="number">0xE5</span>, <span class="number">0x89</span>, <span class="number">0x57</span>, <span class="number">0x82</span>, <span class="number">0x9F</span>, <span class="number">0xC</span>, <span class="number">0</span>, <span class="number">0x9E</span>, <span class="number">0xD0</span>, <span class="number">0x45</span>, <span class="number">0xFA</span>]</span><br><span class="line">c = <span class="string">''</span>.join(map(chr,a))</span><br><span class="line">p = arc4.decrypt(c)</span><br><span class="line">print(p[::<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<p>第一次搞花指令，花的类型也比较简单，多多学习。</p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h3><p>将ttl的头两位提取出来，每4个（8位）组成一个字符</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">"flag.txt"</span>,<span class="string">"w"</span>) <span class="keyword">as</span> flag:</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"ttl.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> ttlfile:</span><br><span class="line">        j=<span class="number">0</span></span><br><span class="line">        temp=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ttlfile.readlines():</span><br><span class="line">            j+=<span class="number">1</span></span><br><span class="line">            this=i.split(<span class="string">"="</span>)[<span class="number">1</span>]</span><br><span class="line">            this=(int(this)&amp;<span class="number">0xc0</span>)&gt;&gt;<span class="number">6</span></span><br><span class="line">            temp=(temp&lt;&lt;<span class="number">2</span>)+this</span><br><span class="line">            <span class="keyword">if</span>(j%<span class="number">4</span>==<span class="number">0</span>):</span><br><span class="line">                <span class="comment">#print temp</span></span><br><span class="line">                flag.write(chr(temp))</span><br><span class="line">                <span class="comment"># print chr(temp)</span></span><br><span class="line">                temp=<span class="number">0</span></span><br><span class="line">                j=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>直接转二进制写入文件，观察文件头可以看出是jpeg。打开后是一部分二维码。foremost分离后得六部分，拼接一下扫出来是：</p>
+<blockquote>
+<p>key:AutomaticKey cipher:fftu{2028mb39927wn1f96o6e12z03j58002p}</p>
+</blockquote>
+<p>用自动密钥解，明文开头肯定是flag，因此再密钥后面加个flag然后解维吉尼亚密码就出flag了。</p>
+<h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><p>图的最短路径问题，每个条边权值一样。用Dijkstra很容易求出结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DijkstraPath</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, node_map)</span>:</span></span><br><span class="line">        self.node_map = node_map</span><br><span class="line">        self.node_length = len(node_map)</span><br><span class="line">        self.used_node_list = []</span><br><span class="line">        self.collected_node_dict = &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, from_node, to_node)</span>:</span></span><br><span class="line">        self.from_node = from_node</span><br><span class="line">        self.to_node = to_node</span><br><span class="line">        self._init_dijkstra()</span><br><span class="line">        <span class="keyword">return</span> self._format_path()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_init_dijkstra</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.used_node_list.append(self.from_node)</span><br><span class="line">        self.collected_node_dict[self.from_node] = [<span class="number">0</span>, <span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">for</span> index1, node1 <span class="keyword">in</span> enumerate(self.node_map[self.from_node]):</span><br><span class="line">            <span class="keyword">if</span> node1:</span><br><span class="line">                self.collected_node_dict[index1] = [node1, self.from_node]</span><br><span class="line">        self._foreach_dijkstra()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_foreach_dijkstra</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> len(self.used_node_list) == self.node_length - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> key, val <span class="keyword">in</span> self.collected_node_dict.items():  <span class="comment"># 遍历已有权值节点</span></span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> self.used_node_list <span class="keyword">and</span> key != to_node:</span><br><span class="line">                self.used_node_list.append(key)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">for</span> index1, node1 <span class="keyword">in</span> enumerate(self.node_map[key]):  <span class="comment"># 对节点进行遍历</span></span><br><span class="line">                <span class="comment"># 如果节点在权值节点中并且权值大于新权值</span></span><br><span class="line">                <span class="keyword">if</span> node1 <span class="keyword">and</span> index1 <span class="keyword">in</span> self.collected_node_dict <span class="keyword">and</span> self.collected_node_dict[index1][<span class="number">0</span>] &gt; node1 + val[<span class="number">0</span>]:</span><br><span class="line">                    self.collected_node_dict[index1][<span class="number">0</span>] = node1 + val[<span class="number">0</span>] <span class="comment"># 更新权值</span></span><br><span class="line">                    self.collected_node_dict[index1][<span class="number">1</span>] = key</span><br><span class="line">                <span class="keyword">elif</span> node1 <span class="keyword">and</span> index1 <span class="keyword">not</span> <span class="keyword">in</span> self.collected_node_dict:</span><br><span class="line">                    self.collected_node_dict[index1] = [node1 + val[<span class="number">0</span>], key]</span><br><span class="line">        self._foreach_dijkstra()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_format_path</span><span class="params">(self)</span>:</span></span><br><span class="line">        node_list = []</span><br><span class="line">        temp_node = self.to_node</span><br><span class="line">        node_list.append((temp_node, self.collected_node_dict[temp_node][<span class="number">0</span>]))</span><br><span class="line">        <span class="keyword">while</span> self.collected_node_dict[temp_node][<span class="number">1</span>] != <span class="number">-1</span>:</span><br><span class="line">            temp_node = self.collected_node_dict[temp_node][<span class="number">1</span>]</span><br><span class="line">            node_list.append((temp_node, self.collected_node_dict[temp_node][<span class="number">0</span>]))</span><br><span class="line">        node_list.reverse()</span><br><span class="line">        <span class="keyword">return</span> node_list</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_node_map</span><span class="params">(node_map, node, node_list)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> x, y, val <span class="keyword">in</span> node_list:</span><br><span class="line">        node_map[node.index(x)][node.index(y)] = node_map[node.index(y)][node.index(x)] =  val</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    node = []</span><br><span class="line">    node_list = [(<span class="string">'FloraPrice'</span>,<span class="string">'E11'</span>, <span class="number">1</span>),(<span class="string">'FloraPrice'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'FloraPrice'</span>,<span class="string">'75D&#125;'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E11'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E10'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E13'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E12'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E14'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E7'</span>, <span class="number">1</span>),(<span class="string">'NoraFayette'</span>,<span class="string">'E6'</span>, <span class="number">1</span>),(<span class="string">'E10'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E10'</span>,<span class="string">'MyraLiddel'</span>, <span class="number">1</span>),(<span class="string">'E10'</span>,<span class="string">'HelenLloyd'</span>, <span class="number">1</span>),(<span class="string">'E10'</span>,<span class="string">'KatherinaRogers'</span>, <span class="number">1</span>),(<span class="string">'VerneSanderson'</span>,<span class="string">'E7'</span>, <span class="number">1</span>),(<span class="string">'VerneSanderson'</span>,<span class="string">'E12'</span>, <span class="number">1</span>),(<span class="string">'VerneSanderson'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'VerneSanderson'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'E12'</span>,<span class="string">'HelenLloyd'</span>, <span class="number">1</span>),(<span class="string">'E12'</span>,<span class="string">'KatherinaRogers'</span>, <span class="number">1</span>),(<span class="string">'E12'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E12'</span>,<span class="string">'MyraLiddel'</span>, <span class="number">1</span>),(<span class="string">'E14'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E14'</span>,<span class="string">'75D&#125;'</span>, <span class="number">1</span>),(<span class="string">'E14'</span>,<span class="string">'KatherinaRogers'</span>, <span class="number">1</span>),(<span class="string">'FrancesAnderson'</span>,<span class="string">'E5'</span>, <span class="number">1</span>),(<span class="string">'FrancesAnderson'</span>,<span class="string">'E6'</span>, <span class="number">1</span>),(<span class="string">'FrancesAnderson'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'FrancesAnderson'</span>,<span class="string">'E3'</span>, <span class="number">1</span>),(<span class="string">'DorothyMurchison'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'DorothyMurchison'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E5'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E4'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E6'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E1'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E3'</span>, <span class="number">1</span>),(<span class="string">'EvelynJefferson'</span>,<span class="string">'E2'</span>, <span class="number">1</span>),(<span class="string">'RuthDeSand'</span>,<span class="string">'E5'</span>, <span class="number">1</span>),(<span class="string">'RuthDeSand'</span>,<span class="string">'E7'</span>, <span class="number">1</span>),(<span class="string">'RuthDeSand'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'RuthDeSand'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'HelenLloyd'</span>,<span class="string">'E11'</span>, <span class="number">1</span>),(<span class="string">'HelenLloyd'</span>,<span class="string">'E7'</span>, <span class="number">1</span>),(<span class="string">'HelenLloyd'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'OliviaCarleton'</span>,<span class="string">'E11'</span>, <span class="number">1</span>),(<span class="string">'OliviaCarleton'</span>,<span class="string">'E9'</span>, <span class="number">1</span>),(<span class="string">'EleanorNye'</span>,<span class="string">'E5'</span>, <span class="number">1</span>),(<span class="string">'EleanorNye'</span>,<span class="string">'E7'</span>, <span class="number">1</span>),(<span class="string">'EleanorNye'</span>,<span class="string">'E6'</span>, <span class="number">1</span>),(<span class="string">'EleanorNye'</span>,<span class="string">'E8'</span>, <span class="number">1</span>),(<span class="string">'E9'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E9'</span>,<span class="string">'PearlOglethorpe'</span>, <span class="number">1</span>),(<span class="string">'E9'</span>,<span class="string">'KatherinaRogers'</span>, <span class="number">1</span>),(<span class="string">'E9'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E9'</span>,<span class="string">'MyraLiddel'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'PearlOglethorpe'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'KatherinaRogers'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E8'</span>,<span class="string">'MyraLiddel'</span>, <span class="number">1</span>),(<span class="string">'E5'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E5'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E5'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E5'</span>,<span class="string">'CharlotteMcDowd'</span>, <span class="number">1</span>),(<span class="string">'E4'</span>,<span class="string">'CharlotteMcDowd'</span>, <span class="number">1</span>),(<span class="string">'E4'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E4'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E7'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E7'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>),(<span class="string">'E7'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E7'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E7'</span>,<span class="string">'CharlotteMcDowd'</span>, <span class="number">1</span>),(<span class="string">'E6'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E6'</span>,<span class="string">'PearlOglethorpe'</span>, <span class="number">1</span>),(<span class="string">'E6'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E6'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E1'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E1'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E3'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'E3'</span>,<span class="string">'BrendaRogers'</span>, <span class="number">1</span>),(<span class="string">'E3'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E3'</span>,<span class="string">'CharlotteMcDowd'</span>, <span class="number">1</span>),(<span class="string">'E3'</span>,<span class="string">'flag&#123;'</span>, <span class="number">1</span>),(<span class="string">'E2'</span>,<span class="string">'LauraMandeville'</span>, <span class="number">1</span>),(<span class="string">'E2'</span>,<span class="string">'TheresaAnderson'</span>, <span class="number">1</span>),(<span class="string">'KatherinaRogers'</span>,<span class="string">'E13'</span>, <span class="number">1</span>),(<span class="string">'E13'</span>,<span class="string">'SylviaAvondale'</span>, <span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> node_list:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">            <span class="keyword">if</span> i[j] <span class="keyword">in</span> node:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                node.append(i[j])</span><br><span class="line">    node_map = [[<span class="number">0</span> <span class="keyword">for</span> val <span class="keyword">in</span> xrange(len(node))] <span class="keyword">for</span> val <span class="keyword">in</span> xrange(len(node))]</span><br><span class="line">    set_node_map(node_map, node, node_list)</span><br><span class="line">    <span class="comment"># A --&gt;; D</span></span><br><span class="line">    from_node = node.index(<span class="string">'flag&#123;'</span>)</span><br><span class="line">    to_node = node.index(<span class="string">'75D&#125;'</span>)</span><br><span class="line">    dijkstrapath = DijkstraPath(node_map)</span><br><span class="line">    path = dijkstrapath(from_node, to_node)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> path:</span><br><span class="line">        print(node[i[<span class="number">0</span>]])</span><br><span class="line">    <span class="keyword">print</span> path</span><br></pre></td></tr></table></figure>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="Haffman"><a href="#Haffman" class="headerlink" title="Haffman"></a>Haffman</h3><p>哈夫曼编码，画一个哈夫曼树，用lg{}这些来确定构造哈夫曼树的规则</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="string">'110'</span>,<span class="string">'00111'</span>,<span class="string">'000'</span>,<span class="string">'00101'</span>,<span class="string">'00100'</span>,<span class="string">'10'</span>,<span class="string">'10'</span>,<span class="string">'110'</span>,<span class="string">'01'</span>,<span class="string">'10'</span>,<span class="string">'110'</span>,<span class="string">'10'</span>,<span class="string">'111'</span>,<span class="string">'110'</span>,<span class="string">'111'</span>,<span class="string">'01'</span>,<span class="string">'01'</span>,<span class="string">'01'</span>,<span class="string">'111'</span>,<span class="string">'01'</span>,<span class="string">'111'</span>,<span class="string">'111'</span>,<span class="string">'000'</span>,<span class="string">'01'</span>,<span class="string">'000'</span>,<span class="string">'110'</span>,<span class="string">'01'</span>,<span class="string">'01'</span>,<span class="string">'10'</span>,<span class="string">'10'</span>,<span class="string">'111'</span>,<span class="string">'10'</span>,<span class="string">'01'</span>,<span class="string">'10'</span>,<span class="string">'111'</span>,<span class="string">'000'</span>,<span class="string">'10'</span>,<span class="string">'00110'</span>]</span><br><span class="line">key = &#123;<span class="string">'00100'</span>:<span class="string">'&#123;'</span>,<span class="string">'00101'</span>:<span class="string">'g'</span>,<span class="string">'00110'</span>:<span class="string">'&#125;'</span>,<span class="string">'00111'</span>:<span class="string">'l'</span>,<span class="string">'000'</span>:<span class="string">'a'</span>,<span class="string">'110'</span>:<span class="string">'f'</span>,<span class="string">'111'</span>:<span class="string">'0'</span>,<span class="string">'10'</span>:<span class="string">'d'</span>,<span class="string">'01'</span>:<span class="string">'5'</span>&#125;</span><br><span class="line">s = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    s+=key[i]</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/" rel="tag"># 花指令</a>
+              <a href="/tags/base58/" rel="tag"># base58</a>
+              <a href="/tags/MFC/" rel="tag"># MFC</a>
+              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" rel="tag"># 最短路径</a>
+              <a href="/tags/ttl/" rel="tag"># ttl</a>
+              <a href="/tags/%E7%BC%96%E7%A0%81/" rel="tag"># 编码</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/03/2019tctf_quals/" rel="prev" title="2019 TCTF/0CTF 线上赛">
+      <i class="fa fa-chevron-left"></i> 2019 TCTF/0CTF 线上赛
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/23/2019ciscn_quals/" rel="next" title="2019 CISCN 线上赛">
+      2019 CISCN 线上赛 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Re"><span class="nav-number">1.</span> <span class="nav-text">Re</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#easyCpp"><span class="nav-number">1.1.</span> <span class="nav-text">easyCpp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#testre"><span class="nav-number">1.2.</span> <span class="nav-text">testre</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Junk-Instruction"><span class="nav-number">1.3.</span> <span class="nav-text">Junk Instruction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Misc"><span class="nav-number">2.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ttl"><span class="nav-number">2.1.</span> <span class="nav-text">ttl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路径"><span class="nav-number">2.2.</span> <span class="nav-text">路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">3.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Haffman"><span class="nav-number">3.1.</span> <span class="nav-text">Haffman</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Apeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
