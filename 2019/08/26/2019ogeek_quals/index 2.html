@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最后排名第四，大哥们tql。 赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。 比赛时间：8月24-8月25日 下载地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 OGeek 线上赛">
+<meta property="og:url" content="http://yoursite.com/2019/08/26/2019ogeek_quals/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="最后排名第四，大哥们tql。 赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。 比赛时间：8月24-8月25日 下载地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-25T16:05:34.000Z">
+<meta property="article:modified_time" content="2020-02-09T13:10:03.075Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="8V">
+<meta property="article:tag" content="lz77">
+<meta property="article:tag" content="nisi">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/08/26/2019ogeek_quals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>2019 OGeek 线上赛 | Apeng's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apeng's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Reverse Everything</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-friends">
+
+    <a href="/friends/" rel="section"><i class="fa fa-fw fa-users"></i>友情链接</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/2019ogeek_quals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2019 OGeek 线上赛
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-26 00:05:34" itemprop="dateCreated datePublished" datetime="2019-08-26T00:05:34+08:00">2019-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-09 21:10:03" itemprop="dateModified" datetime="2020-02-09T21:10:03+08:00">2020-02-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF-writeup/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF writeup</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF-writeup/2019/" itemprop="url" rel="index">
+                    <span itemprop="name">2019</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最后排名第四，大哥们tql。</p>
+<p>赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。</p>
+<p>比赛时间：8月24-8月25日</p>
+<p><a href="https://github.com/Apeng7364/ctf/tree/master/ctf2019/ogeek" target="_blank" rel="noopener">下载地址</a></p>
+<a id="more"></a>
+<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="8V"><a href="#8V" class="headerlink" title="8V"></a>8V</h2><p>V8的汇编代码。</p>
+<p>简单的异或加密，每次异或密钥的值都会改变</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">res = <span class="string">"\xd2\"\xf1\x8d\xb7\xe0\xd0MF\x87T?\x1fI\x1c\xe7\xcb\x07\xc3\x95z\xb3z\x0b\xbb\xdb\xa1I\xc5;"</span></span><br><span class="line">res = map(ord,list(res))</span><br><span class="line">a3 = <span class="number">88</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">    res[i] ^= a3</span><br><span class="line">    a3 *= <span class="number">65</span></span><br><span class="line">    a3 += <span class="number">66</span></span><br><span class="line">    a3 %=<span class="number">256</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>)[::<span class="number">-1</span>]:</span><br><span class="line">    res[i]^=a3</span><br><span class="line">    a3 *=<span class="number">35</span></span><br><span class="line">    a3 -=<span class="number">16</span></span><br><span class="line">    a3 %=<span class="number">256</span></span><br><span class="line">print(<span class="string">""</span>.join(map(chr,res)))</span><br></pre></td></tr></table></figure>
+<h2 id="babyre"><a href="#babyre" class="headerlink" title="babyre"></a>babyre</h2><p>lz77压缩算法，写出解压算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">"output.file"</span>,<span class="string">"rb"</span>)</span><br><span class="line">g = open(<span class="string">"input.file"</span>,<span class="string">"wb"</span>)</span><br><span class="line">bits = <span class="string">""</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">tmp = f.read(<span class="number">1</span>)</span><br><span class="line">tmpbuf = [<span class="number">0</span>]*<span class="number">0x11</span></span><br><span class="line">buf = [<span class="number">0</span>]*<span class="number">0x1000</span></span><br><span class="line">s = <span class="string">""</span></span><br><span class="line">k = <span class="number">1</span></span><br><span class="line">count = <span class="number">1</span></span><br><span class="line">debug = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    </span><br><span class="line">    bit = ord(tmp)</span><br><span class="line">    <span class="keyword">if</span> bit &amp; <span class="number">1</span>&lt;&lt;(<span class="number">7</span>-i):</span><br><span class="line">        tmp1 = f.read(<span class="number">1</span>)</span><br><span class="line">        bit1 = ord(tmp1)</span><br><span class="line"></span><br><span class="line">        bit&lt;&lt;=(i+<span class="number">1</span>)</span><br><span class="line">        bit &amp;= <span class="number">0xff</span></span><br><span class="line">        bit |= (bit1&gt;&gt;(<span class="number">7</span>-i))</span><br><span class="line">        <span class="comment">#print(hex(bit),i,hex(ord(tmp)),hex(ord(tmp1)))</span></span><br><span class="line">        g.write(chr(bit))</span><br><span class="line">        buf[count] = bit</span><br><span class="line">        count+=<span class="number">1</span></span><br><span class="line">        count %= <span class="number">0x1000</span></span><br><span class="line">        k+=<span class="number">1</span></span><br><span class="line">        k%=<span class="number">0x1000</span></span><br><span class="line">        s+=chr(bit)</span><br><span class="line">        i = (i+<span class="number">1</span>)%<span class="number">8</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            tmp = f.read(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp = tmp1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp1 = f.read(<span class="number">1</span>)</span><br><span class="line">        tmp2 = f.read(<span class="number">1</span>)</span><br><span class="line">        bit1 = ord(tmp1)</span><br><span class="line">        bit2 = ord(tmp2)</span><br><span class="line">        m = (bit&amp;((<span class="number">1</span>&lt;&lt;(<span class="number">7</span>-i))<span class="number">-1</span>))&lt;&lt;(<span class="number">5</span>+i)</span><br><span class="line">        m&amp;=<span class="number">0xFFF</span></span><br><span class="line">        <span class="keyword">if</span> i &lt;=<span class="number">3</span>:</span><br><span class="line">            m |= (bit1 &gt;&gt;(<span class="number">3</span>-i))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m |= (bit1 &lt;&lt; (i<span class="number">-3</span>))</span><br><span class="line">            m |= bit2 &gt;&gt; (<span class="number">8</span>-(i<span class="number">-3</span>))</span><br><span class="line">        <span class="keyword">if</span> i&lt;=<span class="number">3</span>:</span><br><span class="line">            l = bit1 &amp; ((<span class="number">1</span>&lt;&lt;(<span class="number">3</span>-i))<span class="number">-1</span>)</span><br><span class="line">            l &lt;&lt;= (<span class="number">1</span>+i)</span><br><span class="line">            l |= (bit2 &gt;&gt; (<span class="number">8</span>-(<span class="number">1</span>+i)))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l = bit2 &gt;&gt; ((<span class="number">8</span>-(i<span class="number">-3</span>))<span class="number">-4</span>)</span><br><span class="line">        l &amp;= <span class="number">0b1111</span></span><br><span class="line">        i = (i+<span class="number">1</span>)%<span class="number">8</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            tmp = f.read(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp = tmp2</span><br><span class="line"><span class="comment">#         if debug&lt;10:</span></span><br><span class="line"><span class="comment">#             print(l,m,hex(bit),i)</span></span><br><span class="line"><span class="comment">#             if debug == 6:</span></span><br><span class="line"><span class="comment">#                 print(buf)</span></span><br><span class="line"><span class="comment">#             debug+=1</span></span><br><span class="line"><span class="comment">#         else:</span></span><br><span class="line"><span class="comment">#             break</span></span><br><span class="line">        l+=<span class="number">2</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(l):</span><br><span class="line">            buf[(count+j)%<span class="number">0x1000</span>] = buf[(m+j)%<span class="number">0x1000</span>]</span><br><span class="line">            <span class="comment">#print(buf[(m+j)%0x1000])</span></span><br><span class="line">            g.write(chr(buf[(m+j)%<span class="number">0x1000</span>]))</span><br><span class="line">        count+=l</span><br><span class="line">        count%=<span class="number">0x1000</span></span><br><span class="line">        k = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>解压后打开bmp得到flag</p>
+<h2 id="King-of-KOF"><a href="#King-of-KOF" class="headerlink" title="King of KOF"></a>King of KOF</h2><p>一个KOF的安装包。一开始不知道安装包是nisi，硬调的。</p>
+<p>注意到<code>40B5A8</code>和<code>40BDA8</code>是用来存放临时字符串的。</p>
+<p><code>sub_401434</code>是nisi的解释器。</p>
+<p>安装后需要输入注册码。查找字符串查不到提示语。</p>
+<p>用CE查找UTF16字符串，很快能找到提示语。在附近观察字符串，注意到一些比较有用的信息：<code>这是注册码</code>，注册码校验失败后的提示信息，<code>fnCheck</code>，<code>fnKoF97</code>，<code>Base64Encode</code>，一些提示输入flag的提示语，还有一串base64字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cYZ1KIjhiR7Ol4RN9c0Xh7XryYfUD7A0m96h0&#x2F;MQMI45mVhgTAnAtENpnzVKhfDZpVzfuiCBx5+BctkWo0GfU5qIYQV1bnFbNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1w&#x3D;</span><br></pre></td></tr></table></figure>
+<p>b64decode再hexencoe得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7186752888e1891ece97844df5cd1787b5ebc987d40fb0349bdea1d3f310308e399958604c09c0b443699f354a85f0d9a55cdfba2081c79f8172d916a3419f539a886105756e715b36c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5c</span><br></pre></td></tr></table></figure>
+<p>可以看到，后面有一长串8个字符重复，估计都是同样的字符加密，padding长度是8，估计都是由’\x00’*8加密得到的密文。分组长度为8的加密一开始想到的就是des，但是没有密钥。</p>
+<p>跟踪调试几步后，发现在<code>40B5A8</code>和<code>40BDA8</code>对比了输入和常量，常量是用UTF-16存储的，之前的字符串<code>这是注册码</code>就是注册码</p>
+<p>之后校验flag的部分比较复杂，观察这两个地方的数据，注意到在<code>user\AppData\Local\Temp\nsiF181.tmp</code>目录创建了一些临时dll。同时从0-255遍历每个字符，可能是获取字符的ascii的utf-16值？遍历完所有后跟踪不久可以发现多了一个奇怪的KOF91.dll</p>
+<p>复制出来ida打开，发现加了壳，不过是比较简单的壳。</p>
+<p>重新开始调试，这次在输入flag之后，x86dbg选项中打开加载dll后中断，可以看到KOF97.dll被加载了，入口点在8000，81C4壳的代码执行完成。这时候就可以用插件把dlldump下来了。</p>
+<p>dump后发现fnCheck与fnKoF97两个函数。这两个就是校验与加密函数，加密算法是TEA，密钥在算法内。用它来解密之前的密文，得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dj_eyucjamkc]rm]rfc]emmb+mjb+b_wq&#123;</span><br></pre></td></tr></table></figure>
+<p>发现前四个字符和flag字符偏移固定为2，是个凯撒密码，加密可能在之前的nisi里面。修正一下得到flag</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdint.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">decrypt</span> <span class="params">(<span class="keyword">uint32_t</span> v[<span class="number">2</span>], <span class="keyword">uint32_t</span> k[<span class="number">4</span>])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> v0=v[<span class="number">0</span>], v1=v[<span class="number">1</span>], sum=<span class="number">0xC6EF3720</span>, i;  <span class="comment">/* set up; sum is 32*delta */</span></span><br><span class="line">    <span class="keyword">uint32_t</span> delta=<span class="number">0x9E3779B9</span>;                     <span class="comment">/* a key schedule constant */</span></span><br><span class="line">    <span class="keyword">uint32_t</span> k0=k[<span class="number">0</span>], k1=k[<span class="number">1</span>], k2=k[<span class="number">2</span>], k3=k[<span class="number">3</span>];   <span class="comment">/* cache key */</span></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">32</span>; i++) &#123;                         <span class="comment">/* basic cycle start */</span></span><br><span class="line">        v1 -= ((v0&lt;&lt;<span class="number">4</span>) + k2) ^ (v0 + sum) ^ ((v0&gt;&gt;<span class="number">5</span>) + k3);</span><br><span class="line">        v0 -= ((v1&lt;&lt;<span class="number">4</span>) + k0) ^ (v1 + sum) ^ ((v1&gt;&gt;<span class="number">5</span>) + k1);</span><br><span class="line">        sum -= delta;</span><br><span class="line">    &#125;                                              <span class="comment">/* end cycle */</span></span><br><span class="line">    v[<span class="number">0</span>]=v0; v[<span class="number">1</span>]=v1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> key[<span class="number">4</span>] = &#123;<span class="number">0x20776F77</span>,<span class="number">0x20756F79</span>,<span class="number">0x646E6966</span>,<span class="number">0x21656D20</span>&#125;;</span><br><span class="line">    <span class="keyword">uint8_t</span> cipher[] = &#123;<span class="number">113</span>, <span class="number">134</span>, <span class="number">117</span>, <span class="number">40</span>, <span class="number">136</span>, <span class="number">225</span>, <span class="number">137</span>, <span class="number">30</span>, <span class="number">206</span>, <span class="number">151</span>, <span class="number">132</span>, <span class="number">77</span>, <span class="number">245</span>, <span class="number">205</span>, <span class="number">23</span>, <span class="number">135</span>, <span class="number">181</span>, <span class="number">235</span>, <span class="number">201</span>, <span class="number">135</span>, <span class="number">212</span>, <span class="number">15</span>, <span class="number">176</span>, <span class="number">52</span>, <span class="number">155</span>, <span class="number">222</span>, <span class="number">161</span>, <span class="number">211</span>, <span class="number">243</span>, <span class="number">16</span>, <span class="number">48</span>, <span class="number">142</span>, <span class="number">57</span>, <span class="number">153</span>, <span class="number">88</span>, <span class="number">96</span>, <span class="number">76</span>, <span class="number">9</span>, <span class="number">192</span>, <span class="number">180</span>, <span class="number">67</span>, <span class="number">105</span>, <span class="number">159</span>, <span class="number">53</span>, <span class="number">74</span>, <span class="number">133</span>, <span class="number">240</span>, <span class="number">217</span>, <span class="number">165</span>, <span class="number">92</span>, <span class="number">223</span>, <span class="number">186</span>, <span class="number">32</span>, <span class="number">129</span>, <span class="number">199</span>, <span class="number">159</span>, <span class="number">129</span>, <span class="number">114</span>, <span class="number">217</span>, <span class="number">22</span>, <span class="number">163</span>, <span class="number">65</span>, <span class="number">159</span>, <span class="number">83</span>, <span class="number">154</span>, <span class="number">136</span>, <span class="number">97</span>, <span class="number">5</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">113</span>, <span class="number">91</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">uint32_t</span> *p = (<span class="keyword">uint32_t</span>*)cipher;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;<span class="number">30</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        decrypt(p,key);</span><br><span class="line">        p+=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;<span class="number">240</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(cipher[i]!=<span class="number">0</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%c"</span>,cipher[i]+<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h1><h2 id="mblockchain"><a href="#mblockchain" class="headerlink" title="mblockchain"></a>mblockchain</h2><p>jadx打开后看java代码。</p>
+<p>需要输入key和flag。key算一次md5后，取其中的三个字符再md5，md5值作为aes的key加密flag，之后重复md5之前的哈希作为key继续加密9次，一共十次。爆破这三个字符即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">foundpad = <span class="string">"\x10"</span>*<span class="number">16</span></span><br><span class="line"></span><br><span class="line">cipher = <span class="string">"74f0b165db8a628716b53a9d4f6405980db2f833afa1ed5eeb4304c5220bdc0b541f857a7348074b2a7775d691e71b490402621e8a53bad4cf7ad4fcc15f20a8066e087fc1b2ffb21c27463b5737e34738a6244e1630d8fa1bf4f38b7e71d707425c8225f240f4bd2b03d6c2471e900b75154eb6f9dfbdf5a4eca9de5163f9b3ee82959f166924e8ad5f1d744c51416a1db89638bb4d1411aa1b1307d88c1fb5"</span>.decode(<span class="string">"hex"</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">cipherpad = cipher[-16:]</span></span><br><span class="line"><span class="string">for i in range(240,256):</span></span><br><span class="line"><span class="string">    print(i)</span></span><br><span class="line"><span class="string">    for j in range(256):</span></span><br><span class="line"><span class="string">        for k in range(256):</span></span><br><span class="line"><span class="string">            key = chr(i) + chr(j) + chr(k)</span></span><br><span class="line"><span class="string">            ck = key</span></span><br><span class="line"><span class="string">            for _ in range(10):</span></span><br><span class="line"><span class="string">                ck = md5(ck).digest()</span></span><br><span class="line"><span class="string">            aes = AES.new(ck,mode = AES.MODE_ECB)</span></span><br><span class="line"><span class="string">            cp = aes.decrypt(cipherpad)</span></span><br><span class="line"><span class="string">            if cp == foundpad:</span></span><br><span class="line"><span class="string">                print(cp.encode("hex"))</span></span><br><span class="line"><span class="string">                print(ck.encode("hex"))</span></span><br><span class="line"><span class="string">                print(i,j,k)</span></span><br><span class="line"><span class="string">                exit()</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">key = chr(<span class="number">241</span>) + chr(<span class="number">183</span>) + chr(<span class="number">36</span>)</span><br><span class="line">subkey = []</span><br><span class="line">ck = key</span><br><span class="line"><span class="keyword">for</span> i  <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    subkey.append(md5(ck).digest())</span><br><span class="line">    ck = md5(ck).digest()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    ck = subkey[<span class="number">9</span>-i]</span><br><span class="line">    aes = AES.new(ck)</span><br><span class="line">    cipher = aes.decrypt(cipher)</span><br><span class="line">print(cipher)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/8V/" rel="tag"># 8V</a>
+              <a href="/tags/lz77/" rel="tag"># lz77</a>
+              <a href="/tags/nisi/" rel="tag"># nisi</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/19/2019suctf/" rel="prev" title="2019 SUCTF">
+      <i class="fa fa-chevron-left"></i> 2019 SUCTF
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/01/2019xnuca_quals/" rel="next" title="2019 X-NUCA 线上赛">
+      2019 X-NUCA 线上赛 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Reverse"><span class="nav-number">1.</span> <span class="nav-text">Reverse</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8V"><span class="nav-number">1.1.</span> <span class="nav-text">8V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyre"><span class="nav-number">1.2.</span> <span class="nav-text">babyre</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#King-of-KOF"><span class="nav-number">1.3.</span> <span class="nav-text">King of KOF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mobile"><span class="nav-number">2.</span> <span class="nav-text">Mobile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mblockchain"><span class="nav-number">2.1.</span> <span class="nav-text">mblockchain</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Apeng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
