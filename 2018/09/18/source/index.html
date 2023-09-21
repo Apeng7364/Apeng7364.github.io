@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="我们都知道，许多开源软件的源都在国外，直连下载速度十分感人。而国内有许多镜像站，切换软件源后可以大幅提升下载速度。 换源其实十分容易，不过源文件具体格式是如何，怎样找到镜像站中的文件的呢？本文简单探讨一下这点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apt源文件格式解析与换源">
+<meta property="og:url" content="http://apeng.re/2018/09/18/source/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="我们都知道，许多开源软件的源都在国外，直连下载速度十分感人。而国内有许多镜像站，切换软件源后可以大幅提升下载速度。 换源其实十分容易，不过源文件具体格式是如何，怎样找到镜像站中的文件的呢？本文简单探讨一下这点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://apeng.re/2018/09/18/source/01.bmp">
+<meta property="og:image" content="http://apeng.re/2018/09/18/source/02.bmp">
+<meta property="og:image" content="http://apeng.re/2018/09/18/source/03.bmp">
+<meta property="og:image" content="http://apeng.re/2018/09/18/source/04.bmp">
+<meta property="og:image" content="http://apeng.re/2018/09/18/source/05.bmp">
+<meta property="article:published_time" content="2018-09-18T13:04:11.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.112Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="换源">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://apeng.re/2018/09/18/source/01.bmp">
+
+
+<link rel="canonical" href="http://apeng.re/2018/09/18/source/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2018/09/18/source/","path":"/2018/09/18/source/","title":"apt源文件格式解析与换源"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>apt源文件格式解析与换源 | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#apt%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">apt源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%A7%A3%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">源文件格式解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%A2%E6%BA%90"><span class="nav-number">1.2.</span> <span class="nav-text">换源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2018/09/18/source/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="apt源文件格式解析与换源 | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          apt源文件格式解析与换源
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-18 21:04:11" itemprop="dateCreated datePublished" datetime="2018-09-18T21:04:11+08:00">2018-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">使用技巧</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>我们都知道，许多开源软件的源都在国外，直连下载速度十分感人。而国内有许多镜像站，切换软件源后可以大幅提升下载速度。</p>
+<p>换源其实十分容易，不过源文件具体格式是如何，怎样找到镜像站中的文件的呢？本文简单探讨一下这点。</p>
+<span id="more"></span>
+<h2 id="apt源">apt源</h2>
+<h3 id="源文件格式解析">源文件格式解析</h3>
+<p>apt的源文件位于<code>/etc/apt/source.list</code>文件内。</p>
+<p>使用<code>cat</code>/<code>nano</code>/<code>vim</code>查看，<code>nano</code>和<code>vim</code>会有高亮</p>
+<p>有许许多多不同的条目，其中井号是注释</p>
+<p>每一条都为固定的格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb [ option1=value1 option2=value2 ] uri suite [component1] [component2] [...]</span><br><span class="line">deb-src [ option1=value1 option2=value2 ] uri suite [component1] [component2] [...]</span><br></pre></td></tr></table></figure>
+<p>以<code>deb http://us.archive.ubuntu.com/ubuntu/ bionic universe</code>为例</p>
+<p>deb代表二进制文件仓库位置，deb-src代表源代码仓库位置。一般我们只需要拖二进制文件，因此deb-src行都被注释掉了。</p>
+<p>option用于指定如何从源中获取数据，一般省略</p>
+<p>接下来的uri代表具体的仓库位置。一般是个网址(http/https协议)，但也可以使用<code>file:</code>或<code>ftp:</code>等协议。</p>
+<p>我们直接访问这个网址<code>http://us.archive.ubuntu.com/ubuntu/</code>，可以看到一个Apache起的index目录：</p>
+<p><img src="/2018/09/18/source/01.bmp"></p>
+<p>dists中包含了所有软件的索引，进入dists文件夹:</p>
+<p><img src="/2018/09/18/source/02.bmp"></p>
+<p>可以看到很多文件夹。这一级的文件夹名对应了<code>suite</code>。其中前缀为ubuntu发行版的开发代号，可以在wiki上查看对应的版本。可以看到<code>bionic</code>对应着<code>18.04 LTS</code>。</p>
+<p>后缀根据Ubuntu的更新版本有着不同的区别，一般来说出了backports都可以用，具体区别详见参考资料</p>
+<p>我们进入bionic文件夹后，几个文件夹名对应着<code>component</code></p>
+<p><img src="/2018/09/18/source/03.bmp"></p>
+<p>可以填多个。四种版本的区别：</p>
+<ol type="1">
+<li>Main - Canonical-supported free and open-source software.</li>
+<li>Universe - Community-maintained free and open-source software.</li>
+<li>Restricted - Proprietary drivers for devices.</li>
+<li>Multiverse - Software restricted by copyright or legal issues.</li>
+</ol>
+<p>继续深入main文件夹，其中的文件夹名很容易发现是各个架构：</p>
+<p><img src="/2018/09/18/source/04.bmp"></p>
+<p>我们进入<code>binary-amd64</code>文件夹，找到了<code>Packages.gz</code>。下载并解压出<code>Packages</code>，是个文本文件：</p>
+<p><img src="/2018/09/18/source/05.bmp"></p>
+<p>稍微分析一下不难看出这是一个索引文件，记录了所有软件包的位置，版本，哈希值等信息。</p>
+<p>简单来讲，当我们执行<code>apt update</code>命令时，就下载了这份记录着所有软件包的索引文件并更新索引文件。</p>
+<p>使用<code>apt install</code>命令会去索引文件对应的filename位置下载，同时还有版本哈希值等校验。</p>
+<p>这也就是为什么一定要隔一段时间更新一下索引文件，同时换源后一定要更新索引文件，不然换源等于没换。</p>
+<h3 id="换源">换源</h3>
+<p>介绍完了源文件的格式，再进行换源就十分简单易懂了。</p>
+<p>无论如何先进行备份： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/source.list /etc/apt/source.list.bak</span><br></pre></td></tr></table></figure></p>
+<p>用root权限使用文本编辑器修改(vim,nano甚至gedit都可以，用的习惯即可)source.list</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apt/source.list</span><br></pre></td></tr></table></figure>
+<p>最简单粗暴的方法就是将文件内所有的uri替换为国内镜像站的uri，比如将所有的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://us.archive.ubuntu.com/ubuntu/</span><br></pre></td></tr></table></figure>
+<p>替换为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.aliyun.com/ubuntu/</span><br></pre></td></tr></table></figure>
+<p>注释掉的部分其实可以不用管，如果怕错的话可以全部替换。</p>
+<p>保存并退出，之后一定不要忘了更新索引文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>常用软件源网址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># Ubuntu 官方（国内较慢）</span><br><span class="line">http://archive.ubuntu.com/ubuntu/</span><br><span class="line"># Ubuntu 官方中国（目前是阿里云）</span><br><span class="line">http://cn.archive.ubuntu.com/ubuntu/</span><br><span class="line">阿里云（北京萬網/浙江杭州阿里云服務器雙線接入）</span><br><span class="line">http://mirrors.aliyun.com/ubuntu/</span><br><span class="line"></span><br><span class="line"># 中科大 LUG v4</span><br><span class="line">http://mirrors4.ustc.edu.cn/ubuntu/</span><br><span class="line"># 中科大 LUG v6</span><br><span class="line">http://mirrors6.ustc.edu.cn/ubuntu/</span><br><span class="line"># 清华</span><br><span class="line">http://mirrors.tuna.tsinghua.edu.cn/ubuntu/</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料">参考资料</h2>
+<p>Ubuntu发行版本历史:
+https://en.wikipedia.org/wiki/Ubuntu_version_history
+Ubuntu更新版本：https://help.ubuntu.com/community/UbuntuUpdates Ubuntu
+source.list说明：http://manpages.ubuntu.com/manpages/eoan/man5/sources.list.5.html
+Ubuntu四种仓库区别：https://help.ubuntu.com/community/Repositories/Ubuntu#The_Four_Main_Repositories
+Ubuntu服务器列表：https://wiki.ubuntu.org.cn/%E6%A8%A1%E6%9D%BF:18.04source</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2018/09/18/source/" title="apt源文件格式解析与换源">http://apeng.re/2018/09/18/source/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%8D%A2%E6%BA%90/" rel="tag"># 换源</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1970/01/01/ctf-challenges/" rel="prev" title="CTF题目归档">
+                  <i class="fa fa-angle-left"></i> CTF题目归档
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/29/2018hjb/" rel="next" title="2018 上海骇极杯">
+                  2018 上海骇极杯 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

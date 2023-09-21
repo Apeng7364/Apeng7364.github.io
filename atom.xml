@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Apeng&#39;s blog</title>
+  <icon>http://apeng.re/icon.png</icon>
+  <subtitle>Reverse Everything</subtitle>
+  <link href="http://apeng.re/atom.xml" rel="self"/>
+  
+  <link href="http://apeng.re/"/>
+  <updated>2023-09-21T12:32:28.026Z</updated>
+  <id>http://apeng.re/</id>
+  
+  <author>
+    <name>Apeng</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>将 zygisk-module-sample 迁移至 cmake</title>
+    <link href="http://apeng.re/2023/09/21/zygisk-module-sample-cmake/"/>
+    <id>http://apeng.re/2023/09/21/zygisk-module-sample-cmake/</id>
+    <published>2023-09-21T12:10:04.000Z</published>
+    <updated>2023-09-21T12:32:28.026Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;zygisk 的示例模块 &lt;a href=&quot;https://github.com/topjohnwu/zygisk-module-sample.git&quot;&gt;zygisk-module-sample&lt;/a&gt;
+由 ndk-build 进行构建。本文讲述如何使用 cmake 构建一个 zygisk 模块。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="http://apeng.re/tags/Android/"/>
+    
+    <category term="zygisk" scheme="http://apeng.re/tags/zygisk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2022 Google CTF Reverse - ELDAR writeup</title>
+    <link href="http://apeng.re/2022/07/04/2022googlectf/"/>
+    <id>http://apeng.re/2022/07/04/2022googlectf/</id>
+    <published>2022-07-04T05:18:51.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;周末打了 Google CTF。这貌似是我第一次打 Google
+CTF。由于比较摸只做了一道题。&lt;/p&gt;
+&lt;p&gt;很有意思的一个题，这道题加深了我对 ELF 文件格式的理解。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="ELF" scheme="http://apeng.re/tags/ELF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Android上自己实现一个linker</title>
+    <link href="http://apeng.re/2020/07/11/my-android-linker/"/>
+    <id>http://apeng.re/2020/07/11/my-android-linker/</id>
+    <published>2020-07-11T11:30:35.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;分析完linker，可以尝试自己实现一个共享库的加载器，实现加载任意共享库，并在/proc/[pid]/maps中隐藏&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="http://apeng.re/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android linker运行机制分析</title>
+    <link href="http://apeng.re/2020/07/11/android-linker/"/>
+    <id>http://apeng.re/2020/07/11/android-linker/</id>
+    <published>2020-07-11T11:27:41.000Z</published>
+    <updated>2023-09-21T12:31:18.291Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这周分析了一下安卓源码中 linker 的部分，了解了 Android
+平台下是如何加载动态链接库的。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="http://apeng.re/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2020 空指针 5月RE公开赛</title>
+    <link href="http://apeng.re/2020/06/11/2020npointer-5/"/>
+    <id>http://apeng.re/2020/06/11/2020npointer-5/</id>
+    <published>2020-06-11T02:17:58.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;上周做了一下空指针的五月re公开赛。题目不是特别难，可能没什么人做，最后只有三解。当天我肝到晚上三点成功拿到一血（捂脸&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="反调试" scheme="http://apeng.re/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2020 GKCTF writeup</title>
+    <link href="http://apeng.re/2020/05/24/2020GKCTF/"/>
+    <id>http://apeng.re/2020/05/24/2020GKCTF/</id>
+    <published>2020-05-24T09:57:31.000Z</published>
+    <updated>2023-03-24T14:14:17.032Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这周做了一下由防灾科技学院 Ginkgo 战队主办的
+GKCTF2020,题目难度不大,但是有些小地方卡住了&lt;del&gt;(再加上周末睡懒觉起晚了&lt;/del&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2020 DEF CON quals 小记</title>
+    <link href="http://apeng.re/2020/05/18/2020defcon-quals/"/>
+    <id>http://apeng.re/2020/05/18/2020defcon-quals/</id>
+    <published>2020-05-18T02:38:29.000Z</published>
+    <updated>2023-03-24T14:14:17.032Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;比赛时间: 5月16日-5月18日&lt;/p&gt;
+&lt;p&gt;终于,又一次来到了defcon的预选赛.仍然记得去年自闭了两天只做出来一道misc(锤地).今年仍然是令人自闭的一年.经过两晚奋战到四点的努力,总算做出3道(其实是2道)题.自然收获满满,也学到了很多有意思的东西.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2020" scheme="http://apeng.re/categories/CTF-writeup/2020/"/>
+    
+    
+    <category term="game of life" scheme="http://apeng.re/tags/game-of-life/"/>
+    
+    <category term="maze" scheme="http://apeng.re/tags/maze/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2020 confidence</title>
+    <link href="http://apeng.re/2020/03/15/2020confidence/"/>
+    <id>http://apeng.re/2020/03/15/2020confidence/</id>
+    <published>2020-03-15T10:29:00.000Z</published>
+    <updated>2023-03-24T14:14:17.032Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;波兰战队&lt;a href=&quot;https://p4.team/&quot;&gt;p4&lt;/a&gt;办的比赛&lt;/p&gt;
+&lt;p&gt;本来不知道有这个比赛的，好久没去ctf
+time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Decade发了个这个链接给我。俺寻思反正也没啥事，写作业写累了，就做做题。毕竟老外的比赛质量高一些&lt;/p&gt;
+&lt;p&gt;然后Decade就准备面试去了，就我一个人和一个学弟在做（据我所知）&lt;/p&gt;
+&lt;p&gt;比赛时间： 14 March 2020, 11:00 UTC - 15 March 2020, 11 UTC&lt;/p&gt;
+&lt;p&gt;比赛结果：3道逆向AK，29名。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://confidence2020.p4.team/&quot;&gt;比赛官网&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2020" scheme="http://apeng.re/categories/CTF-writeup/2020/"/>
+    
+    
+    <category term="VM" scheme="http://apeng.re/tags/VM/"/>
+    
+    <category term="混淆" scheme="http://apeng.re/tags/%E6%B7%B7%E6%B7%86/"/>
+    
+    <category term="AutoIt" scheme="http://apeng.re/tags/AutoIt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>空指针3月公开赛write up</title>
+    <link href="http://apeng.re/2020/03/11/2020npointer-3/"/>
+    <id>http://apeng.re/2020/03/11/2020npointer-3/</id>
+    <published>2020-03-11T13:01:39.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;做了下空指针公开赛的逆向题，做到三分之一左右遇到知识盲区就做不下去了，我太菜了。。。后面看了下官方wp才解决了知识盲区。。。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2020" scheme="http://apeng.re/categories/CTF-writeup/2020/"/>
+    
+    
+    <category term="花指令" scheme="http://apeng.re/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/"/>
+    
+    <category term="graph" scheme="http://apeng.re/tags/graph/"/>
+    
+    <category term="wow64" scheme="http://apeng.re/tags/wow64/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2020 新春抗疫公益赛</title>
+    <link href="http://apeng.re/2020/02/24/2020gongyi/"/>
+    <id>http://apeng.re/2020/02/24/2020gongyi/</id>
+    <published>2020-02-24T05:10:19.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;放假在家没事做，学习之余打打比赛，武汉加油&lt;/p&gt;
+&lt;p&gt;没AK逆向有点可惜，两题都差一点点&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2020" scheme="http://apeng.re/categories/CTF-writeup/2020/"/>
+    
+    
+    <category term="VM" scheme="http://apeng.re/tags/VM/"/>
+    
+    <category term="nisi" scheme="http://apeng.re/tags/nisi/"/>
+    
+    <category term="信号量" scheme="http://apeng.re/tags/%E4%BF%A1%E5%8F%B7%E9%87%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编译原理学习笔记（二）</title>
+    <link href="http://apeng.re/2020/02/11/programming-language-note-2/"/>
+    <id>http://apeng.re/2020/02/11/programming-language-note-2/</id>
+    <published>2020-02-11T14:57:46.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;之前借助工具写了一个简单的计算器，现在尝试不借助工具，手动实现词法分析器和语法分析器，并添加括号与负号&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习笔记" scheme="http://apeng.re/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="编译原理" scheme="http://apeng.re/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编程原理学习笔记（一）</title>
+    <link href="http://apeng.re/2020/02/10/programming-language-note-1/"/>
+    <id>http://apeng.re/2020/02/10/programming-language-note-1/</id>
+    <published>2020-02-10T08:30:24.000Z</published>
+    <updated>2023-03-24T14:14:17.112Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;有空学习一下编程语言与编译原理相关知识。看的是《自制编程语言这本书》&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习笔记" scheme="http://apeng.re/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="编译原理" scheme="http://apeng.re/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>wsl 使用笔记</title>
+    <link href="http://apeng.re/2020/02/09/wsl-note/"/>
+    <id>http://apeng.re/2020/02/09/wsl-note/</id>
+    <published>2020-02-09T13:03:20.000Z</published>
+    <updated>2023-03-24T14:14:17.120Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;使用wsl很久了，是时候总结一波使用技巧，列出一些踩过的坑
+慢慢遇到了再补全&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="使用技巧" scheme="http://apeng.re/categories/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    
+    
+    <category term="wsl" scheme="http://apeng.re/tags/wsl/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 X-NUCA 线上赛</title>
+    <link href="http://apeng.re/2019/09/01/2019xnuca_quals/"/>
+    <id>http://apeng.re/2019/09/01/2019xnuca_quals/</id>
+    <published>2019-09-01T13:54:00.000Z</published>
+    <updated>2023-03-24T14:14:17.032Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;又到了一年一度的X-NUCA了，中科院NESE的二进制爷爷们依然如此给力。&lt;/p&gt;
+&lt;p&gt;这次比赛跟着pizza大哥一起打。pizza出马一个顶俩，怒收5个一血。我做题实在没pizza做的快，只能吃尾气（捂脸）比赛中做出了ooollvm和fly。当时正在华为学习没多少时间做，得酒店公司来回跑，KindRe更是早上还没睡醒pizza就做完了QAQ。。。有空的话复现一下另外三道题。&lt;/p&gt;
+&lt;p&gt;另外密码题都是用C/C++出的，还开了很高的编译优化，简直丧心病狂，有时间的话可以逆一下。。。&lt;/p&gt;
+&lt;p&gt;比赛时间：8月23日 14:30-8月24日 22:30&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/xnucaxx&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2019 OGeek 线上赛</title>
+    <link href="http://apeng.re/2019/08/26/2019ogeek_quals/"/>
+    <id>http://apeng.re/2019/08/26/2019ogeek_quals/</id>
+    <published>2019-08-25T16:05:34.000Z</published>
+    <updated>2023-03-24T14:14:17.024Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最后排名第四，大哥们tql。&lt;/p&gt;
+&lt;p&gt;赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。&lt;/p&gt;
+&lt;p&gt;比赛时间：8月24-8月25日&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/ogeek&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="8V" scheme="http://apeng.re/tags/8V/"/>
+    
+    <category term="lz77" scheme="http://apeng.re/tags/lz77/"/>
+    
+    <category term="nisi" scheme="http://apeng.re/tags/nisi/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 SUCTF</title>
+    <link href="http://apeng.re/2019/08/19/2019suctf/"/>
+    <id>http://apeng.re/2019/08/19/2019suctf/</id>
+    <published>2019-08-19T09:26:32.000Z</published>
+    <updated>2023-03-24T14:14:17.028Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;SUCTF由SU战队举办，是XCTF分站赛的最后一站了&lt;/p&gt;
+&lt;p&gt;这次De1ta拿了冠军，可喜可贺（撒花&lt;/p&gt;
+&lt;p&gt;比赛时间：2019-08-17 09:00:00——2019-08-18 21:00:00&lt;/p&gt;
+&lt;p&gt;题目&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/suctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="ollvm" scheme="http://apeng.re/tags/ollvm/"/>
+    
+    <category term="RSA" scheme="http://apeng.re/tags/RSA/"/>
+    
+    <category term="unicorn" scheme="http://apeng.re/tags/unicorn/"/>
+    
+    <category term="boost" scheme="http://apeng.re/tags/boost/"/>
+    
+    <category term="dll" scheme="http://apeng.re/tags/dll/"/>
+    
+    <category term="Windows pwn" scheme="http://apeng.re/tags/Windows-pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 中关村网络与信息安全领域专项赛</title>
+    <link href="http://apeng.re/2019/08/16/2019zgc_quals/"/>
+    <id>http://apeng.re/2019/08/16/2019zgc_quals/</id>
+    <published>2019-08-16T10:19:34.000Z</published>
+    <updated>2023-03-24T14:14:17.032Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;中关村网络与信息安全领域专项赛，i春秋主办。最后一道python字节码混淆挺牛逼的，比赛是没解出来，赛后好好学习了一下这方面的知识，成功复现了。&lt;/p&gt;
+&lt;p&gt;打这场比赛的时候正在xman，桂电的师傅也一起在打，师傅们牛逼。&lt;/p&gt;
+&lt;p&gt;比赛时间：8月15日&lt;/p&gt;
+&lt;p&gt;题目&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/zhongguancun&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="C++" scheme="http://apeng.re/tags/C/"/>
+    
+    <category term="ollvm" scheme="http://apeng.re/tags/ollvm/"/>
+    
+    <category term="python" scheme="http://apeng.re/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 SCTF</title>
+    <link href="http://apeng.re/2019/06/24/2019sctf/"/>
+    <id>http://apeng.re/2019/06/24/2019sctf/</id>
+    <published>2019-06-23T16:09:54.000Z</published>
+    <updated>2023-03-24T14:14:17.028Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;XCTF的另一分站赛SCTF，这次De1ta排名第三，前三名解题的数目都一样，只有一血数量不同。&lt;/p&gt;
+&lt;p&gt;RE我部分只做了三道题，还有两道apk的逆向是城权师傅做的，最后一道ojbk有点难搞不定啊，全场也是零解。有空复现。&lt;/p&gt;
+&lt;p&gt;比赛时间：2019-06-22 09:00:00——2019-06-23 21:00:00&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/sctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="SMC" scheme="http://apeng.re/tags/SMC/"/>
+    
+    <category term="Unity 3D" scheme="http://apeng.re/tags/Unity-3D/"/>
+    
+    <category term="花指令" scheme="http://apeng.re/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 RCTF</title>
+    <link href="http://apeng.re/2019/05/20/2019rctf/"/>
+    <id>http://apeng.re/2019/05/20/2019rctf/</id>
+    <published>2019-05-20T04:23:36.000Z</published>
+    <updated>2023-03-24T14:14:17.024Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;比赛时间：5月18日-5月19日&lt;/p&gt;
+&lt;p&gt;XCTF联赛内的RCTF，由福州大学RIOS战队主办。&lt;/p&gt;
+&lt;p&gt;De1ta最终排第7名。re再次ak&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/rctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="VM" scheme="http://apeng.re/tags/VM/"/>
+    
+    <category term="xxtea" scheme="http://apeng.re/tags/xxtea/"/>
+    
+    <category term="Blowfish" scheme="http://apeng.re/tags/Blowfish/"/>
+    
+    <category term="RISC-V" scheme="http://apeng.re/tags/RISC-V/"/>
+    
+    <category term="算法逆向" scheme="http://apeng.re/tags/%E7%AE%97%E6%B3%95%E9%80%86%E5%90%91/"/>
+    
+    <category term="SG11" scheme="http://apeng.re/tags/SG11/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 *CTF</title>
+    <link href="http://apeng.re/2019/05/02/2019starctf/"/>
+    <id>http://apeng.re/2019/05/02/2019starctf/</id>
+    <published>2019-05-02T08:29:44.000Z</published>
+    <updated>2023-03-24T14:14:17.028Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;比赛时间：4月29日-4月30日&lt;/p&gt;
+&lt;p&gt;XCTF联赛内的*ctf，由上海复旦大学******战队（sixstar）主办。&lt;/p&gt;
+&lt;p&gt;在De1ta打的这场比赛，最终第七名。re的题目ak，还做了个misc，还是有点小高兴。&lt;/p&gt;
+&lt;p&gt;总体体验还是不错的，希望能多打打这种高水平的比赛，继续磨练！&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/starctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
+    
+    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
+    
+    
+    <category term="Go" scheme="http://apeng.re/tags/Go/"/>
+    
+    <category term="花指令" scheme="http://apeng.re/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/"/>
+    
+    <category term="香农-范诺编码" scheme="http://apeng.re/tags/%E9%A6%99%E5%86%9C-%E8%8C%83%E8%AF%BA%E7%BC%96%E7%A0%81/"/>
+    
+    <category term="混淆" scheme="http://apeng.re/tags/%E6%B7%B7%E6%B7%86/"/>
+    
+    <category term="词法分析器" scheme="http://apeng.re/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8/"/>
+    
+    <category term="lsb" scheme="http://apeng.re/tags/lsb/"/>
+    
+    <category term="zip" scheme="http://apeng.re/tags/zip/"/>
+    
+    <category term="doc" scheme="http://apeng.re/tags/doc/"/>
+    
+  </entry>
+  
+</feed>

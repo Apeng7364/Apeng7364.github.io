@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="波兰战队p4办的比赛 本来不知道有这个比赛的，好久没去ctf time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Decade发了个这个链接给我。俺寻思反正也没啥事，写作业写累了，就做做题。毕竟老外的比赛质量高一些 然后Decade就准备面试去了，就我一个人和一个学弟在做（据我所知） 比赛时间： 14 March 2020, 11:00 UTC - 15 March 2020,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020 confidence">
+<meta property="og:url" content="http://apeng.re/2020/03/15/2020confidence/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="波兰战队p4办的比赛 本来不知道有这个比赛的，好久没去ctf time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Decade发了个这个链接给我。俺寻思反正也没啥事，写作业写累了，就做做题。毕竟老外的比赛质量高一些 然后Decade就准备面试去了，就我一个人和一个学弟在做（据我所知） 比赛时间： 14 March 2020, 11:00 UTC - 15 March 2020,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-15T10:29:00.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.032Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="VM">
+<meta property="article:tag" content="混淆">
+<meta property="article:tag" content="AutoIt">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2020/03/15/2020confidence/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2020/03/15/2020confidence/","path":"/2020/03/15/2020confidence/","title":"2020 confidence"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2020 confidence | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#broken_counter"><span class="nav-number">1.</span> <span class="nav-text">broken_counter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stuck_in_the_past"><span class="nav-number">2.</span> <span class="nav-text">stuck_in_the_past</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locked_pe"><span class="nav-number">3.</span> <span class="nav-text">locked_pe</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2020/03/15/2020confidence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2020 confidence | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2020 confidence
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-15 18:29:00" itemprop="dateCreated datePublished" datetime="2020-03-15T18:29:00+08:00">2020-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/" itemprop="url" rel="index"><span itemprop="name">CTF writeup</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/2020/" itemprop="url" rel="index"><span itemprop="name">2020</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>波兰战队<a target="_blank" rel="noopener" href="https://p4.team/">p4</a>办的比赛</p>
+<p>本来不知道有这个比赛的，好久没去ctf
+time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Decade发了个这个链接给我。俺寻思反正也没啥事，写作业写累了，就做做题。毕竟老外的比赛质量高一些</p>
+<p>然后Decade就准备面试去了，就我一个人和一个学弟在做（据我所知）</p>
+<p>比赛时间： 14 March 2020, 11:00 UTC - 15 March 2020, 11 UTC</p>
+<p>比赛结果：3道逆向AK，29名。</p>
+<p><a target="_blank" rel="noopener" href="https://confidence2020.p4.team/">比赛官网</a></p>
+<span id="more"></span>
+<h2 id="broken_counter">broken_counter</h2>
+<p>一看所有东西都在main函数，还有很强的编译优化，纯静态可能比较吃力。先运行几遍跑一跑。</p>
+<p>随便输点字符串，会返回一个数字。同样的输入对应的输出是固定的，且总的输出是每个单独字符输出的总和。</p>
+<p>题目还给了一份out.txt，看了下又一万多行数字。一开始猜测要从这个输出还原输入。</p>
+<p>总之先写个脚本把所有单独字符的输入爆一遍，看看都有啥。</p>
+<p>结果一看，每个字符的输出都在0-7之间，这就蛋疼了，因为单个结果可能对应很多很多的输入。。。</p>
+<p>再回过头来看看程序。开头先对一些常量进行解密操作，通过调试很容易拿到解密后的字符串。</p>
+<p>注意到接下来的循环内，对字符串取值的时候是10*i+j，所以它应当是10个为一行的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">955+*1-v) </span><br><span class="line">v_#   #&lt;v </span><br><span class="line">1 v&lt;v&lt;v&lt;# </span><br><span class="line">+!:g/912D </span><br><span class="line">0`00\:+g# </span><br><span class="line">0*809g+%U </span><br><span class="line">p5gp%009# </span><br><span class="line"> ^&lt;^&lt;^&lt;\C </span><br><span class="line">&gt;00g:9/^  </span><br><span class="line">v$U#D#K#&lt; </span><br><span class="line">s  s/7Y\s </span><br><span class="line">   &quot;   7  </span><br><span class="line">       *  </span><br><span class="line">s!   !!.9 </span><br><span class="line"> s.\s  [  </span><br><span class="line"> 6  s ;[  </span><br><span class="line"> d    Y[  </span><br><span class="line"> .    ,   </span><br><span class="line"> (  ;/[   </span><br><span class="line"> ;.6m/[5  </span><br><span class="line">;&#123;722(*y  </span><br><span class="line">s5d6.!!9  </span><br><span class="line">;1&#x27;*+=    </span><br><span class="line">          </span><br><span class="line">          </span><br></pre></td></tr></table></figure>
+<p>循环内是一个大的swich，根据取得值进入不同分支，是一个栈结构的vm，特别的，ip变化是由两个下标组成，vm的一些指令会改变两个下标的增量，所以可以理解为整个vm是在一张地图中进行的。我们可以在取指令的地方下断点，打印出取的指令，然后把控制方向的这些字符去掉，就和普通的vm一样了。</p>
+<p>不过更简单的做法还是调试，观察栈中数据的变化，猜测程序在做什么。通过快速调试，不难看出程序在计算输入的字符的二进制有多少个1。</p>
+<p>这样我们之前的想法就不对了。因为我们不可能通过一个数据里有多少个1还原出原始数据是什么。</p>
+<p>似乎陷入了僵局。</p>
+<p>观察一下输出的文本，每一行后面没有空格，而是以回车结尾的。而运行时的输出以空格结尾。找字符串的时候，找到了<code>%d\n</code>这个字符串。在每次循环开头都会检查一个全局变量是否为0，非零的话会输出指令的下标。</p>
+<p>我们进行一下修改，强行执行这段，输出的内容开头果然和给出的文件相同。</p>
+<p>接下来只要找到某一位是1/0时不同的地方了。注意到113是模指令，每一位必定执行一次，当这一位是1，他的后三位是142，否则是144，依此很容易写出脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># out = [113, 123, 143, ...]</span></span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">tmp = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">while</span>(i&lt;<span class="built_in">len</span>(out)):</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> out[i] == <span class="number">113</span>:</span><br><span class="line">        <span class="keyword">if</span> out[i+<span class="number">3</span>] == <span class="number">142</span>:</span><br><span class="line">            tmp += <span class="string">&quot;1&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp += <span class="string">&quot;0&quot;</span></span><br><span class="line">    i+=<span class="number">1</span></span><br><span class="line">tmp = tmp[::-<span class="number">1</span>]</span><br><span class="line">res = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(tmp),<span class="number">7</span>):</span><br><span class="line">    t = tmp[i:i+<span class="number">7</span>]</span><br><span class="line">    t = <span class="built_in">int</span>(t, <span class="number">2</span>)</span><br><span class="line">    res = res+<span class="built_in">chr</span>(t)</span><br><span class="line"><span class="built_in">print</span>(res[::-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="stuck_in_the_past">stuck_in_the_past</h2>
+<p>这个题做得非常的迷，直到做出来我都不知道它是什么。。。</p>
+<p>由于看不懂它的混淆方式，所以采用最简单的打硬件断点+观察的方式。首先查找调用，在<code>4011b8</code>调用ReadFile，一次读取一个字节，读到<code>406015</code>，然后马上将它入栈。最后可以在栈上看到一个一个读入的字符。</p>
+<p>等全部读完后，打硬件断点观察。我直接在第一个字符打断点，并没有断下来。之后我只输入一个字符，成功断了下来，很快在<code>401133</code>这里有条<code>sub eax, ebx</code>指令，eax是输入的字符，ebx是，直觉告诉我这里可能有问题，于是打个断点调试。</p>
+<p>通过不停的f9，最终看到这里的ebx一直在变，当变化到'}'字符后就推出了。}正是flag的最后一个字符。我又尝试输入'}'，果然对比完'}'之后就进入下一位了，观察到下一位是'd'。</p>
+<p>于是可以手动调出flag的每一位，或是打个条件记录断点，每次运行到这里把eax赋值并输出，就出flag了。</p>
+<h2 id="locked_pe">locked_pe</h2>
+<p>一开始有点无从下手，后来在程序的资源里找到一个叫SCRIPT的资源，结合程序里出现的字符串
+AutoIt v3，猜测它可能是AutoIt脚本，开始查资料。</p>
+<p>AutoIt脚本编译成exe</p>
+<p>找到个反编译工具，然而不能用</p>
+<p>http://www.hexacorn.com/blog/2015/01/08/decompiling-compiled-autoit-scripts-64-bit-take-two/</p>
+<p>用官方的AutoIt编译了一份官方的例子calculator.au3，然后用这个工具可以反编译。</p>
+<p>diff一下，代码部分只有几个数值不一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># flagcheck</span><br><span class="line">.text:000000014007A38B add     edx, 0BEEFh</span><br><span class="line">.text:000000014007A6F7 add     r9d, 0BEEFh</span><br><span class="line">.text:000000014007A90C lea     r9d, [rdi+0BEEFh]</span><br><span class="line"># calculator</span><br><span class="line">.text:000000014007A38B add     edx, 2477h</span><br><span class="line">.text:000000014007A6F7 add     r9d, 2477h</span><br><span class="line">.text:000000014007A90C lea     r9d, [rdi+0F479h]</span><br></pre></td></tr></table></figure>
+<p>同时注意到<code>sub_14007A02C</code>的一段代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( v6 )</span><br><span class="line">&#123;</span><br><span class="line">  v8 = v6;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    *v7++ ^= sub_140079FF4((__int64)&amp;v9, a5);</span><br><span class="line">    --v8;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v8 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>似乎是在加密，这个函数的参数也是之前不同的那几个数据。</p>
+<p>编译后的脚本被当作资源文件放在exe里面了，用resource
+hacker可以轻松提取出来</p>
+<p>根据反编译工具的过程，首先它只能反编译32位的。作者写了一个工具将64转32。exe的代码部分直接赋值官方的一个bin文件。</p>
+<p>思考：</p>
+<p>作者修改了编译后的exe和脚本文件，使得正常的反编译工具无法运行。</p>
+<p>一种思路是将脚本文件解密后，再按官方的加密方式加密，然后用反编译工具反编译。</p>
+<p>我们先看看加密的内容是啥。在异或的地方打断点，观察异或后的值。</p>
+<p>有一部分是一样的。不一样的部分解密出来是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 1</span><br><span class="line"># calculator 0x68:0x68+0x8C</span><br><span class="line">C:\Users\Administrator.000\AppData\Local\AutoIt v3\Aut2Exe\aut1CFC.tmp</span><br><span class="line"># flagcheck 0x68:0x68+0x74</span><br><span class="line">Zzzzz:\I wonder if this path even has to be real.Maybe?No</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 2</span><br><span class="line"># calculator 0x143:0x143+0x94</span><br><span class="line">C:\Users\Administrator.000\AppData\Local\AutoIt v3\Aut2Exe\aut1CFB.tmp.tok</span><br><span class="line"># flagcheck 0x12B:0x12B+0x7C</span><br><span class="line">Another path i need to fake so you dont see my windows user))</span><br><span class="line"></span><br><span class="line"># 3</span><br><span class="line"># calculator 0x1F4:0x1F4+0x2828</span><br><span class="line"># ...script code</span><br><span class="line"># flagcheck 0x1C4:0x1C4+0x2C78</span><br><span class="line"># ...script code</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>尝试把代码部分变成正常的加密方式，用ida脚本（条件记录断点）提取出两个程序异或的字符流，然后异或。</p>
+<p>用工具反编译成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#cs</span><br><span class="line">	省略</span><br><span class="line">#ce</span><br><span class="line"></span><br><span class="line">Func oooooooo(ByRef $oo)</span><br><span class="line">	Local $ooooooooo = StringToASCIIArray(&quot;oOoOooOO&quot;)</span><br><span class="line">	Local $ooooo</span><br><span class="line">	For $ooo = 1 To BinaryLen(Binary($oo)) Step +1</span><br><span class="line">		$ooooo &amp;= Chr(BitXOR($ooooooooo[Mod($ooo - 1, UBound($ooooooooo))], BinaryMid(Binary($oo), $ooo, 1)))</span><br><span class="line">	Next</span><br><span class="line">	Return $ooooo</span><br><span class="line">EndFunc</span><br><span class="line"></span><br><span class="line">Opt(oooooooo(&quot;0x3826011b061b232a222e1b2c0722202b0a&quot;), 2)</span><br><span class="line">ClipPut(&quot;&quot;)</span><br><span class="line">Local $ooooooooooooooooooooooooooo = oooooooo(&quot;0x097e0b7609097f78582b5b7f5f582c780d775c7a0e5a7a78587a5e7a095b7a2e5b7c0c7d0b09297c0c765a295d0b2e790b7f587b58097f2a572c572b090b7b7c0e78572c5b572e7d5e7f5e7d5e5a792958760b7c590d7b7f0d2c5d7b585d78770a7b5e2c5c5a777c5f7e5e7b5d0c2b2a562e0b780b0d7b7d5b775a2c560a7b2e5c7f0b2d575f767d5b2a582e570a2e7d0929577c5b58787e0b7d582e56097e785b2a582a0e0e78790c2e59780a0b2d7d097e577b0d0b2b7e5e295f2e5a097e2e0b2b097b5a0a7b2e5b7f0e29560d767b0b2e0c7a565b297b0a7e5d7f095c76795d2a0e7e5a0e2a29097c572c575a7f7d5e7a0c295f0a2d7b0e2d0a7e0b0c7b2a5a29592c0a0b7e76587d5b77560e7c2a5e775e775e097a2b09295d7c5e092d780b7b5f78090c7d775d7c5f2958097a760d2d0e2c5d562a2b577e577a565c2e7c5f765d775b5c7d2d0c2e0e2a5f592a2a0c7d0d7c0b0b7d7c5a77582a5a59767a0e79562b5e092d2d5d785a7b0e097c7a0d79092c0a0c2b79097f097f57572e295b7b5a7a585f787c0a7c5e2a5b0b2d2b0d7b5b2d5d587c7b5e2e592a5d5c7b290d2e5f79590d7a7b0c7f0e7d575c7d79597f5b79595c772c587b5c7e0b0b7a7e5f2d5a78575b2b2d597b0a780d0e7e795d7b0976585a7a7e567c57785d562a2d0d2b0c290e577e2c587f0e775f0e2e7b09795a2d5c58292c5f765f7f58092978&quot;)</span><br><span class="line">WinActivate(oooooooo(&quot;0x09230e28411b373b&quot;))</span><br><span class="line">WinWaitActive(oooooooo(&quot;0x09230e28411b373b&quot;))</span><br><span class="line">Send(oooooooo(&quot;0x31342700222a32&quot;))</span><br><span class="line">For $o = 1 To 2 * 2 * 2 * 2 Step +1</span><br><span class="line">	Send(oooooooo(&quot;0x44343d0628271b32&quot;))</span><br><span class="line">	Send(oooooooo(&quot;0x44343d0628271b32&quot;))</span><br><span class="line">	Send(oooooooo(&quot;0x44343d0628271b32&quot;))</span><br><span class="line">	Send(oooooooo(&quot;0x312c&quot;))</span><br><span class="line">	Send(oooooooo(&quot;0x141d2608273b32&quot;))</span><br><span class="line">	Local $ooooooooooooooooooooooooo = Binary(oooooooo(&quot;0x5f37&quot;) &amp; StringMid($ooooooooooooooooooooooooooo, ($o - 1) * (8 + 16 - 8) * 2 + 1 - 2 + 3 - 1, 2 * 2 * 2 * 2 * 2))</span><br><span class="line">	Local $oooooooooooooooooooooo = _crypt_hashdata(ClipGet(), 32771)</span><br><span class="line">	If $ooooooooooooooooooooooooo &lt;&gt; $oooooooooooooooooooooo Then</span><br><span class="line">		MsgBox(0, oooooooo(&quot;0x23200c240a0b6f1f2a&quot;), oooooooo(&quot;0x26210c201d1d2a2c1b6e&quot;))</span><br><span class="line">		Exit (BitXOR(57005, 57006))</span><br><span class="line">	EndIf</span><br><span class="line">Next</span><br><span class="line">MsgBox(0, oooooooo(&quot;0x23200c240a0b6f1f2a&quot;), oooooooo(&quot;0x2c201d3d0a0c3b6e&quot;))</span><br><span class="line">Exit (BitXOR(57005, 57005))</span><br></pre></td></tr></table></figure>
+<p>很明显这里是一些加密</p>
+<p>根据<a target="_blank" rel="noopener" href="https://xbuba.com/questions/34761334">这篇文章</a>，我们可以在命令行运行脚本，并输出一些数据。</p>
+<p>进行适当的输出后，我们知道了<code>oooooooo</code>这个函数是负责加密字符串，然后能看到解密后的字符串。</p>
+<p>ClipGet函数获取剪切板中的字符串，哈希后和指定结果比对</p>
+<p>稍微修改下，可以提取出哈希值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Func oooooooo(ByRef $oo)</span><br><span class="line">	Local $ooooooooo = StringToASCIIArray(&quot;oOoOooOO&quot;)</span><br><span class="line">	Local $ooooo</span><br><span class="line">	For $ooo = 1 To BinaryLen(Binary($oo)) Step +1</span><br><span class="line">		$ooooo &amp;= Chr(BitXOR($ooooooooo[Mod($ooo - 1, UBound($ooooooooo))], BinaryMid(Binary($oo), $ooo, 1)))</span><br><span class="line">	Next</span><br><span class="line">	Return $ooooo</span><br><span class="line">EndFunc</span><br><span class="line"></span><br><span class="line">Local $ooooooooooooooooooooooooooo = oooooooo(&quot;0x097e0b7609097f78582b5b7f5f582c780d775c7a0e5a7a78587a5e7a095b7a2e5b7c0c7d0b09297c0c765a295d0b2e790b7f587b58097f2a572c572b090b7b7c0e78572c5b572e7d5e7f5e7d5e5a792958760b7c590d7b7f0d2c5d7b585d78770a7b5e2c5c5a777c5f7e5e7b5d0c2b2a562e0b780b0d7b7d5b775a2c560a7b2e5c7f0b2d575f767d5b2a582e570a2e7d0929577c5b58787e0b7d582e56097e785b2a582a0e0e78790c2e59780a0b2d7d097e577b0d0b2b7e5e295f2e5a097e2e0b2b097b5a0a7b2e5b7f0e29560d767b0b2e0c7a565b297b0a7e5d7f095c76795d2a0e7e5a0e2a29097c572c575a7f7d5e7a0c295f0a2d7b0e2d0a7e0b0c7b2a5a29592c0a0b7e76587d5b77560e7c2a5e775e775e097a2b09295d7c5e092d780b7b5f78090c7d775d7c5f2958097a760d2d0e2c5d562a2b577e577a565c2e7c5f765d775b5c7d2d0c2e0e2a5f592a2a0c7d0d7c0b0b7d7c5a77582a5a59767a0e79562b5e092d2d5d785a7b0e097c7a0d79092c0a0c2b79097f097f57572e295b7b5a7a585f787c0a7c5e2a5b0b2d2b0d7b5b2d5d587c7b5e2e592a5d5c7b290d2e5f79590d7a7b0c7f0e7d575c7d79597f5b79595c772c587b5c7e0b0b7a7e5f2d5a78575b2b2d597b0a780d0e7e795d7b0976585a7a7e567c57785d562a2d0d2b0c290e577e2c587f0e775f0e2e7b09795a2d5c58292c5f765f7f58092978&quot;)</span><br><span class="line"></span><br><span class="line">For $o = 1 To 2 * 2 * 2 * 2 Step +1</span><br><span class="line"></span><br><span class="line">	Local $ooooooooooooooooooooooooo = Binary(oooooooo(&quot;0x5f37&quot;) &amp; StringMid($ooooooooooooooooooooooooooo, ($o - 1) * (8 + 16 - 8) * 2 + 1 - 2 + 3 - 1, 2 * 2 * 2 * 2 * 2))</span><br><span class="line">    Local $input = &quot;2&quot;</span><br><span class="line">	Local $oooooooooooooooooooooo = _crypt_hashdata($input, 32771)</span><br><span class="line">    ConsoleWrite(StringToBinary($ooooooooooooooooooooooooo))</span><br><span class="line">    ConsoleWrite(Chr(10))</span><br><span class="line">Next</span><br><span class="line">MsgBox(0, oooooooo(&quot;0x23200c240a0b6f1f2a&quot;), oooooooo(&quot;0x2c201d3d0a0c3b6e&quot;))</span><br><span class="line">Exit (BitXOR(57005, 57005))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">0xF1D9FF077D4007C7B835A5577515F45A</span><br><span class="line">0x43C2DFF3C95F2DA6D0747F0E8C8DFD43</span><br><span class="line">0xA78C48A21012156F79D36B40BC247278</span><br><span class="line">0xE41C358301142CDE9AD7DB42485C9E4A</span><br><span class="line">0x30DB80924E7A8EA2FF834771D27A9F17</span><br><span class="line">0x4E7EAA76CA67EDB2F184BDD11F0A5F1A</span><br><span class="line">0xDDF45E4A40AF9B94DAC594F4E120F396</span><br><span class="line">0x2EA15AEFF38C850215CF0EB4ABE1DC4E</span><br><span class="line">0x5F6CED1972489A3E18181F5DFF231FB7</span><br><span class="line">0xD407FC28230F7F59BBAC29ED818593A3</span><br><span class="line">0x0928432BCAAE06EEC2B3DD23587E5695</span><br><span class="line">0xA69D1FBB2754AF35B6FCECD6F0F088AF</span><br><span class="line">0x44557073E31E4DBDB44B27341A6E234F</span><br><span class="line">0xBA066B54C0A283266046638C7431DD51</span><br><span class="line">0x0B5784DB64E7BA1624F97551938729EB</span><br><span class="line">0xBDCFA81C70A80AA4F65B37FC09007FF7</span><br></pre></td></tr></table></figure>
+<p>哈希的过程在上面我省略的一些函数里。<code>_crypt_derivekey</code>的参数包括<code>calg_md5</code>，试一下md5。用somd5一下就能解出来。写个脚本爆破即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">res = [<span class="string">&quot;F1D9FF077D4007C7B835A5577515F45A&quot;</span>, <span class="string">&quot;43C2DFF3C95F2DA6D0747F0E8C8DFD43&quot;</span>, <span class="string">&quot;A78C48A21012156F79D36B40BC247278&quot;</span>, <span class="string">&quot;E41C358301142CDE9AD7DB42485C9E4A&quot;</span>, <span class="string">&quot;30DB80924E7A8EA2FF834771D27A9F17&quot;</span>, <span class="string">&quot;4E7EAA76CA67EDB2F184BDD11F0A5F1A&quot;</span>, <span class="string">&quot;DDF45E4A40AF9B94DAC594F4E120F396&quot;</span>, <span class="string">&quot;2EA15AEFF38C850215CF0EB4ABE1DC4E&quot;</span>, <span class="string">&quot;5F6CED1972489A3E18181F5DFF231FB7&quot;</span>, <span class="string">&quot;D407FC28230F7F59BBAC29ED818593A3&quot;</span>, <span class="string">&quot;0928432BCAAE06EEC2B3DD23587E5695&quot;</span>, <span class="string">&quot;A69D1FBB2754AF35B6FCECD6F0F088AF&quot;</span>, <span class="string">&quot;44557073E31E4DBDB44B27341A6E234F&quot;</span>, <span class="string">&quot;BA066B54C0A283266046638C7431DD51&quot;</span>, <span class="string">&quot;0B5784DB64E7BA1624F97551938729EB&quot;</span>, <span class="string">&quot;BDCFA81C70A80AA4F65B37FC09007FF7&quot;</span>, ]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bruce</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">                tmp = <span class="built_in">bytes</span>([i,j,k])</span><br><span class="line">                <span class="keyword">if</span> md5(tmp).hexdigest().upper() == s:</span><br><span class="line">                    <span class="keyword">return</span> tmp</span><br><span class="line"></span><br><span class="line">flag = <span class="string">b&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    flag+=bruce(i)</span><br><span class="line"><span class="built_in">print</span>(flag.decode())</span><br></pre></td></tr></table></figure>
+<p>得到flag：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p4&#123;1_h0p3_y0u_d1dnt_vi0lat3_th3_@ut0it_lic3ns3!&#125;</span><br></pre></td></tr></table></figure>
+<p>作者告诉我们不要违反autoit的license，去逆向破解autoit编译的可执行文件。。。</p>
+<p>在Autoit的wiki也有着一篇文章关于反编译Autoit：</p>
+<p>https://www.autoitscript.com/wiki/Decompiling_FAQ</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2020/03/15/2020confidence/" title="2020 confidence">http://apeng.re/2020/03/15/2020confidence/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/VM/" rel="tag"># VM</a>
+              <a href="/tags/%E6%B7%B7%E6%B7%86/" rel="tag"># 混淆</a>
+              <a href="/tags/AutoIt/" rel="tag"># AutoIt</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/11/2020npointer-3/" rel="prev" title="空指针3月公开赛write up">
+                  <i class="fa fa-angle-left"></i> 空指针3月公开赛write up
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/18/2020defcon-quals/" rel="next" title="2020 DEF CON quals 小记">
+                  2020 DEF CON quals 小记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

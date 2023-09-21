@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这周分析了一下安卓源码中 linker 的部分，了解了 Android 平台下是如何加载动态链接库的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android linker运行机制分析">
+<meta property="og:url" content="http://apeng.re/2020/07/11/android-linker/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="这周分析了一下安卓源码中 linker 的部分，了解了 Android 平台下是如何加载动态链接库的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-11T11:27:41.000Z">
+<meta property="article:modified_time" content="2023-09-21T12:31:18.291Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2020/07/11/android-linker/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2020/07/11/android-linker/","path":"/2020/07/11/android-linker/","title":"Android linker运行机制分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Android linker运行机制分析 | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#android%E6%BA%90%E7%A0%81linker%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">Android源码linker的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dlopen"><span class="nav-number">1.1.</span> <span class="nav-text">dlopen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find_library"><span class="nav-number">1.2.</span> <span class="nav-text">find_library</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#load_library"><span class="nav-number">1.2.1.</span> <span class="nav-text">load_library</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#open_library"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">open_library</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#read-header"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">read header</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#get_lib_extents"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">get_lib_extents</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#alloc_mem_region"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">alloc_mem_region</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#load_segments"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">load_segments</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init_library"><span class="nav-number">1.2.2.</span> <span class="nav-text">init_library</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#link_image"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">link_image</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#reloc_library_a"><span class="nav-number">1.2.2.1.1.</span> <span class="nav-text">reloc_library_a</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84dlopen%E4%B8%8Edlsym%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">自定义的dlopen与dlsym实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">2.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.3.</span> <span class="nav-text">遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">2.4.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">2.5.</span> <span class="nav-text">缺陷</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2020/07/11/android-linker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Android linker运行机制分析 | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android linker运行机制分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-11 19:27:41" itemprop="dateCreated datePublished" datetime="2020-07-11T19:27:41+08:00">2020-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-21 20:31:18" itemprop="dateModified" datetime="2023-09-21T20:31:18+08:00">2023-09-21</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>这周分析了一下安卓源码中 linker 的部分，了解了 Android
+平台下是如何加载动态链接库的。</p>
+<span id="more"></span>
+<h2 id="android源码linker的实现">Android源码linker的实现</h2>
+<p>首先下载安卓源码，过程参考</p>
+<p><a target="_blank" rel="noopener" href="https://source.android.google.cn/setup/downloading?hl=zh-cn">下载源代码|Android
+开源项目|Android Open Source Project</a></p>
+<p>我们这次分析的是android-4.0.1_r1</p>
+<p>Linker的代码位于linker.c和linker.h。我们从dlfcn.c中的dlopen入手：</p>
+<h3 id="dlopen">dlopen</h3>
+<p>首先将dl_lock锁住。dlopen 主要函数为 find_library。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">dlopen</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *filename, <span class="type">int</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    soinfo *ret;</span><br><span class="line"></span><br><span class="line">    pthread_mutex_lock(&amp;dl_lock);</span><br><span class="line">    ret = find_library(filename);</span><br><span class="line">    <span class="keyword">if</span> (unlikely(ret == <span class="literal">NULL</span>)) &#123;</span><br><span class="line">        set_dlerror(DL_ERR_CANNOT_LOAD_LIBRARY);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ret-&gt;refcount++;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_unlock(&amp;dl_lock);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="find_library">find_library</h3>
+<p>先从solist中搜索是否已加载还没加载则调用load_library加载so，和init_library初始化库</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bname = <span class="built_in">strrchr</span>(name, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">bname = bname ? bname + <span class="number">1</span> : name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(si = solist; si != <span class="number">0</span>; si = si-&gt;next)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">strcmp</span>(bname, si-&gt;name)) &#123;</span><br><span class="line">        <span class="keyword">if</span>(si-&gt;flags &amp; FLAG_ERROR) &#123;</span><br><span class="line">            DL_ERR(<span class="string">&quot;%5d &#x27;%s&#x27; failed to load previously&quot;</span>, pid, bname);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(si-&gt;flags &amp; FLAG_LINKED) <span class="keyword">return</span> si;</span><br><span class="line">        DL_ERR(<span class="string">&quot;OOPS: %5d recursive link to &#x27;%s&#x27;&quot;</span>, pid, si-&gt;name);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TRACE(<span class="string">&quot;[ %5d &#x27;%s&#x27; has not been loaded yet.  Locating...]\n&quot;</span>, pid, name);</span><br><span class="line">si = load_library(name);</span><br><span class="line"><span class="keyword">if</span>(si == <span class="literal">NULL</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">return</span> init_library(si);</span><br></pre></td></tr></table></figure>
+<h4 id="load_library">load_library</h4>
+<p>首先open_library打开共享库</p>
+<h5 id="open_library">open_library</h5>
+<p>如果是绝对路径，则直接打开</p>
+<p>否则从ldpath和sopath中搜索然后打开</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((name[<span class="number">0</span>] == <span class="string">&#x27;/&#x27;</span>) &amp;&amp; ((fd = _open_lib(name)) &gt;= <span class="number">0</span>))</span><br><span class="line">    <span class="keyword">return</span> fd;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (path = ldpaths; *path; path++) &#123;</span><br><span class="line">    n = format_buffer(buf, <span class="keyword">sizeof</span>(buf), <span class="string">&quot;%s/%s&quot;</span>, *path, name);</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span> || n &gt;= (<span class="type">int</span>)<span class="keyword">sizeof</span>(buf)) &#123;</span><br><span class="line">        WARN(<span class="string">&quot;Ignoring very long library path: %s/%s\n&quot;</span>, *path, name);</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((fd = _open_lib(buf)) &gt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> fd;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (path = sopaths; *path; path++) &#123;</span><br><span class="line">    n = format_buffer(buf, <span class="keyword">sizeof</span>(buf), <span class="string">&quot;%s/%s&quot;</span>, *path, name);</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span> || n &gt;= (<span class="type">int</span>)<span class="keyword">sizeof</span>(buf)) &#123;</span><br><span class="line">        WARN(<span class="string">&quot;Ignoring very long library path: %s/%s\n&quot;</span>, *path, name);</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((fd = _open_lib(buf)) &gt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> fd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="read-header">read header</h5>
+<p>读取so的第一页，即header部分的内容</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (lseek(fd, <span class="number">0</span>, SEEK_SET) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    DL_ERR(<span class="string">&quot;lseek() failed!&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> fail;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((cnt = read(fd, &amp;__header[<span class="number">0</span>], PAGE_SIZE)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    DL_ERR(<span class="string">&quot;read() failed!&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> fail;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="get_lib_extents">get_lib_extents</h5>
+<p>这里负责设定共享库的基地址和加载时的大小，大小通过参数<code>total_sz</code>传入并设定</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">unsigned</span></span><br><span class="line"><span class="title function_">get_lib_extents</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">void</span> *__hdr, <span class="type">unsigned</span> *total_sz)</span></span><br></pre></td></tr></table></figure>
+<p>如果没有prelink过，则基址设为0，后续mmap时交给自动指定合适的机制</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">req_base = (<span class="type">unsigned</span>) is_prelinked(fd, name);</span><br><span class="line"><span class="keyword">if</span> (req_base == (<span class="type">unsigned</span>)<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (req_base != <span class="number">0</span>) &#123;</span><br><span class="line">    TRACE(<span class="string">&quot;[ %5d - Prelinked library &#x27;%s&#x27; requesting base @ 0x%08x ]\n&quot;</span>,</span><br><span class="line">          pid, name, req_base);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    TRACE(<span class="string">&quot;[ %5d - Non-prelinked library &#x27;%s&#x27; found. ]\n&quot;</span>, pid, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>遍历PT_LOAD的程序头，计算最大地址和最小地址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">phdr = (Elf32_Phdr *)(_hdr + ehdr-&gt;e_phoff);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* find the min/max p_vaddrs from all the PT_LOAD segments so we can</span></span><br><span class="line"><span class="comment"> * get the range. */</span></span><br><span class="line"><span class="keyword">for</span> (cnt = <span class="number">0</span>; cnt &lt; ehdr-&gt;e_phnum; ++cnt, ++phdr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (phdr-&gt;p_type == PT_LOAD) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((phdr-&gt;p_vaddr + phdr-&gt;p_memsz) &gt; max_vaddr)</span><br><span class="line">            max_vaddr = phdr-&gt;p_vaddr + phdr-&gt;p_memsz;</span><br><span class="line">        <span class="keyword">if</span> (phdr-&gt;p_vaddr &lt; min_vaddr)</span><br><span class="line">            min_vaddr = phdr-&gt;p_vaddr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">min_vaddr &amp;= ~PAGE_MASK;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* round max_vaddr up to the next page */</span></span><br><span class="line">max_vaddr = (max_vaddr + PAGE_SIZE - <span class="number">1</span>) &amp; ~PAGE_MASK;</span><br><span class="line"></span><br><span class="line">*total_sz = (max_vaddr - min_vaddr);</span><br><span class="line"><span class="keyword">return</span> (<span class="type">unsigned</span>)req_base;</span><br></pre></td></tr></table></figure>
+<h5 id="alloc_mem_region">alloc_mem_region</h5>
+<p>先初始化soinfo结构体，然后分配初始内存</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">si-&gt;base = req_base;</span><br><span class="line">si-&gt;size = ext_sz;</span><br><span class="line">si-&gt;flags = <span class="number">0</span>;</span><br><span class="line">si-&gt;entry = <span class="number">0</span>;</span><br><span class="line">si-&gt;dynamic = (<span class="type">unsigned</span> *)<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">if</span> (alloc_mem_region(si) &lt; <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">goto</span> fail;</span><br><span class="line"></span><br><span class="line">TRACE(<span class="string">&quot;[ %5d allocated memory for %s @ %p (0x%08x) ]\n&quot;</span>,</span><br><span class="line">      pid, name, (<span class="type">void</span> *)si-&gt;base, (<span class="type">unsigned</span>) ext_sz);</span><br></pre></td></tr></table></figure>
+<p>使用mmap映射匿名空间，权限为读取和执行</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *base = mmap(<span class="literal">NULL</span>, si-&gt;size, PROT_READ | PROT_EXEC,</span><br><span class="line">                  MAP_PRIVATE | MAP_ANONYMOUS, <span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (base == MAP_FAILED) &#123;</span><br><span class="line">    DL_ERR(<span class="string">&quot;%5d mmap of library &#x27;%s&#x27; failed: %d (%s)\n&quot;</span>,</span><br><span class="line">          pid, si-&gt;name,</span><br><span class="line">          errno, strerror(errno));</span><br><span class="line">    <span class="keyword">goto</span> err;</span><br><span class="line">&#125;</span><br><span class="line">si-&gt;base = (<span class="type">unsigned</span>) base;</span><br><span class="line">PRINT(<span class="string">&quot;%5d mapped library &#x27;%s&#x27; to %08x via kernel allocator.\n&quot;</span>,</span><br><span class="line">      pid, si-&gt;name, si-&gt;base);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="load_segments">load_segments</h5>
+<p>将每一个段加载进内存</p>
+<p>自然是遍历每个PT_LOAD的程序头</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (cnt = <span class="number">0</span>; cnt &lt; ehdr-&gt;e_phnum; ++cnt, ++phdr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (phdr-&gt;p_type == PT_LOAD) &#123;</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<p>将该段映射到地址空间，大小对齐到页，权限为程序头中的权限。此时的映射就不是匿名影射了，直接将so的文件映射过去，所以会在/proc/[pid]/maps中看到路径。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* we want to map in the segment on a page boundary */</span></span><br><span class="line">         tmp = base + (phdr-&gt;p_vaddr &amp; (~PAGE_MASK));</span><br><span class="line">         <span class="comment">/* add the # of bytes we masked off above to the total length. */</span></span><br><span class="line">         len = phdr-&gt;p_filesz + (phdr-&gt;p_vaddr &amp; PAGE_MASK);</span><br><span class="line"></span><br><span class="line">         TRACE(<span class="string">&quot;[ %d - Trying to load segment from &#x27;%s&#x27; @ 0x%08x &quot;</span></span><br><span class="line">               <span class="string">&quot;(0x%08x). p_vaddr=0x%08x p_offset=0x%08x ]\n&quot;</span>, pid, si-&gt;name,</span><br><span class="line">               (<span class="type">unsigned</span>)tmp, len, phdr-&gt;p_vaddr, phdr-&gt;p_offset);</span><br><span class="line">         pbase = mmap(tmp, len, PFLAGS_TO_PROT(phdr-&gt;p_flags),</span><br><span class="line">                      MAP_PRIVATE | MAP_FIXED, fd,</span><br><span class="line">                      phdr-&gt;p_offset &amp; (~PAGE_MASK));</span><br><span class="line">         <span class="keyword">if</span> ((len &amp; PAGE_MASK) &amp;&amp; (phdr-&gt;p_flags &amp; PF_W))</span><br><span class="line">             <span class="built_in">memset</span>((<span class="type">void</span> *)(pbase + len), <span class="number">0</span>, PAGE_SIZE - (len &amp; PAGE_MASK));</span><br></pre></td></tr></table></figure>
+<p>如果整个段的长度大于页的大小，则还要额外映射额外的长度。</p>
+<p>比如在这个例子中，第二个段的结束地址0x2d48+0x2c0 =
+0x3008，超出了当前页的大小0x3000，需要额外8字节的页</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Program Headers:</span><br><span class="line">  Type           Offset             VirtAddr           PhysAddr</span><br><span class="line">                 FileSiz            MemSiz              Flags  Align</span><br><span class="line">  LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000</span><br><span class="line">                 0x0000000000000d60 0x0000000000000d60  R E    0x1000</span><br><span class="line">  LOAD           0x0000000000001d48 0x0000000000002d48 0x0000000000002d48</span><br><span class="line">                 0x00000000000002c0 0x00000000000002c0  RW     0x1000</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">tmp = (<span class="type">unsigned</span> <span class="type">char</span> *)(((<span class="type">unsigned</span>)pbase + len + PAGE_SIZE - <span class="number">1</span>) &amp;</span><br><span class="line">                                 (~PAGE_MASK));</span><br><span class="line">         <span class="keyword">if</span> (tmp &lt; (base + phdr-&gt;p_vaddr + phdr-&gt;p_memsz)) &#123;</span><br><span class="line">             extra_len = base + phdr-&gt;p_vaddr + phdr-&gt;p_memsz - tmp;</span><br><span class="line">             TRACE(<span class="string">&quot;[ %5d - Need to extend segment from &#x27;%s&#x27; @ 0x%08x &quot;</span></span><br><span class="line">                   <span class="string">&quot;(0x%08x) ]\n&quot;</span>, pid, si-&gt;name, (<span class="type">unsigned</span>)tmp, extra_len);</span><br><span class="line">             <span class="comment">/* map in the extra page(s) as anonymous into the range.</span></span><br><span class="line"><span class="comment">              * This is probably not necessary as we already mapped in</span></span><br><span class="line"><span class="comment">              * the entire region previously, but we just want to be</span></span><br><span class="line"><span class="comment">              * sure. This will also set the right flags on the region</span></span><br><span class="line"><span class="comment">              * (though we can probably accomplish the same thing with</span></span><br><span class="line"><span class="comment">              * mprotect).</span></span><br><span class="line"><span class="comment">              */</span></span><br><span class="line">             extra_base = mmap((<span class="type">void</span> *)tmp, extra_len,</span><br><span class="line">                               PFLAGS_TO_PROT(phdr-&gt;p_flags),</span><br><span class="line">                               MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,</span><br><span class="line">                               <span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">             <span class="keyword">if</span> (extra_base == MAP_FAILED) &#123;</span><br><span class="line">                 DL_ERR(<span class="string">&quot;[ %5d - failed to extend segment from &#x27;%s&#x27; @ 0x%08x&quot;</span></span><br><span class="line">                        <span class="string">&quot; (0x%08x) ]&quot;</span>, pid, si-&gt;name, (<span class="type">unsigned</span>)tmp,</span><br><span class="line">                       extra_len);</span><br><span class="line">                 <span class="keyword">goto</span> fail;</span><br><span class="line">             &#125;</span><br><span class="line">             <span class="comment">/* <span class="doctag">TODO:</span> Check if we need to memset-0 this region.</span></span><br><span class="line"><span class="comment">              * Anonymous mappings are zero-filled copy-on-writes, so we</span></span><br><span class="line"><span class="comment">              * shouldn&#x27;t need to. */</span></span><br><span class="line">             TRACE(<span class="string">&quot;[ %5d - Segment from &#x27;%s&#x27; extended @ 0x%08x &quot;</span></span><br><span class="line">                   <span class="string">&quot;(0x%08x)\n&quot;</span>, pid, si-&gt;name, (<span class="type">unsigned</span>)extra_base,</span><br><span class="line">                   extra_len);</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<p>如果有写权限还要加上写权限：</p>
+<p>这里的pflag和prot中的读和执行权限和map的是反的，所以用了一个宏反了过来。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!(phdr-&gt;p_flags &amp; PF_W)) &#123;</span><br><span class="line">    <span class="keyword">if</span> ((<span class="type">unsigned</span>)pbase &lt; si-&gt;wrprotect_start)</span><br><span class="line">        si-&gt;wrprotect_start = (<span class="type">unsigned</span>)pbase;</span><br><span class="line">    <span class="keyword">if</span> (((<span class="type">unsigned</span>)pbase + len) &gt; si-&gt;wrprotect_end)</span><br><span class="line">        si-&gt;wrprotect_end = (<span class="type">unsigned</span>)pbase + len;</span><br><span class="line">    mprotect(pbase, len,</span><br><span class="line">             PFLAGS_TO_PROT(phdr-&gt;p_flags) | PROT_WRITE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>全部segments load完毕后，关闭文件，然后进行初始化。</p>
+<h4 id="init_library">init_library</h4>
+<p>这里主要要做的工作就是对共享库重定向，将其中的地址修改为正确地址。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> soinfo *</span><br><span class="line"><span class="title function_">init_library</span><span class="params">(soinfo *si)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> wr_offset = <span class="number">0xffffffff</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* At this point we know that whatever is loaded @ base is a valid ELF</span></span><br><span class="line"><span class="comment">     * shared library whose segments are properly mapped in. */</span></span><br><span class="line">    TRACE(<span class="string">&quot;[ %5d init_library base=0x%08x sz=0x%08x name=&#x27;%s&#x27;) ]\n&quot;</span>,</span><br><span class="line">          pid, si-&gt;base, si-&gt;size, si-&gt;name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(link_image(si, wr_offset)) &#123;</span><br><span class="line">            <span class="comment">/* We failed to link.  However, we can only restore libbase</span></span><br><span class="line"><span class="comment">            ** if no additional libraries have moved it since we updated it.</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">        munmap((<span class="type">void</span> *)si-&gt;base, si-&gt;size);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> si;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="link_image">link_image</h5>
+<p>link_image主要做这些事：</p>
+<p>首先遍历程序头，获取dynmic段的地址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (phdr-&gt;p_type == PT_DYNAMIC) &#123;</span><br><span class="line">             <span class="keyword">if</span> (si-&gt;dynamic != (<span class="type">unsigned</span> *)<span class="number">-1</span>) &#123;</span><br><span class="line">                 DL_ERR(<span class="string">&quot;%5d multiple PT_DYNAMIC segments found in &#x27;%s&#x27;. &quot;</span></span><br><span class="line">                       <span class="string">&quot;Segment at 0x%08x, previously one found at 0x%08x&quot;</span>,</span><br><span class="line">                       pid, si-&gt;name, si-&gt;base + phdr-&gt;p_vaddr,</span><br><span class="line">                       (<span class="type">unsigned</span>)si-&gt;dynamic);</span><br><span class="line">                 <span class="keyword">goto</span> fail;</span><br><span class="line">             &#125;</span><br><span class="line">             DEBUG_DUMP_PHDR(phdr, <span class="string">&quot;PT_DYNAMIC&quot;</span>, pid);</span><br><span class="line">             si-&gt;dynamic = (<span class="type">unsigned</span> *) (si-&gt;base + phdr-&gt;p_vaddr);</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<p>遍历Elf32_Dyn结构体数组，设置soinfo结构体成员。比较重要的内容有（注意这里说的地址都是相对虚拟地址）：</p>
+<p>DT_STRTAB：符号表字符串地址</p>
+<p>DT_SYMTAB：符号表地址</p>
+<p>DT_JMPREL，DT_PLTRELSZ：跳转重定向表及大小</p>
+<p>DT_RELA，DT_RELASZ：重定向表地址及大小</p>
+<p>DT_INIT_ARRAY，DT_INIT_ARRAYSZ，DT_FINI_ARRAY，DT_FINI_ARRAYSZ：init_array和fini_array的地址及信息</p>
+<p>这些地址信息都是在加载时需要重定向的，所以这里记录重定向后的地址，以便后续修改。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span>(d = si-&gt;dynamic; *d; d++)&#123;</span><br><span class="line">        DEBUG(<span class="string">&quot;%5d d = %p, d[0] = 0x%08x d[1] = 0x%08x\n&quot;</span>, pid, d, d[<span class="number">0</span>], d[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">switch</span>(*d++)&#123;</span><br><span class="line">        <span class="keyword">case</span> DT_HASH:</span><br><span class="line">            si-&gt;nbucket = ((<span class="type">unsigned</span> *) (si-&gt;base + *d))[<span class="number">0</span>];</span><br><span class="line">            si-&gt;nchain = ((<span class="type">unsigned</span> *) (si-&gt;base + *d))[<span class="number">1</span>];</span><br><span class="line">            si-&gt;bucket = (<span class="type">unsigned</span> *) (si-&gt;base + *d + <span class="number">8</span>);</span><br><span class="line">            si-&gt;chain = (<span class="type">unsigned</span> *) (si-&gt;base + *d + <span class="number">8</span> + si-&gt;nbucket * <span class="number">4</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_STRTAB:</span><br><span class="line">            si-&gt;strtab = (<span class="type">const</span> <span class="type">char</span> *) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_SYMTAB:</span><br><span class="line">            si-&gt;symtab = (Elf32_Sym *) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !defined(ANDROID_SH_LINKER)</span></span><br><span class="line">        <span class="keyword">case</span> DT_PLTREL:</span><br><span class="line">            <span class="keyword">if</span>(*d != DT_REL) &#123;</span><br><span class="line">                DL_ERR(<span class="string">&quot;DT_RELA not supported&quot;</span>);</span><br><span class="line">                <span class="keyword">goto</span> fail;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ANDROID_SH_LINKER</span></span><br><span class="line">        <span class="keyword">case</span> DT_JMPREL:</span><br><span class="line">            si-&gt;plt_rela = (Elf32_Rela*) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_PLTRELSZ:</span><br><span class="line">            si-&gt;plt_rela_count = *d / <span class="keyword">sizeof</span>(Elf32_Rela);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">        <span class="keyword">case</span> DT_JMPREL:</span><br><span class="line">            si-&gt;plt_rel = (Elf32_Rel*) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_PLTRELSZ:</span><br><span class="line">            si-&gt;plt_rel_count = *d / <span class="number">8</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        <span class="keyword">case</span> DT_REL:</span><br><span class="line">            si-&gt;rel = (Elf32_Rel*) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_RELSZ:</span><br><span class="line">            si-&gt;rel_count = *d / <span class="number">8</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ANDROID_SH_LINKER</span></span><br><span class="line">        <span class="keyword">case</span> DT_RELASZ:</span><br><span class="line">            si-&gt;rela_count = *d / <span class="keyword">sizeof</span>(Elf32_Rela);</span><br><span class="line">             <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        <span class="keyword">case</span> DT_PLTGOT:</span><br><span class="line">            <span class="comment">/* Save this in case we decide to do lazy binding. We don&#x27;t yet. */</span></span><br><span class="line">            si-&gt;plt_got = (<span class="type">unsigned</span> *)(si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_DEBUG:</span><br><span class="line">            <span class="comment">// Set the DT_DEBUG entry to the addres of _r_debug for GDB</span></span><br><span class="line">            *d = (<span class="type">int</span>) &amp;_r_debug;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ANDROID_SH_LINKER</span></span><br><span class="line">        <span class="keyword">case</span> DT_RELA:</span><br><span class="line">            si-&gt;rela = (Elf32_Rela *) (si-&gt;base + *d);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">         <span class="keyword">case</span> DT_RELA:</span><br><span class="line">            DL_ERR(<span class="string">&quot;%5d DT_RELA not supported&quot;</span>, pid);</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        <span class="keyword">case</span> DT_INIT:</span><br><span class="line">            si-&gt;init_func = (<span class="type">void</span> (*)(<span class="type">void</span>))(si-&gt;base + *d);</span><br><span class="line">            DEBUG(<span class="string">&quot;%5d %s constructors (init func) found at %p\n&quot;</span>,</span><br><span class="line">                  pid, si-&gt;name, si-&gt;init_func);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_FINI:</span><br><span class="line">            si-&gt;fini_func = (<span class="type">void</span> (*)(<span class="type">void</span>))(si-&gt;base + *d);</span><br><span class="line">            DEBUG(<span class="string">&quot;%5d %s destructors (fini func) found at %p\n&quot;</span>,</span><br><span class="line">                  pid, si-&gt;name, si-&gt;fini_func);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_INIT_ARRAY:</span><br><span class="line">            si-&gt;init_array = (<span class="type">unsigned</span> *)(si-&gt;base + *d);</span><br><span class="line">            DEBUG(<span class="string">&quot;%5d %s constructors (init_array) found at %p\n&quot;</span>,</span><br><span class="line">                  pid, si-&gt;name, si-&gt;init_array);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_INIT_ARRAYSZ:</span><br><span class="line">            si-&gt;init_array_count = ((<span class="type">unsigned</span>)*d) / <span class="keyword">sizeof</span>(Elf32_Addr);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_FINI_ARRAY:</span><br><span class="line">            si-&gt;fini_array = (<span class="type">unsigned</span> *)(si-&gt;base + *d);</span><br><span class="line">            DEBUG(<span class="string">&quot;%5d %s destructors (fini_array) found at %p\n&quot;</span>,</span><br><span class="line">                  pid, si-&gt;name, si-&gt;fini_array);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_FINI_ARRAYSZ:</span><br><span class="line">            si-&gt;fini_array_count = ((<span class="type">unsigned</span>)*d) / <span class="keyword">sizeof</span>(Elf32_Addr);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_PREINIT_ARRAY:</span><br><span class="line">            si-&gt;preinit_array = (<span class="type">unsigned</span> *)(si-&gt;base + *d);</span><br><span class="line">            DEBUG(<span class="string">&quot;%5d %s constructors (preinit_array) found at %p\n&quot;</span>,</span><br><span class="line">                  pid, si-&gt;name, si-&gt;preinit_array);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_PREINIT_ARRAYSZ:</span><br><span class="line">            si-&gt;preinit_array_count = ((<span class="type">unsigned</span>)*d) / <span class="keyword">sizeof</span>(Elf32_Addr);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> DT_TEXTREL:</span><br><span class="line">            <span class="comment">/* <span class="doctag">TODO:</span> make use of this. */</span></span><br><span class="line">            <span class="comment">/* this means that we might have to write into where the text</span></span><br><span class="line"><span class="comment">             * segment was loaded during relocation... Do something with</span></span><br><span class="line"><span class="comment">             * it.</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            DEBUG(<span class="string">&quot;%5d Text segment should be writable during relocation.\n&quot;</span>,</span><br><span class="line">                  pid);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>接下来处理动态链接库引入的动态链接库：</p>
+<p>找到type为DT_NEEDED的Dyn结构体，使用find_library加载该库。</p>
+<blockquote>
+<p>一开始这个函数名让我很困扰，实际上这就是上文中的find_library，这个函数的作用不过是像他名字一样寻找（已加载）的库，未找到时还要再加载它。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(d = si-&gt;dynamic; *d; d += <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(d[<span class="number">0</span>] == DT_NEEDED)&#123;</span><br><span class="line">        DEBUG(<span class="string">&quot;%5d %s needs %s\n&quot;</span>, pid, si-&gt;name, si-&gt;strtab + d[<span class="number">1</span>]);</span><br><span class="line">        soinfo *lsi = find_library(si-&gt;strtab + d[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">if</span>(lsi == <span class="number">0</span>) &#123;</span><br><span class="line">            strlcpy(tmp_err_buf, linker_get_error(), <span class="keyword">sizeof</span>(tmp_err_buf));</span><br><span class="line">            DL_ERR(<span class="string">&quot;%5d could not load needed library &#x27;%s&#x27; for &#x27;%s&#x27; (%s)&quot;</span>,</span><br><span class="line">                   pid, si-&gt;strtab + d[<span class="number">1</span>], si-&gt;name, tmp_err_buf);</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* Save the soinfo of the loaded DT_NEEDED library in the payload</span></span><br><span class="line"><span class="comment">           of the DT_NEEDED entry itself, so that we can retrieve the</span></span><br><span class="line"><span class="comment">           soinfo directly later from the dynamic segment.  This is a hack,</span></span><br><span class="line"><span class="comment">           but it allows us to map from DT_NEEDED to soinfo efficiently</span></span><br><span class="line"><span class="comment">           later on when we resolve relocations, trying to look up a symgol</span></span><br><span class="line"><span class="comment">           with dlsym().</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        d[<span class="number">1</span>] = (<span class="type">unsigned</span>)lsi;</span><br><span class="line">        lsi-&gt;refcount++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来是比较重要的重定向部分。我们知道，动态链接库里存放的都是相对虚拟地址，以及外部函数的符号。我们需要修复这些地址，将他改成真正的虚拟地址。</p>
+<p>安卓没有dl_resolve这个过程，load的时候JMPREL Relocation
+Table的过程都要直接加载好，所以还要修改这些地址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> ANDROID_SH_LINKER</span></span><br><span class="line">    <span class="keyword">if</span>(si-&gt;plt_rela) &#123;</span><br><span class="line">        DEBUG(<span class="string">&quot;[ %5d relocating %s plt ]\n&quot;</span>, pid, si-&gt;name );</span><br><span class="line">        <span class="keyword">if</span>(reloc_library_a(si, si-&gt;plt_rela, si-&gt;plt_rela_count))</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(si-&gt;rela) &#123;</span><br><span class="line">        DEBUG(<span class="string">&quot;[ %5d relocating %s ]\n&quot;</span>, pid, si-&gt;name );</span><br><span class="line">        <span class="keyword">if</span>(reloc_library_a(si, si-&gt;rela, si-&gt;rela_count))</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* ANDROID_SH_LINKER */</span></span></span><br></pre></td></tr></table></figure>
+<p>分析reloc_library_a：</p>
+<h6 id="reloc_library_a">reloc_library_a</h6>
+<p>遍历Elf32_Rela结构体数组。这里用到两个宏获取type和符号表的索引，并计算需要重定向的内容所在的地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> type = ELF32_R_TYPE(rela-&gt;r_info);</span><br><span class="line"><span class="type">unsigned</span> sym = ELF32_R_SYM(rela-&gt;r_info);</span><br><span class="line"><span class="type">unsigned</span> reloc = (<span class="type">unsigned</span>)(rela-&gt;r_offset + si-&gt;base);</span><br></pre></td></tr></table></figure>
+<p>如果是符号，获取符号字符串，然后_do_lookup寻找该符号对应的位置。这里使用哈希表实现的存储。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span>(sym != <span class="number">0</span>) &#123;</span><br><span class="line">            sym_name = (<span class="type">char</span> *)(strtab + symtab[sym].st_name);</span><br><span class="line">            s = _do_lookup(si, sym_name, &amp;base);</span><br><span class="line">            <span class="keyword">if</span>(s == <span class="number">0</span>) &#123;</span><br><span class="line">                DL_ERR(<span class="string">&quot;%5d cannot locate &#x27;%s&#x27;...&quot;</span>, pid, sym_name);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line">            <span class="keyword">if</span>((base == <span class="number">0</span>) &amp;&amp; (si-&gt;base != <span class="number">0</span>))&#123;</span><br><span class="line">                    <span class="comment">/* linking from libraries to main image is bad */</span></span><br><span class="line">                DL_ERR(<span class="string">&quot;%5d cannot locate &#x27;%s&#x27;...&quot;</span>,</span><br><span class="line">                       pid, strtab + symtab[sym].st_name);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">            <span class="keyword">if</span> ((s-&gt;st_shndx == SHN_UNDEF) &amp;&amp; (s-&gt;st_value != <span class="number">0</span>)) &#123;</span><br><span class="line">                DL_ERR(<span class="string">&quot;%5d In &#x27;%s&#x27;, shndx=%d &amp;&amp; value=0x%08x. We do not &quot;</span></span><br><span class="line">                      <span class="string">&quot;handle this yet&quot;</span>, pid, si-&gt;name, s-&gt;st_shndx,</span><br><span class="line">                      s-&gt;st_value);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            sym_addr = (<span class="type">unsigned</span>)(s-&gt;st_value + base);</span><br><span class="line">            COUNT_RELOC(RELOC_SYMBOL);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>最后根据type对内容进行修改，起作用的最重要的一句话为<code>*((unsigned*)reloc) += si-&gt;base;</code>，这句换完成了RVA到VA的转换，以及写入外部函数的地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(type)&#123;</span><br><span class="line"><span class="keyword">case</span> R_SH_JUMP_SLOT:</span><br><span class="line">    COUNT_RELOC(RELOC_ABSOLUTE);</span><br><span class="line">    MARK(rela-&gt;r_offset);</span><br><span class="line">    TRACE_TYPE(RELO, <span class="string">&quot;%5d RELO JMP_SLOT %08x &lt;- %08x %s\n&quot;</span>, pid,</span><br><span class="line">               reloc, sym_addr, sym_name);</span><br><span class="line">    *((<span class="type">unsigned</span>*)reloc) = sym_addr;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> R_SH_GLOB_DAT:</span><br><span class="line">    COUNT_RELOC(RELOC_ABSOLUTE);</span><br><span class="line">    MARK(rela-&gt;r_offset);</span><br><span class="line">    TRACE_TYPE(RELO, <span class="string">&quot;%5d RELO GLOB_DAT %08x &lt;- %08x %s\n&quot;</span>, pid,</span><br><span class="line">               reloc, sym_addr, sym_name);</span><br><span class="line">    *((<span class="type">unsigned</span>*)reloc) = sym_addr;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> R_SH_DIR32:</span><br><span class="line">    COUNT_RELOC(RELOC_ABSOLUTE);</span><br><span class="line">    MARK(rela-&gt;r_offset);</span><br><span class="line">    TRACE_TYPE(RELO, <span class="string">&quot;%5d RELO DIR32 %08x &lt;- %08x %s\n&quot;</span>, pid,</span><br><span class="line">               reloc, sym_addr, sym_name);</span><br><span class="line">    *((<span class="type">unsigned</span>*)reloc) += sym_addr;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> R_SH_RELATIVE:</span><br><span class="line">    COUNT_RELOC(RELOC_RELATIVE);</span><br><span class="line">    MARK(rela-&gt;r_offset);</span><br><span class="line">    <span class="keyword">if</span>(sym)&#123;</span><br><span class="line">        DL_ERR(<span class="string">&quot;%5d odd RELATIVE form...&quot;</span>, pid);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    TRACE_TYPE(RELO, <span class="string">&quot;%5d RELO RELATIVE %08x &lt;- +%08x\n&quot;</span>, pid,</span><br><span class="line">               reloc, si-&gt;base);</span><br><span class="line">    *((<span class="type">unsigned</span>*)reloc) += si-&gt;base;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    DL_ERR(<span class="string">&quot;%5d unknown reloc type %d @ %p (%d)&quot;</span>,</span><br><span class="line">          pid, type, rela, (<span class="type">int</span>) (rela - start));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>link_image的最后结尾，导入调试信息，这里暂时不分析了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notify_gdb_of_load(si);</span><br></pre></td></tr></table></figure>
+<p>这里是导入的动态链接库的构造函数，调用init_func，init_array。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call_constructors(si);</span><br></pre></td></tr></table></figure>
+<h2 id="自定义的dlopen与dlsym实现">自定义的dlopen与dlsym实现</h2>
+<h3 id="目标">目标</h3>
+<p>在这个demo中，我们需要了三个库libhelloworld.so、liblua.so、liblink.so。其中liblink.so是正常从Dalvic调用进来的，已经加载到了内存。libhelloworld.so中依赖liblua.so。libhellowrold.so中的函数helloworld()会调用liblua.so的函数，并且需要执行lua脚本。</p>
+<p>我们需要实现自己的dlopen和dlsym，加载libhelloworld.so，调用其中的helloworld，运行任意lua脚本。同时加载的libhelloworld.so不能在maps中显示。由于libhelloworld.so依赖了liblua.so，也需要加载这个so并且不能再maps显示。</p>
+<h3 id="思路">思路</h3>
+<p>理解了源码中linker的实现，自己在实现一个dlopen就不难了。经过分析，maps中之所以会显示动态链接库的路径，是因为第二次map每一个segments的时候是将文件映射到内存，并非匿名映射，所以maps中会显示地址。我们可以参考源码中dlopen的实现，在load_segment的时候不采用文件映射的方法，而是读取文件并写入内存，这样这段内存仍然是匿名映射，就不会显示我们加载的动态链接库了。</p>
+<p>需要实现的过程中很多地方需要注意，最重要的一点应该是对于重定向地址的修复，往往会忽略一些内容。对于data段存放的一些也需要重定向。注意考虑RELA和JMPREL中所有的类型。</p>
+<p>第二点，如果我们加载的动态链接库也需要加载新的动态链接库，这些库如果原先没加载，我们也要加载它并隐藏，所以要用同样的自己实现的dlopen加载它。目前的方案是，如果在maps中没搜到这个库，统一用my_dlopen加载。</p>
+<h3 id="遇到的问题">遇到的问题</h3>
+<ol type="1">
+<li>忽略了.data段也存放了需要重定向的地址，实际上就是要对重定向表中的每一个类型都进行处理。</li>
+<li>共享库加载共享库的问题。比如我们加载的库A，A还依赖库B，所以也要加载库B，否则对库B的引用都是RVA，无法正常运行。这里处理的时候是从maps中寻找，如果已经加载过这个库，则用libc的dlopen加载（经过分析dlopen的源码，同一个库是不会重复加载的）。如果（操作系统）没有加载过，则使用我们实现的mydlopen去加载这个库。</li>
+<li>编译时遇到的一些问题。主要是不太熟悉Cmake和C++。lua的源代码是用C写的，所以编译出来的符号表是正常的函数符号。而我在写libhelloworld.so时用的是C++，那么定义的函数名会附带符号修饰，那么就不能在C写的.so中找到对应的符号，所以link的时候会失败（比如我们要找一个叫<code>lua_tointegerx</code>的符号，而实际编译出来的符号是<code>_Z14lua_tointegerxP9lua_StateiPi</code>。</li>
+</ol>
+<h3 id="结果">结果</h3>
+<p>我们在apk的data目录下存放了一个add.lua脚本：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(x,y)</span></span></span><br><span class="line"><span class="keyword">return</span> x+y</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>libhelloworld.so中的helloworld函数负责调用liblua.so的lua函数，运行这个脚本并返回结果，然后在log中打印出来。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">helloworld</span><span class="params">()</span> &#123;</span><br><span class="line">    LOGD(<span class="string">&quot;call helloworld.&quot;</span>);</span><br><span class="line">    LOGD(<span class="string">&quot;gettimeofday at .data: %p&quot;</span>, fun1);</span><br><span class="line">    <span class="type">int</span> sum;</span><br><span class="line">    lua_State* L;</span><br><span class="line">    L = luaL_newstate();</span><br><span class="line">    luaopen_base(L);</span><br><span class="line">    luaL_dofile(L, <span class="string">&quot;/data/user/0/fun.apeng.test2/add.lua&quot;</span>);</span><br><span class="line">    lua_getglobal(L, <span class="string">&quot;add&quot;</span>);</span><br><span class="line">    lua_pushnumber(L, <span class="number">1</span>);</span><br><span class="line">    lua_pushnumber(L, <span class="number">2</span>);</span><br><span class="line">    lua_call(L, <span class="number">2</span>, <span class="number">1</span>);</span><br><span class="line">    sum = (<span class="type">int</span>)lua_tointeger(L, <span class="number">-1</span>);</span><br><span class="line">    lua_pop(L, <span class="number">1</span>);</span><br><span class="line">    LOGD(<span class="string">&quot;lua res:%d&quot;</span>, sum);</span><br><span class="line">    lua_close(L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行apk后，查看pid并查看/proc/[pid]/maps，grep一下只有liblinker.so，没有libhelloworld.so和liblua.so。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sagit:/ <span class="comment"># ps</span></span><br><span class="line">USER           PID  PPID     VSZ    RSS WCHAN            ADDR S NAME</span><br><span class="line">root          6689  4552   33528   1960 SyS_rt_si+          0 S sh</span><br><span class="line">root          6693  6689   36004   2312 0                   0 R ps</span><br><span class="line">sagit:/ <span class="comment"># ps -elf | grep test2</span></span><br><span class="line">u0_a121       6642   685 1 20:47:52 ?     00:00:00 fun.apeng.test2</span><br><span class="line">root          6695  6689 0 20:48:37 pts/1 00:00:00 grep test2</span><br><span class="line">sagit:/ <span class="comment"># cat /proc/6642/maps | grep liblinker.so</span></span><br><span class="line">75e6f53000-75e7030000 r-xp 00000000 103:01 1310751                       /data/app/fun.apeng.test2-VB49mv5fOQMEsLfO7U-EnA==/lib/arm64/liblinker.so</span><br><span class="line">75e7031000-75e7039000 r--p 000dd000 103:01 1310751                       /data/app/fun.apeng.test2-VB49mv5fOQMEsLfO7U-EnA==/lib/arm64/liblinker.so</span><br><span class="line">75e7039000-75e703a000 rw-p 000e5000 103:01 1310751                       /data/app/fun.apeng.test2-VB49mv5fOQMEsLfO7U-EnA==/lib/arm64/liblinker.so</span><br><span class="line">sagit:/ <span class="comment"># cat /proc/6642/maps | grep libhelloworld.so</span></span><br><span class="line">1|sagit:/ <span class="comment"># cat /proc/6642/maps | grep liblua.so</span></span><br><span class="line">1|sagit:/ <span class="comment">#                               </span></span><br></pre></td></tr></table></figure>
+<p>调用一下helloworld函数，log中正确显示了内容，表明正确调用了helloworld，执行了lua脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2020-07-10 15:50:36.433 6642-6642/fun.apeng.test2 D/HELLO: call helloworld.</span><br><span class="line">2020-07-10 15:50:36.433 6642-6642/fun.apeng.test2 D/HELLO: gettimeofday at .data: 0x76d09589fc</span><br><span class="line">2020-07-10 15:50:36.434 6642-6642/fun.apeng.test2 D/HELLO: lua res:3</span><br></pre></td></tr></table></figure>
+<p>再次查看maps，并没有发现libhelloworld.so和liblua.so</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sagit:/ <span class="comment"># cat /proc/6642/maps | grep libhelloworld.so</span></span><br><span class="line">1|sagit:/ <span class="comment"># cat /proc/6642/maps | grep liblua.so</span></span><br><span class="line">1|sagit:/ <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<h3 id="缺陷">缺陷</h3>
+<p>第一个主要缺陷：同一个库可能会重复加载，对于比较复杂的库可能会占用大量内存。在操作系统中保存了加载过的所有库，而我实现的dlopen都是分离的，暂时无法共享大家都加载过什么库。后续可以继续优化，考虑记录下我们加载过的库，再去这些库中寻找。</p>
+<p>第二个主要缺陷：新引入的库暂时是从同目录下寻找的，这样如果还要引入一些系统自带的库可能加载不到（比如测试时需要加载libc++_shared.so，就没有成功加载），可以考虑添加为在path中寻找并加载。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2020/07/11/android-linker/" title="Android linker运行机制分析">http://apeng.re/2020/07/11/android-linker/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/11/2020npointer-5/" rel="prev" title="2020 空指针 5月RE公开赛">
+                  <i class="fa fa-angle-left"></i> 2020 空指针 5月RE公开赛
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/11/my-android-linker/" rel="next" title="在Android上自己实现一个linker">
+                  在Android上自己实现一个linker <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

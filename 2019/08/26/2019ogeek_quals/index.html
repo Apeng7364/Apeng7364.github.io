@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最后排名第四，大哥们tql。 赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。 比赛时间：8月24-8月25日 下载地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 OGeek 线上赛">
+<meta property="og:url" content="http://apeng.re/2019/08/26/2019ogeek_quals/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="最后排名第四，大哥们tql。 赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。 比赛时间：8月24-8月25日 下载地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-25T16:05:34.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.024Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="8V">
+<meta property="article:tag" content="lz77">
+<meta property="article:tag" content="nisi">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2019/08/26/2019ogeek_quals/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2019/08/26/2019ogeek_quals/","path":"/2019/08/26/2019ogeek_quals/","title":"2019 OGeek 线上赛"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2019 OGeek 线上赛 | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#reverse"><span class="nav-number">1.</span> <span class="nav-text">Reverse</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#v"><span class="nav-number">1.1.</span> <span class="nav-text">8V</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyre"><span class="nav-number">1.2.</span> <span class="nav-text">babyre</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#king-of-kof"><span class="nav-number">1.3.</span> <span class="nav-text">King of KOF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mobile"><span class="nav-number">2.</span> <span class="nav-text">Mobile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mblockchain"><span class="nav-number">2.1.</span> <span class="nav-text">mblockchain</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2019/08/26/2019ogeek_quals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2019 OGeek 线上赛 | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2019 OGeek 线上赛
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-26 00:05:34" itemprop="dateCreated datePublished" datetime="2019-08-26T00:05:34+08:00">2019-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/" itemprop="url" rel="index"><span itemprop="name">CTF writeup</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/2019/" itemprop="url" rel="index"><span itemprop="name">2019</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最后排名第四，大哥们tql。</p>
+<p>赛题质量还不错。第一天跟X-NUCA冲突了，第二天匆忙做了几道题。时间不够有几题题目都没看到，再加上还在XMAN挖洞，整体时间非常赶。。。</p>
+<p>比赛时间：8月24-8月25日</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Apeng7364/ctf/tree/master/ctf2019/ogeek">下载地址</a></p>
+<span id="more"></span>
+<h1 id="reverse">Reverse</h1>
+<h2 id="v">8V</h2>
+<p>V8的汇编代码。</p>
+<p>简单的异或加密，每次异或密钥的值都会改变</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">res = <span class="string">&quot;\xd2\&quot;\xf1\x8d\xb7\xe0\xd0MF\x87T?\x1fI\x1c\xe7\xcb\x07\xc3\x95z\xb3z\x0b\xbb\xdb\xa1I\xc5;&quot;</span></span><br><span class="line">res = <span class="built_in">map</span>(<span class="built_in">ord</span>,<span class="built_in">list</span>(res))</span><br><span class="line">a3 = <span class="number">88</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    res[i] ^= a3</span><br><span class="line">    a3 *= <span class="number">65</span></span><br><span class="line">    a3 += <span class="number">66</span></span><br><span class="line">    a3 %=<span class="number">256</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>)[::-<span class="number">1</span>]:</span><br><span class="line">    res[i]^=a3</span><br><span class="line">    a3 *=<span class="number">35</span></span><br><span class="line">    a3 -=<span class="number">16</span></span><br><span class="line">    a3 %=<span class="number">256</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;&quot;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>,res)))</span><br></pre></td></tr></table></figure>
+<h2 id="babyre">babyre</h2>
+<p>lz77压缩算法，写出解压算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;output.file&quot;</span>,<span class="string">&quot;rb&quot;</span>)</span><br><span class="line">g = <span class="built_in">open</span>(<span class="string">&quot;input.file&quot;</span>,<span class="string">&quot;wb&quot;</span>)</span><br><span class="line">bits = <span class="string">&quot;&quot;</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">tmp = f.read(<span class="number">1</span>)</span><br><span class="line">tmpbuf = [<span class="number">0</span>]*<span class="number">0x11</span></span><br><span class="line">buf = [<span class="number">0</span>]*<span class="number">0x1000</span></span><br><span class="line">s = <span class="string">&quot;&quot;</span></span><br><span class="line">k = <span class="number">1</span></span><br><span class="line">count = <span class="number">1</span></span><br><span class="line">debug = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    </span><br><span class="line">    bit = <span class="built_in">ord</span>(tmp)</span><br><span class="line">    <span class="keyword">if</span> bit &amp; <span class="number">1</span>&lt;&lt;(<span class="number">7</span>-i):</span><br><span class="line">        tmp1 = f.read(<span class="number">1</span>)</span><br><span class="line">        bit1 = <span class="built_in">ord</span>(tmp1)</span><br><span class="line"></span><br><span class="line">        bit&lt;&lt;=(i+<span class="number">1</span>)</span><br><span class="line">        bit &amp;= <span class="number">0xff</span></span><br><span class="line">        bit |= (bit1&gt;&gt;(<span class="number">7</span>-i))</span><br><span class="line">        <span class="comment">#print(hex(bit),i,hex(ord(tmp)),hex(ord(tmp1)))</span></span><br><span class="line">        g.write(<span class="built_in">chr</span>(bit))</span><br><span class="line">        buf[count] = bit</span><br><span class="line">        count+=<span class="number">1</span></span><br><span class="line">        count %= <span class="number">0x1000</span></span><br><span class="line">        k+=<span class="number">1</span></span><br><span class="line">        k%=<span class="number">0x1000</span></span><br><span class="line">        s+=<span class="built_in">chr</span>(bit)</span><br><span class="line">        i = (i+<span class="number">1</span>)%<span class="number">8</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            tmp = f.read(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp = tmp1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        tmp1 = f.read(<span class="number">1</span>)</span><br><span class="line">        tmp2 = f.read(<span class="number">1</span>)</span><br><span class="line">        bit1 = <span class="built_in">ord</span>(tmp1)</span><br><span class="line">        bit2 = <span class="built_in">ord</span>(tmp2)</span><br><span class="line">        m = (bit&amp;((<span class="number">1</span>&lt;&lt;(<span class="number">7</span>-i))-<span class="number">1</span>))&lt;&lt;(<span class="number">5</span>+i)</span><br><span class="line">        m&amp;=<span class="number">0xFFF</span></span><br><span class="line">        <span class="keyword">if</span> i &lt;=<span class="number">3</span>:</span><br><span class="line">            m |= (bit1 &gt;&gt;(<span class="number">3</span>-i))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m |= (bit1 &lt;&lt; (i-<span class="number">3</span>))</span><br><span class="line">            m |= bit2 &gt;&gt; (<span class="number">8</span>-(i-<span class="number">3</span>))</span><br><span class="line">        <span class="keyword">if</span> i&lt;=<span class="number">3</span>:</span><br><span class="line">            l = bit1 &amp; ((<span class="number">1</span>&lt;&lt;(<span class="number">3</span>-i))-<span class="number">1</span>)</span><br><span class="line">            l &lt;&lt;= (<span class="number">1</span>+i)</span><br><span class="line">            l |= (bit2 &gt;&gt; (<span class="number">8</span>-(<span class="number">1</span>+i)))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l = bit2 &gt;&gt; ((<span class="number">8</span>-(i-<span class="number">3</span>))-<span class="number">4</span>)</span><br><span class="line">        l &amp;= <span class="number">0b1111</span></span><br><span class="line">        i = (i+<span class="number">1</span>)%<span class="number">8</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            tmp = f.read(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp = tmp2</span><br><span class="line"><span class="comment">#         if debug&lt;10:</span></span><br><span class="line"><span class="comment">#             print(l,m,hex(bit),i)</span></span><br><span class="line"><span class="comment">#             if debug == 6:</span></span><br><span class="line"><span class="comment">#                 print(buf)</span></span><br><span class="line"><span class="comment">#             debug+=1</span></span><br><span class="line"><span class="comment">#         else:</span></span><br><span class="line"><span class="comment">#             break</span></span><br><span class="line">        l+=<span class="number">2</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(l):</span><br><span class="line">            buf[(count+j)%<span class="number">0x1000</span>] = buf[(m+j)%<span class="number">0x1000</span>]</span><br><span class="line">            <span class="comment">#print(buf[(m+j)%0x1000])</span></span><br><span class="line">            g.write(<span class="built_in">chr</span>(buf[(m+j)%<span class="number">0x1000</span>]))</span><br><span class="line">        count+=l</span><br><span class="line">        count%=<span class="number">0x1000</span></span><br><span class="line">        k = <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>解压后打开bmp得到flag</p>
+<h2 id="king-of-kof">King of KOF</h2>
+<p>一个KOF的安装包。一开始不知道安装包是nisi，硬调的。</p>
+<p>注意到<code>40B5A8</code>和<code>40BDA8</code>是用来存放临时字符串的。</p>
+<p><code>sub_401434</code>是nisi的解释器。</p>
+<p>安装后需要输入注册码。查找字符串查不到提示语。</p>
+<p>用CE查找UTF16字符串，很快能找到提示语。在附近观察字符串，注意到一些比较有用的信息：<code>这是注册码</code>，注册码校验失败后的提示信息，<code>fnCheck</code>，<code>fnKoF97</code>，<code>Base64Encode</code>，一些提示输入flag的提示语，还有一串base64字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cYZ1KIjhiR7Ol4RN9c0Xh7XryYfUD7A0m96h0/MQMI45mVhgTAnAtENpnzVKhfDZpVzfuiCBx5+BctkWo0GfU5qIYQV1bnFbNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1zYqDbEN0VbXNioNsQ3RVtc2Kg2xDdFW1w=</span><br></pre></td></tr></table></figure>
+<p>b64decode再hexencoe得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7186752888e1891ece97844df5cd1787b5ebc987d40fb0349bdea1d3f310308e399958604c09c0b443699f354a85f0d9a55cdfba2081c79f8172d916a3419f539a886105756e715b36c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5cd8a836c437455b5c</span><br></pre></td></tr></table></figure>
+<p>可以看到，后面有一长串8个字符重复，估计都是同样的字符加密，padding长度是8，估计都是由''*8加密得到的密文。分组长度为8的加密一开始想到的就是des，但是没有密钥。</p>
+<p>跟踪调试几步后，发现在<code>40B5A8</code>和<code>40BDA8</code>对比了输入和常量，常量是用UTF-16存储的，之前的字符串<code>这是注册码</code>就是注册码</p>
+<p>之后校验flag的部分比较复杂，观察这两个地方的数据，注意到在<code>user\AppData\Local\Temp\nsiF181.tmp</code>目录创建了一些临时dll。同时从0-255遍历每个字符，可能是获取字符的ascii的utf-16值？遍历完所有后跟踪不久可以发现多了一个奇怪的KOF91.dll</p>
+<p>复制出来ida打开，发现加了壳，不过是比较简单的壳。</p>
+<p>重新开始调试，这次在输入flag之后，x86dbg选项中打开加载dll后中断，可以看到KOF97.dll被加载了，入口点在8000，81C4壳的代码执行完成。这时候就可以用插件把dlldump下来了。</p>
+<p>dump后发现fnCheck与fnKoF97两个函数。这两个就是校验与加密函数，加密算法是TEA，密钥在算法内。用它来解密之前的密文，得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dj_eyucjamkc]rm]rfc]emmb+mjb+b_wq&#123;</span><br></pre></td></tr></table></figure>
+<p>发现前四个字符和flag字符偏移固定为2，是个凯撒密码，加密可能在之前的nisi里面。修正一下得到flag</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdlib.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdint.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">decrypt</span> <span class="params">(<span class="type">uint32_t</span> v[<span class="number">2</span>], <span class="type">uint32_t</span> k[<span class="number">4</span>])</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> v0=v[<span class="number">0</span>], v1=v[<span class="number">1</span>], sum=<span class="number">0xC6EF3720</span>, i;  <span class="comment">/* set up; sum is 32*delta */</span></span><br><span class="line">    <span class="type">uint32_t</span> delta=<span class="number">0x9E3779B9</span>;                     <span class="comment">/* a key schedule constant */</span></span><br><span class="line">    <span class="type">uint32_t</span> k0=k[<span class="number">0</span>], k1=k[<span class="number">1</span>], k2=k[<span class="number">2</span>], k3=k[<span class="number">3</span>];   <span class="comment">/* cache key */</span></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">32</span>; i++) &#123;                         <span class="comment">/* basic cycle start */</span></span><br><span class="line">        v1 -= ((v0&lt;&lt;<span class="number">4</span>) + k2) ^ (v0 + sum) ^ ((v0&gt;&gt;<span class="number">5</span>) + k3);</span><br><span class="line">        v0 -= ((v1&lt;&lt;<span class="number">4</span>) + k0) ^ (v1 + sum) ^ ((v1&gt;&gt;<span class="number">5</span>) + k1);</span><br><span class="line">        sum -= delta;</span><br><span class="line">    &#125;                                              <span class="comment">/* end cycle */</span></span><br><span class="line">    v[<span class="number">0</span>]=v0; v[<span class="number">1</span>]=v1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint32_t</span> key[<span class="number">4</span>] = &#123;<span class="number">0x20776F77</span>,<span class="number">0x20756F79</span>,<span class="number">0x646E6966</span>,<span class="number">0x21656D20</span>&#125;;</span><br><span class="line">    <span class="type">uint8_t</span> cipher[] = &#123;<span class="number">113</span>, <span class="number">134</span>, <span class="number">117</span>, <span class="number">40</span>, <span class="number">136</span>, <span class="number">225</span>, <span class="number">137</span>, <span class="number">30</span>, <span class="number">206</span>, <span class="number">151</span>, <span class="number">132</span>, <span class="number">77</span>, <span class="number">245</span>, <span class="number">205</span>, <span class="number">23</span>, <span class="number">135</span>, <span class="number">181</span>, <span class="number">235</span>, <span class="number">201</span>, <span class="number">135</span>, <span class="number">212</span>, <span class="number">15</span>, <span class="number">176</span>, <span class="number">52</span>, <span class="number">155</span>, <span class="number">222</span>, <span class="number">161</span>, <span class="number">211</span>, <span class="number">243</span>, <span class="number">16</span>, <span class="number">48</span>, <span class="number">142</span>, <span class="number">57</span>, <span class="number">153</span>, <span class="number">88</span>, <span class="number">96</span>, <span class="number">76</span>, <span class="number">9</span>, <span class="number">192</span>, <span class="number">180</span>, <span class="number">67</span>, <span class="number">105</span>, <span class="number">159</span>, <span class="number">53</span>, <span class="number">74</span>, <span class="number">133</span>, <span class="number">240</span>, <span class="number">217</span>, <span class="number">165</span>, <span class="number">92</span>, <span class="number">223</span>, <span class="number">186</span>, <span class="number">32</span>, <span class="number">129</span>, <span class="number">199</span>, <span class="number">159</span>, <span class="number">129</span>, <span class="number">114</span>, <span class="number">217</span>, <span class="number">22</span>, <span class="number">163</span>, <span class="number">65</span>, <span class="number">159</span>, <span class="number">83</span>, <span class="number">154</span>, <span class="number">136</span>, <span class="number">97</span>, <span class="number">5</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">113</span>, <span class="number">91</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>, <span class="number">54</span>, <span class="number">196</span>, <span class="number">55</span>, <span class="number">69</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">216</span>, <span class="number">168</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">uint32_t</span> *p = (<span class="type">uint32_t</span>*)cipher;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;<span class="number">30</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        decrypt(p,key);</span><br><span class="line">        p+=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;<span class="number">240</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(cipher[i]!=<span class="number">0</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,cipher[i]+<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="mobile">Mobile</h1>
+<h2 id="mblockchain">mblockchain</h2>
+<p>jadx打开后看java代码。</p>
+<p>需要输入key和flag。key算一次md5后，取其中的三个字符再md5，md5值作为aes的key加密flag，之后重复md5之前的哈希作为key继续加密9次，一共十次。爆破这三个字符即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">foundpad = <span class="string">&quot;\x10&quot;</span>*<span class="number">16</span></span><br><span class="line"></span><br><span class="line">cipher = <span class="string">&quot;74f0b165db8a628716b53a9d4f6405980db2f833afa1ed5eeb4304c5220bdc0b541f857a7348074b2a7775d691e71b490402621e8a53bad4cf7ad4fcc15f20a8066e087fc1b2ffb21c27463b5737e34738a6244e1630d8fa1bf4f38b7e71d707425c8225f240f4bd2b03d6c2471e900b75154eb6f9dfbdf5a4eca9de5163f9b3ee82959f166924e8ad5f1d744c51416a1db89638bb4d1411aa1b1307d88c1fb5&quot;</span>.decode(<span class="string">&quot;hex&quot;</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">cipherpad = cipher[-16:]</span></span><br><span class="line"><span class="string">for i in range(240,256):</span></span><br><span class="line"><span class="string">    print(i)</span></span><br><span class="line"><span class="string">    for j in range(256):</span></span><br><span class="line"><span class="string">        for k in range(256):</span></span><br><span class="line"><span class="string">            key = chr(i) + chr(j) + chr(k)</span></span><br><span class="line"><span class="string">            ck = key</span></span><br><span class="line"><span class="string">            for _ in range(10):</span></span><br><span class="line"><span class="string">                ck = md5(ck).digest()</span></span><br><span class="line"><span class="string">            aes = AES.new(ck,mode = AES.MODE_ECB)</span></span><br><span class="line"><span class="string">            cp = aes.decrypt(cipherpad)</span></span><br><span class="line"><span class="string">            if cp == foundpad:</span></span><br><span class="line"><span class="string">                print(cp.encode(&quot;hex&quot;))</span></span><br><span class="line"><span class="string">                print(ck.encode(&quot;hex&quot;))</span></span><br><span class="line"><span class="string">                print(i,j,k)</span></span><br><span class="line"><span class="string">                exit()</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">key = <span class="built_in">chr</span>(<span class="number">241</span>) + <span class="built_in">chr</span>(<span class="number">183</span>) + <span class="built_in">chr</span>(<span class="number">36</span>)</span><br><span class="line">subkey = []</span><br><span class="line">ck = key</span><br><span class="line"><span class="keyword">for</span> i  <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    subkey.append(md5(ck).digest())</span><br><span class="line">    ck = md5(ck).digest()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    ck = subkey[<span class="number">9</span>-i]</span><br><span class="line">    aes = AES.new(ck)</span><br><span class="line">    cipher = aes.decrypt(cipher)</span><br><span class="line"><span class="built_in">print</span>(cipher)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2019/08/26/2019ogeek_quals/" title="2019 OGeek 线上赛">http://apeng.re/2019/08/26/2019ogeek_quals/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/8V/" rel="tag"># 8V</a>
+              <a href="/tags/lz77/" rel="tag"># lz77</a>
+              <a href="/tags/nisi/" rel="tag"># nisi</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/19/2019suctf/" rel="prev" title="2019 SUCTF">
+                  <i class="fa fa-angle-left"></i> 2019 SUCTF
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/09/01/2019xnuca_quals/" rel="next" title="2019 X-NUCA 线上赛">
+                  2019 X-NUCA 线上赛 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

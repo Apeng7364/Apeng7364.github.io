@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="做了下空指针公开赛的逆向题，做到三分之一左右遇到知识盲区就做不下去了，我太菜了。。。后面看了下官方wp才解决了知识盲区。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="空指针3月公开赛write up">
+<meta property="og:url" content="http://apeng.re/2020/03/11/2020npointer-3/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="做了下空指针公开赛的逆向题，做到三分之一左右遇到知识盲区就做不下去了，我太菜了。。。后面看了下官方wp才解决了知识盲区。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T13:01:39.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.112Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="花指令">
+<meta property="article:tag" content="graph">
+<meta property="article:tag" content="wow64">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2020/03/11/2020npointer-3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2020/03/11/2020npointer-3/","path":"/2020/03/11/2020npointer-3/","title":"空指针3月公开赛write up"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>空指针3月公开赛write up | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2020/03/11/2020npointer-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="空指针3月公开赛write up | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          空指针3月公开赛write up
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-11 21:01:39" itemprop="dateCreated datePublished" datetime="2020-03-11T21:01:39+08:00">2020-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/" itemprop="url" rel="index"><span itemprop="name">CTF writeup</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/2020/" itemprop="url" rel="index"><span itemprop="name">2020</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>做了下空指针公开赛的逆向题，做到三分之一左右遇到知识盲区就做不下去了，我太菜了。。。后面看了下官方wp才解决了知识盲区。。。</p>
+<span id="more"></span>
+<p>一打开套了个UPX壳，直接脱掉。</p>
+<p>主逻辑在<code>sub_123413B0</code></p>
+<p>稍微看一下就能发现一些花指令，模式是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">call $+9</span><br><span class="line">db</span><br><span class="line">jmp $+9</span><br><span class="line">db</span><br><span class="line">add dword ptr [esp], 1</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+<p>还有</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jmp $+5</span><br><span class="line">db</span><br><span class="line">retn</span><br><span class="line">db</span><br><span class="line">call $-2</span><br></pre></td></tr></table></figure>
+<p>这部分的去花脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">next_instr</span>(<span class="params">addr</span>):</span><br><span class="line">    <span class="keyword">return</span> addr+ItemSize(addr)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">patch_nop</span>(<span class="params">begin,end</span>):</span><br><span class="line">    <span class="keyword">while</span>(end&gt;begin):</span><br><span class="line">        PatchByte(begin,<span class="number">0x90</span>)</span><br><span class="line">        begin=begin+<span class="number">1</span></span><br><span class="line">    MakeCode(begin)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">undefine</span>(<span class="params">addr, end</span>):</span><br><span class="line">    <span class="keyword">while</span> addr&lt;end:</span><br><span class="line">        MakeUnkn(addr, <span class="number">0</span>)</span><br><span class="line">        addr += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dejunk</span>(<span class="params">addr, end</span>):</span><br><span class="line">    <span class="keyword">while</span> addr &lt; end:</span><br><span class="line">        MakeCode(addr)</span><br><span class="line">        <span class="built_in">next</span> = next_instr(addr)</span><br><span class="line">        <span class="keyword">if</span> GetMnem(addr) == <span class="string">&#x27;call&#x27;</span>:</span><br><span class="line">            <span class="keyword">if</span> GetOperandValue(addr, <span class="number">0</span>) == addr + <span class="number">9</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;call jmp ret: %08x&quot;</span>%addr)</span><br><span class="line">                <span class="built_in">next</span> = addr + <span class="number">15</span></span><br><span class="line">                patch_nop(addr, <span class="built_in">next</span>)</span><br><span class="line">                addr = <span class="built_in">next</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">elif</span> GetOperandValue(addr, <span class="number">0</span>) == addr + <span class="number">6</span> <span class="keyword">and</span> GetDisasm(addr + <span class="number">6</span>) == <span class="string">&quot;add     esp, 4&quot;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;call add esp: %08x&quot;</span>%addr)</span><br><span class="line">                <span class="built_in">next</span> = addr + <span class="number">9</span></span><br><span class="line">                patch_nop(addr, <span class="built_in">next</span>)</span><br><span class="line">                addr = <span class="built_in">next</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> GetMnem(addr) == <span class="string">&#x27;jmp&#x27;</span> <span class="keyword">and</span> GetOperandValue(addr, <span class="number">0</span>) == addr + <span class="number">5</span> <span class="keyword">and</span> Byte(addr+<span class="number">3</span>) == <span class="number">0xC3</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;jmp ret call: %08x&#x27;</span>%addr)</span><br><span class="line">            <span class="built_in">next</span> = addr + <span class="number">10</span></span><br><span class="line">            patch_nop(addr, <span class="built_in">next</span>)</span><br><span class="line">            addr = <span class="built_in">next</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        addr = <span class="built_in">next</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dejunk(<span class="number">0x123413B0</span>, <span class="number">0x1234165D</span>)</span><br><span class="line">undefine(<span class="number">0x123413B0</span>, <span class="number">0x1234165D</span>)</span><br><span class="line">MakeCode(<span class="number">0x123413B0</span>)</span><br></pre></td></tr></table></figure>
+<p>去除后：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sub_123413B0</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">char</span> *input; <span class="comment">// [esp+6Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  show(<span class="number">0</span>);</span><br><span class="line">  input = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="built_in">strlen</span>(<span class="string">&quot;npointer&#123;&quot;</span>) + <span class="built_in">strlen</span>(<span class="string">&quot;&#125;&quot;</span>) + <span class="number">33</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Input the correct keys: &quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, input);</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">memcmp</span>(input, <span class="string">&quot;npointer&#123;&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;npointer&#123;&quot;</span>))</span><br><span class="line">    &amp;&amp; input[<span class="built_in">strlen</span>(input) - <span class="number">1</span>] == asc_12343738[<span class="number">0</span>]<span class="comment">// &#125;</span></span><br><span class="line">    &amp;&amp; (input[<span class="built_in">strlen</span>(input) - <span class="number">1</span>] = <span class="number">0</span>, check((<span class="type">int</span>)&amp;code, <span class="number">0x30D3</span>u), v0) )</span><br><span class="line">  &#123;</span><br><span class="line">    show(<span class="number">1u</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Congrats!\n&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sorry, the gate remains closed.\n&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>逻辑很简单，主要看<code>check</code>函数</p>
+<p>check依然加了花，结尾多了一种花指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">call $+6</span><br><span class="line">db</span><br><span class="line">add esp, 4</span><br></pre></td></tr></table></figure>
+<p>去除后的check函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">check</span><span class="params">(<span class="type">int</span> code, SIZE_T size, <span class="type">int</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">  HANDLE v4; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// ST38_4</span></span><br><span class="line">  LPVOID Dst; <span class="comment">// [esp+1Ch] [ebp-14h]</span></span><br><span class="line"></span><br><span class="line">  Dst = VirtualAlloc(<span class="number">0</span>, size, <span class="number">0x3000</span>u, <span class="number">0x40</span>u);</span><br><span class="line">  <span class="keyword">if</span> ( !Dst )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">memcpy</span>(Dst, (<span class="type">const</span> <span class="type">void</span> *)code, size);</span><br><span class="line">  v4 = GetCurrentProcess();</span><br><span class="line">  FlushInstructionCache(v4, Dst, size);</span><br><span class="line">  check_env();</span><br><span class="line">  v5 = ((<span class="type">int</span> (__fastcall *)(_DWORD, <span class="type">int</span>))Dst)(<span class="number">0</span>, flag);</span><br><span class="line">  VirtualFree(Dst, <span class="number">0</span>, <span class="number">0x8000</span>u);</span><br><span class="line">  <span class="keyword">return</span> v5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分配内存，拷贝code。简单看下check_env</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">signed</span> <span class="type">int</span> <span class="title function_">anti_debug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> i; <span class="comment">// [esp+10h] [ebp-1Ch]</span></span><br><span class="line">  <span class="type">char</span> *PBuffer; <span class="comment">// [esp+14h] [ebp-18h]</span></span><br><span class="line">  <span class="type">size_t</span> PBufferSizeInBytes; <span class="comment">// [esp+18h] [ebp-14h]</span></span><br><span class="line">  <span class="type">char</span> VarName[<span class="number">4</span>]; <span class="comment">// [esp+1Ch] [ebp-10h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [esp+20h] [ebp-Ch]</span></span><br><span class="line">  __int16 v6; <span class="comment">// [esp+24h] [ebp-8h]</span></span><br><span class="line">  <span class="type">char</span> v7; <span class="comment">// [esp+26h] [ebp-6h]</span></span><br><span class="line"></span><br><span class="line">  *(_DWORD *)VarName = <span class="number">0</span>;</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  v6 = <span class="number">0</span>;</span><br><span class="line">  v7 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">0xB</span>; ++i )</span><br><span class="line">    VarName[i] = ~byte_1234686C[i];</span><br><span class="line">  <span class="keyword">if</span> ( dupenv_s(&amp;PBuffer, &amp;PBufferSizeInBytes, VarName) )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( !PBuffer )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">free</span>(PBuffer);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>1234686c</code>取反出来是<code>WINDBG_DIR</code>，一般反调试不会只加个windbg进黑名单（因为IDA和x86dbg用的比较多，至少我是这样的。。。），而且这种反调试非常明显。其实这里算是一个hint吧</p>
+<p>所以最重要的部分在code里面，也就是<code>12343798</code></p>
+<p>在跳转到这里之前，还给一些寄存器赋了值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># ebx: length of input</span><br><span class="line"># ecx: idx, initialize to zero</span><br><span class="line"># edx: input</span><br><span class="line"># edi: base_addr</span><br></pre></td></tr></table></figure>
+<p>分析一下<code>12343798</code>开始的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.rdata:12343798                 cmp     ecx, ebx</span><br><span class="line">.rdata:1234379A                 jge     short loc_123437A3</span><br><span class="line">.rdata:1234379C                 mov     al, [edx+ecx]</span><br><span class="line">.rdata:1234379F                 cmp     al, 66h</span><br><span class="line">.rdata:123437A1                 jz      short loc_123437A6</span><br><span class="line">.rdata:123437A3</span><br><span class="line">.rdata:123437A3 loc_123437A3:                           ; CODE XREF: .rdata:1234379A↑j</span><br><span class="line">.rdata:123437A3                 xor     eax, eax</span><br><span class="line">.rdata:123437A5                 retn</span><br><span class="line">.rdata:123437A6 ; -----------------------------------------------------------------</span><br><span class="line">.rdata:123437A6</span><br><span class="line">.rdata:123437A6 loc_123437A6:                           ; CODE XREF: .rdata:123437A1↑j</span><br><span class="line">.rdata:123437A6                 push    75h</span><br><span class="line">.rdata:123437A8                 xor     dword ptr [esp], 46h</span><br><span class="line">.rdata:123437AC                 call    loc_123437B2</span><br><span class="line">.rdata:123437AC ; -----------------------------------------------------------------</span><br><span class="line">.rdata:123437B1                 db  8Eh</span><br><span class="line">.rdata:123437B2 ; -----------------------------------------------------------------</span><br><span class="line">.rdata:123437B2</span><br><span class="line">.rdata:123437B2 loc_123437B2:                           ; CODE XREF: .rdata:123437AC↑j</span><br><span class="line">.rdata:123437B2                 mov     dword ptr [esp], 49Eh</span><br><span class="line">.rdata:123437B9                 add     [esp], edi</span><br><span class="line">.rdata:123437BC                 inc     ecx</span><br><span class="line">.rdata:123437BD                 retf</span><br></pre></td></tr></table></figure>
+<p>首先对比第一位需要为<code>f</code>，接下来的代码比较关键：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">push	75h</span><br><span class="line">xor     dword ptr [esp], 46h</span><br><span class="line">db</span><br><span class="line">call 	$+6</span><br><span class="line">mov 	dword ptr [esp], 49Eh</span><br><span class="line">add		[esp], edi</span><br><span class="line">inc		ecx</span><br><span class="line">retf</span><br></pre></td></tr></table></figure>
+<p>这里其实也是花指令，稍作分析这段代码等价于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">push	33h</span><br><span class="line">push 	49Eh		; 下面这两句相当于push (edi+49eh)</span><br><span class="line">add		[esp], edi	</span><br><span class="line">inc		ecx			</span><br><span class="line">retf</span><br></pre></td></tr></table></figure>
+<p>自认为我的汇编基本功还是可以的，最早是看的王爽的《汇编语言》这本书，从8086学过来，所以还认得retf这条指令。这时在16位以下才用得到的，它相当于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pop		ip</span><br><span class="line">pop		cs</span><br></pre></td></tr></table></figure>
+<p>也就是在16位汇编下跳转到<code>cs:ip</code>地址处。</p>
+<p>然而这里是32位，据我所知32位以上段寄存器不再被用来指向段了。那么被用来做什么呢，这我倒是没想过。然后就因为这个知识盲区卡住做不下去了QAQ</p>
+<p>强行往下看，下面的代码十分的奇怪，基本看不出什么意义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.rdata:123437BE                 dec     eax</span><br><span class="line">.rdata:123437BF                 cmp     ecx, ebx</span><br><span class="line">.rdata:123437C1                 jge     short loc_123437D6</span><br><span class="line">.rdata:123437C3                 mov     al, [si]</span><br><span class="line">.rdata:123437C6                 or      bh, [ebx+esi]</span><br><span class="line">.rdata:123437C9                 jz      short loc_12343823</span><br><span class="line">.rdata:123437CB                 call    near ptr sub_123437D2</span><br><span class="line">.rdata:123437D0                 jno     short near ptr loc_123437B9+1</span><br><span class="line">.rdata:123437D2</span><br><span class="line">.rdata:123437D2 ; =============== S U B R O U T I N E =======================================</span><br><span class="line">.rdata:123437D2</span><br><span class="line">.rdata:123437D2</span><br><span class="line">.rdata:123437D2 sub_123437D2    proc far                ; CODE XREF: .rdata:123437CB↑p</span><br><span class="line">.rdata:123437D2</span><br><span class="line">.rdata:123437D2 var_8           = dword ptr -8</span><br><span class="line">.rdata:123437D2 arg_0           = dword ptr  8</span><br><span class="line">.rdata:123437D2</span><br><span class="line">.rdata:123437D2                 dec     eax</span><br><span class="line">.rdata:123437D3                 add     esp, 8</span><br><span class="line">.rdata:123437D6</span><br><span class="line">.rdata:123437D6 loc_123437D6:                           ; CODE XREF: .rdata:123437C1↑j</span><br><span class="line">.rdata:123437D6                 dec     eax</span><br><span class="line">.rdata:123437D7                 xor     eax, eax</span><br><span class="line">.rdata:123437D9                 call    loc_123437DF</span><br></pre></td></tr></table></figure>
+<p>没办法，最后尝试调试。用x86dbg调试到前面都没问题，retf后发现先断到ntdll中，然后莫名来到0x20511这里了（这里VirtualAlloc分配的基地址是0x20000，即源代码中的<code>12343CA9</code>，又是莫名其妙。</p>
+<p>我一度认为这里存在代码自修改，因此找了挺久有没有漏掉的地方，然后一无所获就放弃了</p>
+<p>等到官方wp放出来才恍然大悟。</p>
+<blockquote>
+<p>其实如果做题的时候搜索一下关键字cs
+0x33就会有所收获，可能做题不在状态，或者还是菜。。。</p>
+</blockquote>
+<p>原来cs 0x33的作用是把windows进程从32位切换为64位。</p>
+<p>我们知道64位windows运行32位程序是在WoW64上的（这是Windows 32-bit on
+Windows
+64-bit的缩写，所以WoW64才是32位）。WoW64既然是Windows的子系统，就应该可以在WoW64上运行64位的代码。cs
+0x33就是干这个的。运行32位代码的时候是cs 0x23，64位则是cs
+0x33，只要改变cs为33就能够实现切换，本题中这段代码就是干这个事的。</p>
+<p>懂了这点后就能继续往下做了。那么根据逻辑接下来来到base+0x49e处。</p>
+<p>这里就很蛋疼了，由于我们使用ida32打开这个程序的，所以暂时没办法在ida中直接看64位代码。我们借助capstone这个逆向神器，直接在ida的python中看看这些代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> capstone <span class="keyword">import</span> *</span><br><span class="line">md_64 = Cs(CS_ARCH_X86, CS_MODE_64)</span><br><span class="line">md_32 = Cs(CS_ARCH_X86, CS_MODE_32)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_string</span>(<span class="params">addr, <span class="built_in">len</span></span>):</span><br><span class="line">    res = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>):</span><br><span class="line">        res += <span class="built_in">chr</span>(Byte(addr + i))</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">d64</span>(<span class="params">addr, <span class="built_in">len</span>=<span class="number">20</span></span>):</span><br><span class="line">    <span class="keyword">global</span> md_64</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;========================================================&quot;</span>)</span><br><span class="line">    base = <span class="number">0</span></span><br><span class="line">    code_x64 = get_string(addr, <span class="number">0x200</span>)</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> md_64.disasm(code_x64, addr):</span><br><span class="line">        <span class="keyword">if</span> j &gt;= <span class="built_in">len</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;0x%x:\t%s\t%s&quot;</span> %(i.address, i.mnemonic, i.op_str))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;========================================================&quot;</span>)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">d32</span>(<span class="params">addr, <span class="built_in">len</span>=<span class="number">20</span></span>):</span><br><span class="line">    <span class="keyword">global</span> md_32</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;========================================================&quot;</span>)</span><br><span class="line">    code_x86 = get_string(addr, <span class="number">0x200</span>)</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> md_32.disasm(code_x86, addr):</span><br><span class="line">        <span class="keyword">if</span> j &gt;= <span class="built_in">len</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;0x%x:\t%s\t%s&quot;</span> %(i.address, i.mnemonic, i.op_str))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;========================================================&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>然后就能凑活着反编译64位代码看了。</p>
+<p>更简单的办法就是，把code复制进新的文件，赋值两份，一份用ida打开，一份用ida64打开，对比着看。这样我们就能用ida的很多操作了。</p>
+<p>然后顺便去一下花，简单分析花的特点都是向后call
+1-3字节然后，我们只需要把中间的垃圾值nop掉就行了：</p>
+<p>复制到新的文件就不用再计算base了，也舒服了一些。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;gatesXgame_d.exe&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    raw = f.read()</span><br><span class="line">code = raw[<span class="number">0x2198</span>:<span class="number">0x2198</span>+<span class="number">0x30d3</span>]</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> i&lt;<span class="built_in">len</span>(code)-<span class="number">5</span>:</span><br><span class="line">    <span class="keyword">if</span> code[i:i+<span class="number">5</span>] == <span class="string">b&quot;\xe8\x01\x00\x00\x00&quot;</span>:</span><br><span class="line">        code = code[:i+<span class="number">5</span>]+<span class="string">b&quot;\x90&quot;</span> + code[i+<span class="number">6</span>:]</span><br><span class="line">        i+=<span class="number">6</span></span><br><span class="line">    <span class="keyword">elif</span> code[i:i+<span class="number">5</span>] == <span class="string">b&quot;\xe8\x02\x00\x00\x00&quot;</span>:</span><br><span class="line">        code = code[:i+<span class="number">5</span>]+<span class="string">b&quot;\x90&quot;</span>*<span class="number">2</span> + code[i+<span class="number">7</span>:]</span><br><span class="line">        i+=<span class="number">7</span></span><br><span class="line">    <span class="keyword">elif</span> code[i:i+<span class="number">5</span>] == <span class="string">b&quot;\xe8\x03\x00\x00\x00&quot;</span>:</span><br><span class="line">        code = code[:i+<span class="number">5</span>]+<span class="string">b&quot;\x90&quot;</span>*<span class="number">3</span> + code[i+<span class="number">8</span>:]</span><br><span class="line">        i+=<span class="number">8</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;code&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(code)</span><br></pre></td></tr></table></figure>
+<p>接下来可以分析代码了。首先地址0的32位代码，判断第一个为f，然后切换到64位，跳到49e，根据第二位为0或4，跳到下一个32位代码块，然后又。。。</p>
+<p>每个代码块都会进行一个以上的判断，然后调到下一个代码块（都不对会返回0）。每个代码块之间的切换<strong>必定</strong>会切一次换位数。最终要去到返回1的地方。搜一下retn这条指令，在30d0（其实就是最后啦）。</p>
+<p>很显然这是个图算法。代码量很大，所以需要写脚本提取出图的内容。由于每次节点的切换都会切换位数，所以大大降低了写脚本的难度。我们只需要根据一些特征提取数据就行了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> capstone <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> struct <span class="keyword">import</span> *</span><br><span class="line">md_64 = Cs(CS_ARCH_X86, CS_MODE_64)</span><br><span class="line">md_32 = Cs(CS_ARCH_X86, CS_MODE_32)</span><br><span class="line">nodes = &#123;&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;code&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    code = f.read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dis32</span>(<span class="params">addr</span>):</span><br><span class="line">    <span class="keyword">global</span> code, md_32</span><br><span class="line">    tmp = code[addr:addr + <span class="number">10</span>]</span><br><span class="line">    <span class="keyword">return</span> md_32.disasm(tmp, addr).__next__()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dis64</span>(<span class="params">addr</span>):</span><br><span class="line">    <span class="keyword">global</span> code, md_64</span><br><span class="line">    tmp = code[addr:addr + <span class="number">10</span>]</span><br><span class="line">    <span class="keyword">return</span> md_64.disasm(tmp, addr).__next__()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exp32</span>(<span class="params">addr</span>):</span><br><span class="line">    now = dis32(addr)</span><br><span class="line">    <span class="keyword">assert</span> now.<span class="built_in">bytes</span> == <span class="string">b&#x27;9\xd9&#x27;</span></span><br><span class="line">    addr += now.size</span><br><span class="line">    now = dis32(addr)</span><br><span class="line">    ret_addr = <span class="built_in">int</span>(now.op_str, <span class="number">16</span>)</span><br><span class="line">    ret = dis32(ret_addr)</span><br><span class="line">    <span class="keyword">assert</span> ret.<span class="built_in">bytes</span> == <span class="string">b&#x27;1\xc0&#x27;</span></span><br><span class="line">    </span><br><span class="line">    addr += now.size                    <span class="comment"># mov al, byte ptr [edx + ecx]</span></span><br><span class="line">    now = dis32(addr)</span><br><span class="line">    <span class="keyword">assert</span> now.<span class="built_in">bytes</span> == <span class="string">b&#x27;\x8a\x04\n&#x27;</span> </span><br><span class="line">    node = []</span><br><span class="line">    addr += now.size</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> addr == ret_addr:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        now = dis32(addr)</span><br><span class="line">        <span class="keyword">assert</span> now.mnemonic == <span class="string">&#x27;cmp&#x27;</span></span><br><span class="line">        next_ch = <span class="built_in">chr</span>(<span class="built_in">int</span>(now.op_str[<span class="number">4</span>:], <span class="number">16</span>))</span><br><span class="line">        </span><br><span class="line">        addr += now.size</span><br><span class="line">        now = dis32(addr)</span><br><span class="line">        jz_addr = <span class="built_in">int</span>(now.op_str, <span class="number">16</span>)</span><br><span class="line">        next_addr = unpack(<span class="string">&quot;&lt;I&quot;</span>, code[jz_addr+<span class="number">15</span>:jz_addr+<span class="number">15</span>+<span class="number">4</span>])[<span class="number">0</span>]</span><br><span class="line">        <span class="built_in">next</span> = [next_addr, next_ch]</span><br><span class="line">        node.append(<span class="built_in">next</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            addr += now.size</span><br><span class="line">            now = dis32(addr)</span><br><span class="line">            <span class="keyword">if</span> now.mnemonic == <span class="string">&#x27;cmp&#x27;</span> <span class="keyword">or</span> addr == ret_addr:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> node</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exp64</span>(<span class="params">addr</span>):</span><br><span class="line">    now = dis64(addr)</span><br><span class="line">    <span class="keyword">assert</span> now.<span class="built_in">bytes</span> == <span class="string">b&#x27;H9\xd9&#x27;</span></span><br><span class="line">    addr += now.size</span><br><span class="line">    now = dis64(addr)</span><br><span class="line">    ret_addr = <span class="built_in">int</span>(now.op_str, <span class="number">16</span>)</span><br><span class="line">    ret = dis64(ret_addr)</span><br><span class="line">    <span class="keyword">assert</span> ret.<span class="built_in">bytes</span> == <span class="string">b&#x27;H1\xc0&#x27;</span></span><br><span class="line">    </span><br><span class="line">    addr += now.size                    <span class="comment"># mov al, byte ptr [edx + ecx]</span></span><br><span class="line">    now = dis64(addr)</span><br><span class="line">    <span class="keyword">assert</span> now.<span class="built_in">bytes</span> == <span class="string">b&#x27;g\x8a\x04\n&#x27;</span></span><br><span class="line">    node = []</span><br><span class="line">    addr += now.size</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> addr == ret_addr:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        now = dis64(addr)</span><br><span class="line">        <span class="keyword">assert</span> now.mnemonic == <span class="string">&#x27;cmp&#x27;</span></span><br><span class="line">        next_ch = <span class="built_in">chr</span>(<span class="built_in">int</span>(now.op_str[<span class="number">4</span>:], <span class="number">16</span>))</span><br><span class="line">        </span><br><span class="line">        addr += now.size</span><br><span class="line">        now = dis64(addr)</span><br><span class="line">        </span><br><span class="line">        jz_addr = <span class="built_in">int</span>(now.op_str, <span class="number">16</span>)</span><br><span class="line">        next_addr = unpack(<span class="string">&quot;&lt;I&quot;</span>, code[jz_addr+<span class="number">21</span>:jz_addr+<span class="number">21</span>+<span class="number">4</span>])[<span class="number">0</span>]</span><br><span class="line">        <span class="built_in">next</span> = [next_addr, next_ch]</span><br><span class="line">        node.append(<span class="built_in">next</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            addr += now.size</span><br><span class="line">            now = dis64(addr)</span><br><span class="line">            <span class="keyword">if</span> now.mnemonic == <span class="string">&#x27;cmp&#x27;</span> <span class="keyword">or</span> addr == ret_addr:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">addr, node</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;0x%04x -&gt;&quot;</span>%addr, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> node:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;\&#x27;&#x27;</span>+i[<span class="number">1</span>]+<span class="string">&#x27;\&#x27;&#x27;</span>, <span class="string">&quot;0x%04x&quot;</span>%i[<span class="number">0</span>], end=<span class="string">&#x27;, &#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_graph</span>(<span class="params">addr, switch</span>):</span><br><span class="line">    <span class="keyword">if</span> addr == <span class="number">0x30d0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">global</span> nodes</span><br><span class="line">    <span class="keyword">if</span> switch == <span class="number">0</span>:</span><br><span class="line">        node = exp32(addr)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        node = exp64(addr)</span><br><span class="line">    switch ^= <span class="number">1</span></span><br><span class="line">    nodes[addr] = node</span><br><span class="line">    show(addr, node)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> node:</span><br><span class="line">        <span class="keyword">if</span> i[<span class="number">0</span>] <span class="keyword">not</span> <span class="keyword">in</span> nodes.keys():</span><br><span class="line">            get_graph(i[<span class="number">0</span>], switch)</span><br><span class="line"></span><br><span class="line">get_graph(<span class="number">0</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>然后我们拿到了所有100个节点，以及每个节点的“指针”</p>
+<p>接下来就是图搜索算法了，需要找到一条从0到0x30d0的路径。观察一下图里存在环，所以肯定是要找最短路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_path</span>(<span class="params">addr, flag, path</span>):</span><br><span class="line">    <span class="keyword">if</span> addr == <span class="number">0x30d0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;found!&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;npointer&#123;&quot;</span>+flag+<span class="string">&quot;&#125;&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    node = nodes[addr]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> node:</span><br><span class="line">        <span class="keyword">if</span> i[<span class="number">0</span>] <span class="keyword">not</span> <span class="keyword">in</span> path:</span><br><span class="line">            get_path(i[<span class="number">0</span>], flag+i[<span class="number">1</span>], path+[i[<span class="number">0</span>]])</span><br><span class="line"></span><br><span class="line">get_path(<span class="number">0</span>, <span class="string">&quot;&quot;</span>, [])</span><br></pre></td></tr></table></figure>
+<p>一度被图搜索代码困扰了挺久，后面想通了其实很简单。。。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2020/03/11/2020npointer-3/" title="空指针3月公开赛write up">http://apeng.re/2020/03/11/2020npointer-3/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/" rel="tag"># 花指令</a>
+              <a href="/tags/graph/" rel="tag"># graph</a>
+              <a href="/tags/wow64/" rel="tag"># wow64</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/24/2020gongyi/" rel="prev" title="2020 新春抗疫公益赛">
+                  <i class="fa fa-angle-left"></i> 2020 新春抗疫公益赛
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/15/2020confidence/" rel="next" title="2020 confidence">
+                  2020 confidence <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="比赛日期：2018.11.24 在i春秋平台举办的X-NUCA线上赛，前20可以进线下赛。Aurora最终成绩为18名。 一共有三道re，我比赛时只做出了第一道，比赛结束后出了第二道。因为一直死磕第二题磕了太久所以根本没看第三道，第三道pizza做了，听说挺简单的，有时间再补上（咕咕咕）&#x3D; &#x3D; 题目，脚本及ida数据库下载：下载地址 _backup文件夹内为题目原题，其余的题目文件能被我打过补丁。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018 X-NUCA 线上赛">
+<meta property="og:url" content="http://apeng.re/2018/11/25/2018xnuca/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="比赛日期：2018.11.24 在i春秋平台举办的X-NUCA线上赛，前20可以进线下赛。Aurora最终成绩为18名。 一共有三道re，我比赛时只做出了第一道，比赛结束后出了第二道。因为一直死磕第二题磕了太久所以根本没看第三道，第三道pizza做了，听说挺简单的，有时间再补上（咕咕咕）&#x3D; &#x3D; 题目，脚本及ida数据库下载：下载地址 _backup文件夹内为题目原题，其余的题目文件能被我打过补丁。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://apeng.re/2018/11/25/2018xnuca/2018xnuca1.jpg">
+<meta property="article:published_time" content="2018-11-24T17:36:54.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.024Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="VM">
+<meta property="article:tag" content="神经网络">
+<meta property="article:tag" content="ollvm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://apeng.re/2018/11/25/2018xnuca/2018xnuca1.jpg">
+
+
+<link rel="canonical" href="http://apeng.re/2018/11/25/2018xnuca/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2018/11/25/2018xnuca/","path":"/2018/11/25/2018xnuca/","title":"2018 X-NUCA 线上赛"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2018 X-NUCA 线上赛 | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#code"><span class="nav-number">1.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#neural-network"><span class="nav-number">2.</span> <span class="nav-text">Neural Network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strange-interpreter"><span class="nav-number">3.</span> <span class="nav-text">Strange Interpreter</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2018/11/25/2018xnuca/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2018 X-NUCA 线上赛 | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2018 X-NUCA 线上赛
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-11-25 01:36:54" itemprop="dateCreated datePublished" datetime="2018-11-25T01:36:54+08:00">2018-11-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/" itemprop="url" rel="index"><span itemprop="name">CTF writeup</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/2018/" itemprop="url" rel="index"><span itemprop="name">2018</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>比赛日期：2018.11.24</p>
+<p>在i春秋平台举办的X-NUCA线上赛，前20可以进线下赛。Aurora最终成绩为18名。</p>
+<p>一共有三道re，我比赛时只做出了第一道，比赛结束后出了第二道。因为一直死磕第二题磕了太久所以根本没看第三道，第三道pizza做了，听说挺简单的，有时间再补上<del>（咕咕咕）</del>=
+=</p>
+<p>题目，脚本及ida数据库下载：<a target="_blank" rel="noopener" href="https://github.com/Apeng7364/ctf/tree/master/ctf2018/xnuca">下载地址</a></p>
+<p>_backup文件夹内为题目原题，其余的题目文件能被我打过补丁。</p>
+<p><strong><span id="more"></span></strong></p>
+<h2 id="code">Code</h2>
+<p>进入main函数，接受了三个数字输入，<code>sub_400806</code>是vm的计算部分。bytecode在code文件里。指令和算法都很简单，都是对三个输入的加减乘除和位运算，用z3写脚本跑一下就行了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line">x=BitVec(<span class="string">&#x27;x&#x27;</span>,<span class="number">32</span>)</span><br><span class="line">y=BitVec(<span class="string">&#x27;y&#x27;</span>,<span class="number">32</span>)</span><br><span class="line">z=BitVec(<span class="string">&#x27;z&#x27;</span>,<span class="number">32</span>)</span><br><span class="line">s=Solver()</span><br><span class="line">s.add(x&amp;<span class="number">0xff</span>==<span class="number">0x5E</span>)</span><br><span class="line">s.add(z&amp;<span class="number">0xff</span>==<span class="number">0x5E</span>)</span><br><span class="line">s.add(y&amp;<span class="number">0x00ff0000</span>==<span class="number">0x5E0000</span>)</span><br><span class="line">s.add((x&gt;&gt;<span class="number">4</span>)*<span class="number">0x15</span>-z==<span class="number">0x1D7ECC6B</span>)</span><br><span class="line">s.add((x&gt;&gt;<span class="number">8</span>)+y==<span class="number">0x5FBCBDBD</span>)</span><br><span class="line">s.add((z&gt;&gt;<span class="number">8</span>)*<span class="number">0x03</span>+y==<span class="number">0x6079797C</span>)</span><br><span class="line"><span class="built_in">print</span>(s.check())</span><br><span class="line">m=s.model()</span><br><span class="line">X=m[x].as_long()</span><br><span class="line">Z=m[z].as_long()</span><br><span class="line">Y=m[y].as_long()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;X-NUCA&#123;%x%x%x&#125;&#x27;</span>%(X,Y,Z))</span><br></pre></td></tr></table></figure>
+<h2 id="neural-network">Neural Network</h2>
+<p>神经网络，一个完全没接触过的全新领域。先查一波资料：</p>
+<p><a href>TensorFlow中文社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/czq7511/article/details/72480149">tensorboard使用</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/loveliuzz/article/details/81383098">Tensorflow
+模型文件的使用以及格式转换</a></p>
+<p>tensorflow只能在python3.5和python3.6安装，踩坑就踩了好久。</p>
+<p>搭好环境直接跑一下它的python脚本，除了有个提示外都正常，提示可以在脚本开头加段代码去掉</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os </span><br><span class="line">os.environ[<span class="string">&#x27;TF_CPP_MIN_LOG_LEVEL&#x27;</span>] = <span class="string">&#x27;2&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>运行一下python脚本，随便输点东西进去，然后弹出错误警告。似乎是大小不对，应该32个而不是16个。看一下脚本的内容，<code>get_input</code>函数里把输入rjust了16，改成32，这样就可以跑了，输出了<code>Sorry, srcret wrong! Try harder?</code></p>
+<p>分析一下脚本，结合各种地方找的资料，发现他读取了一个<code>model.meta</code>文件作为图，x应该是输入tensor，y是输出tensor。把输入放进黑盒操作一波得到输出，然后跟常量final比较，要求误差在1e-8之内。</p>
+<p>看样子重点就在于它的<code>model.meta</code>这个文件里了。用hexeditor打开，只能看到一些字符串和数据。</p>
+<p>在查一波资料，发现了tensorboard这个东西，他能把meta文件的内容转化成图，于是根据教程，得到了这个模型的模型图。</p>
+<figure>
+<img src="/2018/11/25/2018xnuca/2018xnuca1.jpg" alt="2018xnuca1.jpg">
+<figcaption aria-hidden="true">2018xnuca1.jpg</figcaption>
+</figure>
+<p>点进各个节点可以看到每个节点的输入(Inputs)，输出(Outputs)和操作(Operation)。于是我们找到了<code>In_string</code>和<code>Out_judge</code>。跟着<code>Out_judge</code>的操作沿着输入一步一步往前走，能找到In_string。这些个过程就是黑盒的过程了。注意其中有很多的分支是没用到的，不必理会。最终整理出正向的操作（用tensorflow的函数表示）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t0 = tf.matmul(In_string, v0)</span><br><span class="line">t1 = tf.add(t0, v3)</span><br><span class="line">t2 = tf.sigmoid(t1)</span><br><span class="line">t3 = tf.matmul(t2, v1)</span><br><span class="line">t4 = tf.add(t3, v4)</span><br><span class="line">t5 = tf.tanh(t4)</span><br><span class="line">t6 = tf.matmul(t5, v2)</span><br><span class="line">t7 = tf.add(t6, v5)</span><br><span class="line">t8 = tf.sigmoid(t7)</span><br></pre></td></tr></table></figure>
+<p>matmul：矩阵相乘</p>
+<p>sigmoid：S型生长曲线，具体可以百度</p>
+<p>add:两个矩阵对应量相加</p>
+<p>tanh：双曲正切</p>
+<p>relu：正数不变，负数变为为0</p>
+<p>这里的v0到v5都是常量。参考脚本中res的用法，可以拿到数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gn</span>(<span class="params">nm</span>):</span><br><span class="line">    <span class="keyword">return</span> sess.run(nm + <span class="string">&quot;:0&quot;</span>, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"></span><br><span class="line">In_string = gn(<span class="string">&quot;In_string&quot;</span>)</span><br><span class="line">v0 = gn(<span class="string">&quot;Variable/read&quot;</span>)</span><br><span class="line">v1 = gn(<span class="string">&quot;Variable_1/read&quot;</span>)</span><br><span class="line">v2 = gn(<span class="string">&quot;Variable_2/read&quot;</span>)</span><br><span class="line">v3 = gn(<span class="string">&quot;Variable_3/read&quot;</span>)</span><br><span class="line">v4 = gn(<span class="string">&quot;Variable_4/read&quot;</span>)</span><br><span class="line">v5 = gn(<span class="string">&quot;Variable_5/read&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>为了方便调试，我们定义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gv</span>(<span class="params">v</span>):</span><br><span class="line">    <span class="keyword">return</span> sess.run(v, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"><span class="built_in">print</span>(gv(a0))</span><br></pre></td></tr></table></figure>
+<p>直接print(t1)并不能输出它的值。参考之前的res，要把数据喂进去run一下，会返回一个numpy的array数据类型，于是这样就可以输出了。</p>
+<p>同时，输出np.array时默认会省略一些数据用省略号代替，且输出的精度不足。为了更直观的观看，可以添加如下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.set_printoptions(threshold=<span class="string">&#x27;nan&#x27;</span>)</span><br><span class="line">np.set_printoptions(precision=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<p>有了正向的输入过程，每个函数都是有反函数的，我们似乎就可以逆向得到输入了，逆向过程如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.special <span class="keyword">import</span> logit</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">invsigmoid</span>(<span class="params">a</span>):</span><br><span class="line">    b= np.array([[<span class="number">0.0</span>]*<span class="number">32</span>])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>):</span><br><span class="line">        b[<span class="number">0</span>][i]=logit(a[<span class="number">0</span>][i]) <span class="comment">#logit为sigmoid的反函数，但是tensorflow中没有这个函数，只能借助scipy中的了 </span></span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">a = np.array([[<span class="number">1.40895243e-01</span>, <span class="number">9.98096014e-01</span>, <span class="number">1.13422030e-02</span>, <span class="number">6.57041353e-01</span>,</span><br><span class="line">    <span class="number">9.97613889e-01</span>, <span class="number">9.98909625e-01</span>, <span class="number">9.92840464e-01</span>, <span class="number">9.90108787e-01</span>,</span><br><span class="line">    <span class="number">1.43269835e-03</span>, <span class="number">9.89027450e-01</span>, <span class="number">7.22652880e-01</span>, <span class="number">9.63670217e-01</span>,</span><br><span class="line">    <span class="number">6.89424259e-01</span>, <span class="number">1.76012035e-02</span>, <span class="number">9.30893743e-01</span>, <span class="number">8.61464445e-03</span>,</span><br><span class="line">    <span class="number">4.35839722e-01</span>, <span class="number">8.38741174e-04</span>, <span class="number">6.38429400e-02</span>, <span class="number">9.90384032e-01</span>,</span><br><span class="line">    <span class="number">1.09806946e-03</span>, <span class="number">1.76375112e-03</span>, <span class="number">9.37186997e-01</span>, <span class="number">8.32329340e-01</span>,</span><br><span class="line">    <span class="number">9.83474966e-01</span>, <span class="number">8.79308946e-01</span>, <span class="number">6.59324698e-03</span>, <span class="number">7.85916088e-05</span>,</span><br><span class="line">    <span class="number">2.94269115e-05</span>, <span class="number">1.97006621e-03</span>, <span class="number">9.99416387e-01</span>, <span class="number">9.99997202e-01</span>]])</span><br><span class="line">a0=invsigmoid(a)</span><br><span class="line">a1=tf.subtract(a0,v5)</span><br><span class="line">a2=tf.matmul(a1,tf.matrix_inverse(v2))</span><br><span class="line">a3=tf.atanh(a2)</span><br><span class="line">a4=tf.subtract(a3,v4)</span><br><span class="line">a5=tf.matmul(a4,tf.matrix_inverse(v1))</span><br><span class="line">a6=invsigmoid(gv(a5))<span class="comment">#a5是个tensor对象，要用np.array数据类型才能使用。</span></span><br><span class="line">a7=tf.subtract(a6,v3)</span><br><span class="line">a8=tf.matmul(a7,tf.matrix_inverse(v0))</span><br><span class="line">l=gv(a8).tolist()</span><br><span class="line">ll=l[<span class="number">0</span>]</span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(ll)):</span><br><span class="line">    ll[i]*=<span class="number">128</span></span><br><span class="line">    ll[i]=<span class="built_in">round</span>(ll[i])</span><br><span class="line">    flag+=<span class="built_in">chr</span>(ll[i])</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+<p>然而出问题了。最终的a8全是naf。让我们想办法输出中间变量的值，看看哪里有问题。在每一步后面输出a的数据。调着调着发现，第二个invsigmoid出了问题，意义不明（似乎是超出定义域了）。</p>
+<p>思考了一下，我先随便输一个数据进去，用它算的结果逆一遍，看看能不能得到原来的值，于是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">trans</span>(<span class="params">secret</span>):</span><br><span class="line">    <span class="keyword">return</span> np.array([<span class="built_in">float</span>(<span class="built_in">ord</span>(x))/<span class="number">128</span> <span class="keyword">for</span> x <span class="keyword">in</span> secret])</span><br><span class="line">fakeflag = <span class="string">&quot;flag&#123;01234567012345670123456789&#125;&quot;</span></span><br><span class="line">X = trans(fakeflag)</span><br><span class="line">sess = tf.Session()</span><br><span class="line">saver = tf.train.import_meta_graph(<span class="string">&#x27;model.meta&#x27;</span>)</span><br><span class="line">saver.restore(sess, tf.train.latest_checkpoint(<span class="string">&#x27;./&#x27;</span>))</span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line">x = graph.get_tensor_by_name(<span class="string">&#x27;In_string:0&#x27;</span>)</span><br><span class="line">y = graph.get_tensor_by_name(<span class="string">&quot;Out_judge:0&quot;</span>)</span><br><span class="line">res = sess.run(y, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"></span><br><span class="line">a0=invsigmoid(res)</span><br><span class="line">a1=tf.subtract(a0,v5)</span><br><span class="line">a2=tf.matmul(a1,tf.matrix_inverse(v2))</span><br><span class="line">a3=tf.atanh(a2)</span><br><span class="line">a4=tf.subtract(a3,v4)</span><br><span class="line">a5=tf.matmul(a4,tf.matrix_inverse(v1))</span><br><span class="line">a6=invsigmoid(gv(a5))<span class="comment">#a5是个tensor对象，要用np.array数据类型才能使用。</span></span><br><span class="line">a7=tf.subtract(a6,v3)</span><br><span class="line">a8=tf.matmul(a7,tf.matrix_inverse(v0))</span><br><span class="line">l=gv(a8).tolist()</span><br><span class="line">ll=l[<span class="number">0</span>]</span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(ll)):</span><br><span class="line">    ll[i]*=<span class="number">128</span></span><br><span class="line">    ll[i]=<span class="built_in">round</span>(ll[i])</span><br><span class="line">    flag+=<span class="built_in">chr</span>(ll[i])</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>到这里可以算回我的假flag，说明算法是没问题的。思前想后觉得应该是精度的问题。注意到体重final的精度是9位有效数字。我尝试把假flag得到的最终结果保留9位有效数字，再带进逆向算法中，就算不出假flag了。同时我逐步提高精度，发现要有14位以上有效数字的精度才能算出正确的输入！这让我不禁怀疑题目的正确性。找主办方交涉无果，只好重新找方向。</p>
+<p>显然我们没办法提高数据的精度，一时间陷入了僵局。</p>
+<p>查找资料解读meta的时候，除了用tensorboard看图形外，还发现了可以吧meta转成txt输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sess = tf.Session()</span><br><span class="line">saver = tf.train.import_meta_graph(<span class="string">&#x27;model.meta&#x27;</span>)</span><br><span class="line">saver.restore(sess, tf.train.latest_checkpoint(<span class="string">&#x27;./&#x27;</span>))</span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line">tf.train.write_graph(graph, <span class="string">&#x27;./aaa&#x27;</span>, <span class="string">&#x27;train.pbtxt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>打开train.pbtxt，在这里可以看到所有的node，包括之前的<code>Variable</code>等。比赛时并没有太注意，只当用到的东西已经输出了。</p>
+<p>最早看这个pbtxt的时候并没有很仔细，更多的跑去看tensorboard了。赛后重新看一下pbtxt，发现了很可疑的一段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">  name: &quot;PRECISEFINAL&quot;</span><br><span class="line">  op: &quot;Const&quot;</span><br><span class="line">  attr &#123;</span><br><span class="line">    key: &quot;dtype&quot;</span><br><span class="line">    value &#123;</span><br><span class="line">      type: DT_DOUBLE</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  attr &#123;</span><br><span class="line">    key: &quot;value&quot;</span><br><span class="line">    value &#123;</span><br><span class="line">      tensor &#123;</span><br><span class="line">        dtype: DT_DOUBLE</span><br><span class="line">        tensor_shape &#123;</span><br><span class="line">          dim &#123;</span><br><span class="line">            size: 1</span><br><span class="line">          &#125;</span><br><span class="line">          dim &#123;</span><br><span class="line">            size: 32</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        tensor_content: &quot;!\3337\366\332\010\302?\3068c\rg\360\357?\002\\\336\266\224:\207?\367s\226\226&#123;\006\345?\211\224C\366s\354\357?tkYQ\021\367\357?\303CE]Y\305\357?\207\005\215\237\370\256\357?\030\344\262\&quot;,yW?3\207\325\344\034\246\357?\267\335\336\356\370\037\347?\367\345j\354b\326\356?|\034lv\303\017\346?\210\242s\306\014\006\222?\372\353\304\254\341\311\355?\245\\\214\001\216\244\201?%\254@J\314\344\333?\030?\251\364\336&#123;K?k\024R\313\002X\260?\331\361R\3329\261\357?\027U\364\033\243\375Q?#\031dW\265\345\\?\265b\315\225o\375\355?\022\207\375#q\242\352?H\330\273&#125;\240x\357?A\362\214\203L#\354?L\000\207B\205\001&#123;?\323\344\003\2171\232\024?\003\222)\3659\333\376&gt;\372\241\322=\207#`?\361\324\024\0238\373\357?\037\013\327!\372\377\357?&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个名为<code>PRECISEFINAL</code>的node根本没见过，里面还藏有大量数据，难道这就是精确的final值？（名字都告诉你了是精确final了好吧）</p>
+<p>把它带进脚本跑一下，flag就出了，而且直接查看它的数据可以发现它的精度是15位有效数字。</p>
+<p>脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> isclose</span><br><span class="line"><span class="keyword">from</span> scipy.special <span class="keyword">import</span> logit</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">&#x27;TF_CPP_MIN_LOG_LEVEL&#x27;</span>] = <span class="string">&#x27;2&#x27;</span></span><br><span class="line">np.set_printoptions(precision=<span class="number">20</span>)</span><br><span class="line">np.set_printoptions(threshold=<span class="string">&#x27;nan&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">trans</span>(<span class="params">secret</span>):</span><br><span class="line">    <span class="keyword">return</span> np.array([<span class="built_in">float</span>(<span class="built_in">ord</span>(x))/<span class="number">128</span> <span class="keyword">for</span> x <span class="keyword">in</span> secret])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gn</span>(<span class="params">nm</span>):</span><br><span class="line">    a=graph.get_tensor_by_name(nm + <span class="string">&quot;:0&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> sess.run(a, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gv</span>(<span class="params">v</span>):</span><br><span class="line">    <span class="keyword">return</span> sess.run(v, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">invsigmoid</span>(<span class="params">a</span>):</span><br><span class="line">    b= np.array([[<span class="number">0.0</span>]*<span class="number">32</span>])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>):</span><br><span class="line">        b[<span class="number">0</span>][i]=logit(a[<span class="number">0</span>][i])</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fakeflag = <span class="string">&quot;flag&#123;01234567012345670123456789&#125;&quot;</span></span><br><span class="line">X = trans(fakeflag)</span><br><span class="line"><span class="comment">#print(X)</span></span><br><span class="line">sess = tf.Session()</span><br><span class="line">saver = tf.train.import_meta_graph(<span class="string">&#x27;model.meta&#x27;</span>)</span><br><span class="line">saver.restore(sess, tf.train.latest_checkpoint(<span class="string">&#x27;./&#x27;</span>))</span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line">x = graph.get_tensor_by_name(<span class="string">&#x27;In_string:0&#x27;</span>)</span><br><span class="line">y = graph.get_tensor_by_name(<span class="string">&quot;Out_judge:0&quot;</span>)</span><br><span class="line">final = np.array([[<span class="number">1.40895243e-01</span>, <span class="number">9.98096014e-01</span>, <span class="number">1.13422030e-02</span>, <span class="number">6.57041353e-01</span>,</span><br><span class="line">    <span class="number">9.97613889e-01</span>, <span class="number">9.98909625e-01</span>, <span class="number">9.92840464e-01</span>, <span class="number">9.90108787e-01</span>,</span><br><span class="line">    <span class="number">1.43269835e-03</span>, <span class="number">9.89027450e-01</span>, <span class="number">7.22652880e-01</span>, <span class="number">9.63670217e-01</span>,</span><br><span class="line">    <span class="number">6.89424259e-01</span>, <span class="number">1.76012035e-02</span>, <span class="number">9.30893743e-01</span>, <span class="number">8.61464445e-03</span>,</span><br><span class="line">    <span class="number">4.35839722e-01</span>, <span class="number">8.38741174e-04</span>, <span class="number">6.38429400e-02</span>, <span class="number">9.90384032e-01</span>,</span><br><span class="line">    <span class="number">1.09806946e-03</span>, <span class="number">1.76375112e-03</span>, <span class="number">9.37186997e-01</span>, <span class="number">8.32329340e-01</span>,</span><br><span class="line">    <span class="number">9.83474966e-01</span>, <span class="number">8.79308946e-01</span>, <span class="number">6.59324698e-03</span>, <span class="number">7.85916088e-05</span>,</span><br><span class="line">    <span class="number">2.94269115e-05</span>, <span class="number">1.97006621e-03</span>, <span class="number">9.99416387e-01</span>, <span class="number">9.99997202e-01</span>]])</span><br><span class="line">res = sess.run(y, feed_dict=&#123;x:[X]&#125;)</span><br><span class="line"></span><br><span class="line">In_string = gn(<span class="string">&quot;In_string&quot;</span>)</span><br><span class="line">v0 = gn(<span class="string">&quot;Variable/read&quot;</span>)</span><br><span class="line">v1 = gn(<span class="string">&quot;Variable_1/read&quot;</span>)</span><br><span class="line">v2 = gn(<span class="string">&quot;Variable_2/read&quot;</span>)</span><br><span class="line">v3 = gn(<span class="string">&quot;Variable_3/read&quot;</span>)</span><br><span class="line">v4 = gn(<span class="string">&quot;Variable_4/read&quot;</span>)</span><br><span class="line">v5 = gn(<span class="string">&quot;Variable_5/read&quot;</span>)</span><br><span class="line">precisefinal=gn(<span class="string">&quot;PRECISEFINAL&quot;</span>)</span><br><span class="line"></span><br><span class="line">a0=invsigmoid(precisefinal)</span><br><span class="line">a1=tf.subtract(a0,v5)</span><br><span class="line">a2=tf.matmul(a1,tf.matrix_inverse(v2))</span><br><span class="line">a3=tf.atanh(a2)</span><br><span class="line">a4=tf.subtract(a3,v4)</span><br><span class="line">a5=tf.matmul(a4,tf.matrix_inverse(v1))</span><br><span class="line">a6=invsigmoid(gv(a5))</span><br><span class="line">a7=tf.subtract(a6,v3)</span><br><span class="line">a8=tf.matmul(a7,tf.matrix_inverse(v0))</span><br><span class="line">l=gv(a8).tolist()</span><br><span class="line">ll=l[<span class="number">0</span>]</span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(ll)):</span><br><span class="line">    ll[i]*=<span class="number">128</span></span><br><span class="line">    ll[i]=<span class="built_in">round</span>(ll[i])</span><br><span class="line">    flag+=<span class="built_in">chr</span>(ll[i])</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+<h2 id="strange-interpreter">Strange Interpreter</h2>
+<blockquote>
+<p>pizza:</p>
+<p>程序里有012345abcdefghijklmnopqrstuvwxyz 直接输入进去
+然后输出校验结果的时候看0x6130D0 直接就有前半部分 替换了前半部分
+再带后半部分 后半部分也有了</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2018/11/25/2018xnuca/" title="2018 X-NUCA 线上赛">http://apeng.re/2018/11/25/2018xnuca/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/VM/" rel="tag"># VM</a>
+              <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag"># 神经网络</a>
+              <a href="/tags/ollvm/" rel="tag"># ollvm</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/20/2018lctf/" rel="prev" title="2018 LCTF">
+                  <i class="fa fa-angle-left"></i> 2018 LCTF
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/14/2018tctf/" rel="next" title="2018 TCTF">
+                  2018 TCTF <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

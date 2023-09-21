@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="周末打了 Google CTF。这貌似是我第一次打 Google CTF。由于比较摸只做了一道题。 很有意思的一个题，这道题加深了我对 ELF 文件格式的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022 Google CTF Reverse - ELDAR writeup">
+<meta property="og:url" content="http://apeng.re/2022/07/04/2022googlectf/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="周末打了 Google CTF。这貌似是我第一次打 Google CTF。由于比较摸只做了一道题。 很有意思的一个题，这道题加深了我对 ELF 文件格式的理解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://apeng.re/2022/07/04/2022googlectf/01.png">
+<meta property="article:published_time" content="2022-07-04T05:18:51.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.112Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="ELF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://apeng.re/2022/07/04/2022googlectf/01.png">
+
+
+<link rel="canonical" href="http://apeng.re/2022/07/04/2022googlectf/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2022/07/04/2022googlectf/","path":"/2022/07/04/2022googlectf/","title":"2022 Google CTF Reverse - ELDAR writeup"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2022 Google CTF Reverse - ELDAR writeup | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#eldar"><span class="nav-number">1.</span> <span class="nav-text">ELDAR</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2022/07/04/2022googlectf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2022 Google CTF Reverse - ELDAR writeup | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2022 Google CTF Reverse - ELDAR writeup
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-04 13:18:51" itemprop="dateCreated datePublished" datetime="2022-07-04T13:18:51+08:00">2022-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>周末打了 Google CTF。这貌似是我第一次打 Google
+CTF。由于比较摸只做了一道题。</p>
+<p>很有意思的一个题，这道题加深了我对 ELF 文件格式的理解。</p>
+<span id="more"></span>
+<h2 id="eldar">ELDAR</h2>
+<p>题目给了一个elf:
+eldar，一个makefile,一个C源文件。C源文件只包含一句serial字符串的定义。makefile中告诉我们运行的方法，首先编译libserial.so,eldar需要加载libserial.so。题目告诉我们只需要修改serial的内容而无需对serial.c做其他修改。</p>
+<p>elf
+的入口点之后都无逻辑，所有的逻辑都在加载时完成。ld解析ELF重定位表，解析每个表项的过程中，通过重定位实现读取/写内存，重定位时的addend实现加法，继而实现乘法。由此实现了RC4、矩阵乘法、以及一个变种的矩阵运算，完成flag校验。由于没有跳转逻辑，整个解析的重定位表非常大。不过循环的代码有相似性，可以慢慢总结归纳出来。</p>
+<p>具体的原理没有分析的特别细致，只是找到了调试的办法，在ld中两个特定的地方下断点，观察内存的值慢慢总结出算法。</p>
+<p>所需要调试分析的代码是在ld中的，因此需要ld的调试符号和源代码。我解题用的系统是opensuse,可以用zypper直接安装调试符号和源代码，且不需要额外配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo zypper install glibc-debuginfo glibc-debugsource</span><br></pre></td></tr></table></figure>
+<p>ubuntu下可以通过apt安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libc6-dbg glibc-source</span><br></pre></td></tr></table></figure>
+<p><code>glibc-source</code>包只包含了一个<code>glibc-2.35.tar.xz</code>文件，还需要手动解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/src/glibc/</span><br><span class="line">sudo tar xvf ./glibc-2.35.tar.xz</span><br></pre></td></tr></table></figure>
+<p><code>gdb ./eldra</code>启动调试后，我们需要断在 ld
+中。可以用<code>starti</code>命令从 ld 开始调试，此时的入口点是 ld
+的入口点。在 opensuse 下 gdb 直接可以找到 glibc 的源代码，但 ubuntu
+下不行。一个解决办法是直接把 elf
+放到源码根目录下调试。<code>sudo cp eldar /usr/src/glibc/glibc-2.35/</code></p>
+<p>我在解题用的 Linux 发行版是 opensuse, 和 ubuntu 22.04 的 libc 都是
+2.35 版本，源码应该是完全一样的。</p>
+<p>如果不熟悉 glibc,
+可能很难找到关键的处理ld的位置。我是通过硬件断点找到的。对 eldar 中的
+serial 下硬件断点<code>b *0x0000000000404040</code>，会断在一个 memove
+中，看起来是要复制到 serial</p>
+<figure>
+<img src="/2022/07/04/2022googlectf/01.png" alt="01">
+<figcaption aria-hidden="true">01</figcaption>
+</figure>
+<p>再单步跟出函数，调用 memcpy 的位置位于 dl-machine.h，这里就是处理
+rela
+的核心部分。注意看dl-machine.h的326行，<code>elf_machine_rela</code>
+函数有一个 switch 结构，这里应该就是处理 rela
+的各个<code>r_type</code>的地方了。断在这里，我们就能有对 rela
+进行“单步调试”的能力了。然而实测的时候只有<code>R_X86_64_COPY</code>和<code>R_X86_64_64</code>两种会成功在这断下来，其他的可能被优化掉了，或者根本不走这里。不过这两种也够解这道题了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b /usr/src/debug/glibc-2.35-4.2.x86_64/sysdeps/x86_64/dl-machine.h:326</span><br></pre></td></tr></table></figure>
+<p>下断点后如果重新运行，我们并不会断到 eldar 的重定位部分，因为除了
+eldar，ld 还要重定位 libc 等其他库。为了找到第一个 eldar
+命中这里的地方，我们可以用条件断点。0x804272
+开始是重定位表，前三个表项都还算正常，我们可以用第一个对<code>__libc_start_main</code>的重定位来过滤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">starti</span><br><span class="line">b /usr/src/debug/glibc-2.35-4.2.x86_64/sysdeps/x86_64/dl-machine.h:326 if (reloc-&gt;r_offset == 0x403FF0)</span><br><span class="line">r</span><br><span class="line">d 1</span><br><span class="line">b /usr/src/debug/glibc-2.35-4.2.x86_64/sysdeps/x86_64/dl-machine.h:326</span><br></pre></td></tr></table></figure>
+<p>这样，我们就相当于断在了 rela 的"入口点",并且能够"单步调试"。</p>
+<p>翻阅文档并结合调试，我们能推断出<code>R_X86_64_RELATIVE</code>的作用应该是直接将<code>r_offset</code>赋值为<code>r_addend</code>的内容，按照
+x86 汇编理解就是 <code>mov qword ptr [r_offset], r_addend</code></p>
+<p>IDA 中看到的重定位表内容和实际文件中的是不一样的，因为 ida
+会模拟完成重定位的过程，对于<code>R_X86_64_RELATIVE</code>这种会模拟执行一遍，所以我们看到的<code>8042BA</code>处的内容是
+256 个qwrod，对应 0-0xFF
+，实际上是由<code>804ACA</code>开始的重定位代码修改的。通过调试或者观察文件原始的内容，可以发现这里的原始内容是<code>&lt;0x804000, 8, 0&gt;</code>，而<code>804000</code>的位置一直是
+0，可以理解为什么都没做，也就是 nop 指令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOAD:00000000008062E2   Elf64_Rela &lt;8040CCh, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">mov qword ptr [0x8040CC], 0</span><br><span class="line">以后将直接写作：</span><br><span class="line">[0x8040CC] = 0</span><br></pre></td></tr></table></figure>
+<p>由于<code>0x8042BA</code>的初始值为 0-0xFF ,我们将其称为 SBOX。</p>
+<p>继续调试并在 494 行的 call
+下断点，可以发现，<code>&lt;806352h, 200000005h, 0&gt;</code>的作用是
+memcpy。其 dst
+是当前<code>Elf64_Rela</code>结构体的<code>r_offset</code>字段,而 src 和
+n
+定义为第三个(下标为2)<code>Elf64_Sym</code>结构的<code>st_value</code>和<code>st_size</code>字段。这两个字段刚好被上方紧挨着的两个<code>R_X86_64_RELATIVE</code>所修改。因此以下这三条重定位等价于一个memcpy函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">LOAD:00000000008062FA  Elf64_Rela &lt;80409Ch, 8, 8042BAh&gt; ; R_X86_64_RELATIVE +8042BAh</span><br><span class="line">LOAD:0000000000806312  Elf64_Rela &lt;8040A4h, 8, 8&gt; ; R_X86_64_RELATIVE +8</span><br><span class="line">LOAD:000000000080632A  Elf64_Rela &lt;806352h, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">                                     ^</span><br><span class="line">           ┌-------------------------┘</span><br><span class="line">           |</span><br><span class="line">memcpy(0x806352, [0x80409C], [0x8040A4])</span><br><span class="line">等价于</span><br><span class="line">memcpy(0x806352, 0x8042BA, 8)</span><br><span class="line"></span><br><span class="line">0x806352 是当前这一句的r_offset</span><br><span class="line">0x8042BA 和 8 是由当前这一句的r_info的高int32决定的，也就是2，对应Sym[2]的st_value和st_size</span><br><span class="line">以后将写作：</span><br><span class="line">[0x806352] = [0x8042BA]</span><br></pre></td></tr></table></figure>
+<p><code>R_X86_64_64</code>的作用是，重定位一个 64
+位的数据，将<code>sym[idx].value+r_addend</code>的结果赋值给<code>r_offset</code>。因此等价于一个加法操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOAD:0000000000806342   Elf64_Rela &lt;8040CCh, 400000001h, 0&gt; ;</span><br><span class="line">[0x8040CC] = [0x8040CC] + [0x8042BA]   ^     ^</span><br><span class="line">    ^            ^              |      |     └---------------┐</span><br><span class="line">    |            └-------------------------这个0x8040CC为&amp;Sym[4].st_value</span><br><span class="line">这个0x8040CC来自于Rela.r_offset ---------┘</span><br><span class="line">                                |</span><br><span class="line">                         这个0x8042BA是Rela.r_addend,由上文被R_X86_64_COPY修改</span><br><span class="line">LOAD:000000000080635A   Elf64_Rela &lt;806352h, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">此处将 0x806352 恢复为0</span><br></pre></td></tr></table></figure>
+<p><code>R_X86_64_32</code>的作用和<code>R_X86_64_64</code>类似，不过操作的是
+32 位数据。在本题里只用来清空一个 int64
+的第1至5字节（由于没PIE，就等价于将一个 int8 无符号拓展到
+int64），例如<code>806432</code>这一句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LOAD:0000000000806432   Elf64_Rela &lt;8040CDh, 10000000Ah, 0&gt; ; R_X86_64_32</span><br><span class="line">dword ptr [0x8040CD] = dword ptr [0x804084] + 0 ; [0x804084]来自于 Sym[1].value，值为0</span><br><span class="line">等价于 dword ptr [0x8040CD] = 0</span><br><span class="line">dword ptr [0x8040CD] 刚好是 [0x8040CC] 的第1-5字节，且由于6-8字节为0，其实等价于将0x8040CC这个字节扩展到64bit</span><br></pre></td></tr></table></figure>
+<p>总结一下从 806372 开始的内容；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">LOAD:0000000000806372   Elf64_Rela &lt;80409Ch, 8, 404040h&gt; ; R_X86_64_RELATIVE +404040h</span><br><span class="line">LOAD:000000000080638A   Elf64_Rela &lt;8040A4h, 8, 1&gt; ; R_X86_64_RELATIVE +1</span><br><span class="line">LOAD:00000000008063A2   Elf64_Rela &lt;804114h, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">byte ptr [0x804114] = byte ptr [0x804040] ; byte ptr代表取int8的数据，等同于 memcpy(0x804114, 0x804040, 1)</span><br><span class="line">0x804114 里开始为0x804000，假设flag[0] = 0x30，执行后为0x804030</span><br><span class="line"></span><br><span class="line">LOAD:00000000008063BA   Elf64_Rela &lt;80409Ch, 8, 804114h&gt; ; R_X86_64_RELATIVE +804114h</span><br><span class="line">LOAD:00000000008063D2   Elf64_Rela &lt;8040A4h, 8, 8&gt; ; R_X86_64_RELATIVE +8</span><br><span class="line">LOAD:00000000008063EA   Elf64_Rela &lt;806412h, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">[0x806412] = [0x806412]</span><br><span class="line">将0x804030 拷贝到 0x806412，注意 0x806412 是一句的r_addend</span><br><span class="line"></span><br><span class="line">LOAD:0000000000806402   Elf64_Rela &lt;8040CCh, 400000001h, 0&gt; ; R_X86_64_64</span><br><span class="line">[0x8040CC] = [0x8040CC] + [0x804114] ; 这里的0x804114由上一句拷贝而来</span><br><span class="line">此时 0x8040CC 内为 0x804030</span><br><span class="line"></span><br><span class="line">LOAD:000000000080641A   Elf64_Rela &lt;806412h, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">[0x806412] = 0</span><br><span class="line">恢复 0x806412 的值</span><br><span class="line"></span><br><span class="line">LOAD:0000000000806432   Elf64_Rela &lt;8040CDh, 10000000Ah, 0&gt; ; R_X86_64_32</span><br><span class="line">dword ptr [0x8040CD] = dword ptr [0x804084] + 0 ; [0x804084]来自于 Sym[1].value，值为0</span><br><span class="line">等价于 dword ptr [0x8040CD] = 0</span><br><span class="line">dword ptr [0x8040CD] 刚好是 [0x8040CC] 的第1-5字节，且由于6-8字节为0，其实等价于将0x8040CC这个字节扩展到64bit</span><br><span class="line"></span><br><span class="line">LOAD:000000000080644A   Elf64_Rela &lt;80409Ch, 8, 8042BAh&gt; ; R_X86_64_RELATIVE +8042BAh</span><br><span class="line">LOAD:0000000000806462   Elf64_Rela &lt;8040FCh, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">[0x8040FC] = [0x8042BA]</span><br><span class="line"></span><br><span class="line">LOAD:000000000080647A   Elf64_Rela &lt;80409Ch, 8, 8040CCh&gt; ; R_X86_64_RELATIVE +8040CCh</span><br><span class="line">LOAD:0000000000806492   Elf64_Rela &lt;8064BAh, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">LOAD:00000000008064AA   Elf64_Rela &lt;8040E4h, 400000001h, 0&gt; ; R_X86_64_64</span><br><span class="line">LOAD:00000000008064C2   Elf64_Rela &lt;8064BAh, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">[0x8040E4] = [0x8040CC] + [0x8040CC]</span><br><span class="line"></span><br><span class="line">LOAD:00000000008064DA   Elf64_Rela &lt;80409Ch, 8, 8040E4h&gt; ; R_X86_64_RELATIVE +8040E4h</span><br><span class="line">LOAD:00000000008064F2   Elf64_Rela &lt;80651Ah, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">LOAD:000000000080650A   Elf64_Rela &lt;8040E4h, 500000001h, 0&gt; ; R_X86_64_64 </span><br><span class="line">LOAD:0000000000806522   Elf64_Rela &lt;80651Ah, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8040E4]</span><br><span class="line"></span><br><span class="line">LOAD:000000000080653A   Elf64_Rela &lt;806562h, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">LOAD:0000000000806552   Elf64_Rela &lt;8040E4h, 500000001h, 0&gt; ; R_X86_64_64 </span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8040E4]</span><br><span class="line"></span><br><span class="line">LOAD:000000000080656A   Elf64_Rela &lt;806562h, 8, 0&gt; ; R_X86_64_RELATIVE</span><br><span class="line">LOAD:0000000000806582   Elf64_Rela &lt;8040E4h, 500000001h, 8042BAh&gt; ; R_X86_64_64 +8042BAh</span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8042BA] ; SBOX[0]</span><br><span class="line"></span><br><span class="line">LOAD:000000000080659A   Elf64_Rela &lt;8042BAh, 500000005h, 0&gt; ; R_X86_64_COPY </span><br><span class="line">[0x8042BA] = [[0x8040E4]]</span><br><span class="line">注意这里的memcpy, 用的不再是2号，而是5号，即相当于memcpy(0x8042BA, [0x8040E4], [0x8040EC])</span><br><span class="line"></span><br><span class="line">LOAD:00000000008065B2   Elf64_Rela &lt;8065CAh, 200000005h, 0&gt; ; R_X86_64_COPY</span><br><span class="line">[0x8065CA] = [0x8040E4]; 0x80409C 的值自 80647A 一直没被修改过，仍为0x8040E4</span><br><span class="line">LOAD:00000000008065CA   Elf64_Rela &lt;0, 600000001h, 0&gt; ; R_X86_64_64 </span><br><span class="line">[[0x8040E4]] = [0x8040FC] + 0</span><br><span class="line"></span><br><span class="line">这里开始重复了，和00000000008062FA一致</span><br><span class="line">LOAD:00000000008065E2   Elf64_Rela &lt;80409Ch, 8, 8042C2h&gt; ; R_X86_64_RELATIVE +8042C2h</span><br></pre></td></tr></table></figure>
+<p>提取出关键部分，总结下来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[0x8040CC] = 0</span><br><span class="line">[0x8040CC] = [0x8040CC] + [0x8042BA]</span><br><span class="line">byte ptr [0x804114] = byte ptr [0x804040]</span><br><span class="line">[0x806412] = [0x806412]</span><br><span class="line">[0x8040CC] = [0x8040CC] + [0x804114]</span><br><span class="line">dword ptr [0x8040CD] = dword ptr [0x804084] + 0</span><br><span class="line">[0x8040FC] = [0x8042BA]</span><br><span class="line">[0x8040E4] = [0x8040CC] + [0x8040CC]</span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8040E4]</span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8040E4]</span><br><span class="line">[0x8040E4] = [0x8040E4] + [0x8042BA]</span><br><span class="line">[0x8042BA] = [[0x8040E4]]</span><br><span class="line">[[0x8040E4]] = [0x8040FC] + 0</span><br></pre></td></tr></table></figure>
+<p>到这里不难发现虚拟机结构。另<code>80407C</code>开始的<code>Elf_Sym64</code>结构体为寄存器
+r1-r7，r1永远为0, w1-w7 为 x1-x7 的低 32bit, m4
+代表<code>r4 &amp; 0xFFFFFFFF00</code>的部分</p>
+<p>用伪代码写上述过程为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mov r4, 0</span><br><span class="line">add r4, r4, S[0]</span><br><span class="line">mov b7, serial[0]</span><br><span class="line">add r4, r4, r7</span><br><span class="line">add m4, w1, 0</span><br><span class="line">mov r6, S[0]</span><br><span class="line">add r5, r4, r4</span><br><span class="line">add r5, r5, r5</span><br><span class="line">add r5, r5, r5</span><br><span class="line">add r5, x5, &amp;S[0]</span><br><span class="line">mov S[0], [r5]</span><br><span class="line">add [r5], r6, 0</span><br></pre></td></tr></table></figure>
+<p>再手动反编译一下，用伪代码写就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">j = 0</span><br><span class="line">j = j + S[0] + serial[0]</span><br><span class="line">tmp = S[0]</span><br><span class="line">S[0] = S[j]</span><br><span class="line">S[j] = tmp</span><br></pre></td></tr></table></figure>
+<p>这里是RC4的初始化部分。</p>
+<p>接下来就是刚出剩下的部分了。解题的时候是调试+硬看的，没有脚本。</p>
+<p>第一部分是用flag的每两位初始化RC4,然后加密b""的结果，再乘以一个矩阵。注意RC4并不是标准的，加密循环i+1的位置和标准RC4不同。写脚本提取数据，求解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwnlib <span class="keyword">import</span> elf</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line">elf = elf.ELF(<span class="string">&quot;/home/apeng/CTF/GoogleCTF/ELDAR/eldar&quot;</span>)</span><br><span class="line">rela_section = elf.sections[<span class="number">10</span>]</span><br><span class="line">rela_size = <span class="built_in">len</span>(rela_section.data()) // rela_section.entry_size</span><br><span class="line">i = <span class="number">64603</span></span><br><span class="line">ed = <span class="number">93676</span>-<span class="number">200</span></span><br><span class="line"><span class="comment"># i = (0x0000000000A293F2 - 0x0000000000804272) // 0x18</span></span><br><span class="line"><span class="comment"># ed = (0x0000000000A57B02 - 0x0000000000804272) // 0x18</span></span><br><span class="line">A = []</span><br><span class="line">B = []</span><br><span class="line"><span class="keyword">while</span> i &lt; ed:</span><br><span class="line">    tmp_a = []</span><br><span class="line">    is_end = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> is_end == <span class="number">0</span>:</span><br><span class="line">        reloc = rela_section.get_relocation(i)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> reloc[<span class="string">&quot;r_offset&quot;</span>] == <span class="number">0x804114</span>:</span><br><span class="line">            <span class="keyword">if</span> reloc[<span class="string">&quot;r_info&quot;</span>] == <span class="number">8</span>:</span><br><span class="line">                res = reloc[<span class="string">&quot;r_addend&quot;</span>]</span><br><span class="line">                <span class="comment"># print(f&quot;&#123;res&#125;&quot;)</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            a = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                reloc = rela_section.get_relocation(i)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> reloc[<span class="string">&quot;r_offset&quot;</span>] == <span class="number">0x80409C</span>:</span><br><span class="line">                    x = reloc[<span class="string">&quot;r_addend&quot;</span>]</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0x804ACA</span> &lt;= x &lt;= <span class="number">0x804ACA</span>+<span class="number">0x18</span>:</span><br><span class="line">                        x_str = <span class="string">f&quot;x[<span class="subst">&#123;x - <span class="number">0x804ACA</span>&#125;</span>]&quot;</span></span><br><span class="line">                        <span class="comment"># print(x_str)</span></span><br><span class="line">                    <span class="keyword">elif</span> x == <span class="number">0x8040FC</span>:</span><br><span class="line">                        b_str = <span class="string">f&quot;a&quot;</span></span><br><span class="line">                    <span class="keyword">elif</span> x == <span class="number">0x8040E4</span>:</span><br><span class="line">                        b_str = <span class="string">f&quot;x&quot;</span></span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">if</span> reloc[<span class="string">&quot;r_info&quot;</span>] &amp; <span class="number">0xFFFFFFFF</span> == <span class="number">1</span>:</span><br><span class="line">                    tmp = reloc[<span class="string">&quot;r_offset&quot;</span>]</span><br><span class="line">                    <span class="keyword">if</span> tmp == <span class="number">0x804114</span>:</span><br><span class="line">                        tmp_a.append(a)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">elif</span> tmp == <span class="number">0x8040FC</span>:</span><br><span class="line">                        <span class="keyword">if</span> b_str == <span class="string">&quot;a&quot;</span>:</span><br><span class="line">                            a += a</span><br><span class="line">                        <span class="keyword">elif</span> b_str == <span class="string">&quot;x&quot;</span>:</span><br><span class="line">                            a += <span class="number">1</span></span><br><span class="line">                        i += <span class="number">1</span></span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    <span class="keyword">elif</span> tmp == <span class="number">0x8040CC</span>:</span><br><span class="line">                        is_end = <span class="number">1</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;tmp:#x&#125;</span>&quot;</span>)</span><br><span class="line">                        <span class="comment"># exit(-1)</span></span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    A.append(tmp_a)</span><br><span class="line">    B.append(-res)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    <span class="comment"># print(A, B)</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)):</span><br><span class="line">    <span class="built_in">print</span>(A[i], B[i])</span><br><span class="line">mA = mat(A)</span><br><span class="line">mB = mat(B).reshape((<span class="number">24</span>, <span class="number">1</span>))</span><br><span class="line">mX = mA.I * mB</span><br><span class="line">res = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: <span class="built_in">int</span>(<span class="built_in">round</span>(x)), mX.reshape(<span class="number">1</span>, <span class="number">24</span>).tolist()[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rc4</span>(<span class="params">key</span>):</span><br><span class="line">    r = []</span><br><span class="line">    S = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>)]</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x100</span>):</span><br><span class="line">        j = (j + S[i] + key[i % <span class="number">2</span>]) % <span class="number">256</span></span><br><span class="line">        tmp = S[i]</span><br><span class="line">        S[i] = S[j]</span><br><span class="line">        S[j] = tmp</span><br><span class="line">    S[S[<span class="number">0</span>]]</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        j = (j + S[i]) % <span class="number">256</span></span><br><span class="line">        tmp = S[i]</span><br><span class="line">        S[i] = S[j]</span><br><span class="line">        S[j] = tmp</span><br><span class="line">        k = S[(S[i] + S[j]) % <span class="number">256</span>]</span><br><span class="line">        r.append(k)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> r</span><br><span class="line">dic = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">        key = <span class="built_in">bytes</span>([i, j])</span><br><span class="line">        dic[<span class="built_in">bytes</span>(rc4(key))] = key</span><br><span class="line"><span class="comment"># res = [134, 72, 8, 237, 30, 49, 89, 229, 232, 232, 228, 17, 242, 81, 243, 1, 225, 114, 46, 224, 109, 91, 103, 182]</span></span><br><span class="line">flag = <span class="string">b&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(res), <span class="number">3</span>):</span><br><span class="line">    flag += dic[<span class="built_in">bytes</span>(res[i:i+<span class="number">3</span>])]</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+<p>第二部分还是个矩阵运算，不过用了什么<strong>特别</strong>操作使得某些
+rela
+可以执行代码，以加入了位运算。具体原理没仔细分析，调出来之后用z3解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># from pwn import *</span></span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> capstone <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> pwnlib <span class="keyword">import</span> elf</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line">elf = elf.ELF(<span class="string">&quot;/home/apeng/CTF/GoogleCTF/ELDAR/eldar&quot;</span>)</span><br><span class="line">rela_section = elf.sections[<span class="number">10</span>]</span><br><span class="line">rela_size = <span class="built_in">len</span>(rela_section.data()) // rela_section.entry_size</span><br><span class="line">i = (<span class="number">0x0000000000A293F2</span> - <span class="number">0x0000000000804272</span>) // <span class="number">0x18</span></span><br><span class="line">ed = (<span class="number">0x0000000000A579CA</span> - <span class="number">0x0000000000804272</span>) // <span class="number">0x18</span></span><br><span class="line">A = []</span><br><span class="line">B = []</span><br><span class="line"><span class="keyword">while</span> i &lt; ed - <span class="number">100</span>:</span><br><span class="line">    tmp_a = []</span><br><span class="line">    last = <span class="literal">None</span></span><br><span class="line">    is_end = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> is_end == <span class="number">0</span>:</span><br><span class="line">        reloc = rela_section.get_relocation(i)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> reloc[<span class="string">&quot;r_offset&quot;</span>] == <span class="number">0x804114</span>:</span><br><span class="line">            <span class="keyword">if</span> reloc[<span class="string">&quot;r_info&quot;</span>] == <span class="number">8</span>:</span><br><span class="line">                res = reloc[<span class="string">&quot;r_addend&quot;</span>]</span><br><span class="line">                <span class="comment"># print(f&quot;&#123;res&#125;&quot;)</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            a = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                reloc = rela_section.get_relocation(i)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> reloc[<span class="string">&quot;r_offset&quot;</span>] == <span class="number">0x80409C</span>:</span><br><span class="line">                    x = reloc[<span class="string">&quot;r_addend&quot;</span>]</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0x804ACA</span> &lt;= x &lt;= <span class="number">0x804ACA</span>+<span class="number">0x18</span>:</span><br><span class="line">                        x_str = <span class="string">f&quot;x[<span class="subst">&#123;x - <span class="number">0x804ACA</span>&#125;</span>]&quot;</span></span><br><span class="line">                        <span class="comment"># print(x_str)</span></span><br><span class="line">                    <span class="keyword">elif</span> x == <span class="number">0x8040FC</span>:</span><br><span class="line">                        b_str = <span class="string">f&quot;a&quot;</span></span><br><span class="line">                    <span class="keyword">elif</span> x == <span class="number">0x8040E4</span>:</span><br><span class="line">                        b_str = <span class="string">f&quot;x&quot;</span></span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">if</span> reloc[<span class="string">&quot;r_info&quot;</span>] &amp; <span class="number">0xFFFFFFFF</span> == <span class="number">1</span>:</span><br><span class="line">                    tmp = reloc[<span class="string">&quot;r_offset&quot;</span>]</span><br><span class="line">                    <span class="keyword">if</span> tmp == <span class="number">0x804114</span>:</span><br><span class="line">                        <span class="keyword">if</span> a != <span class="number">0</span>:</span><br><span class="line">                            tmp_a.append(a)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">elif</span> tmp == <span class="number">0x8040FC</span>:</span><br><span class="line">                        <span class="keyword">if</span> b_str == <span class="string">&quot;a&quot;</span>:</span><br><span class="line">                            a += a</span><br><span class="line">                        <span class="keyword">elif</span> b_str == <span class="string">&quot;x&quot;</span>:</span><br><span class="line">                            a += <span class="number">1</span></span><br><span class="line">                        i += <span class="number">1</span></span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    <span class="keyword">elif</span> tmp == <span class="number">0x8040CC</span>:</span><br><span class="line">                        is_end = <span class="number">1</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;tmp:#x&#125;</span>&quot;</span>)</span><br><span class="line">                        <span class="comment"># exit(-1)</span></span><br><span class="line">                <span class="keyword">if</span> reloc[<span class="string">&quot;r_offset&quot;</span>] == <span class="number">0x804000</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    reloc = rela_section.get_relocation(i)</span><br><span class="line">                    code = struct.pack(<span class="string">&quot;q&quot;</span>, reloc[<span class="string">&quot;r_addend&quot;</span>])</span><br><span class="line">                    cs = Cs(CS_ARCH_X86, CS_MODE_64)</span><br><span class="line">                    cs.detail = <span class="literal">True</span></span><br><span class="line">                    c = <span class="built_in">list</span>(cs.disasm(code, <span class="number">0</span>))[<span class="number">0</span>]</span><br><span class="line">                    s = c.op_str.split(<span class="string">&quot;, &quot;</span>)[<span class="number">1</span>]</span><br><span class="line">                    tmp_a.append(<span class="string">f&quot;<span class="subst">&#123;c.mnemonic&#125;</span> <span class="subst">&#123;s&#125;</span>&quot;</span>)</span><br><span class="line">                    last = <span class="string">f&quot;<span class="subst">&#123;c.mnemonic&#125;</span> <span class="subst">&#123;s&#125;</span>&quot;</span></span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    A.append(tmp_a)</span><br><span class="line">    B.append(-res)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)):</span><br><span class="line">    <span class="built_in">print</span>(A[i], B[i])</span><br><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># A = [</span></span><br><span class="line"><span class="comment">#     [76, 104, &#x27;and 0x9f&#x27;, &#x27;rol 0x56&#x27;, &#x27;or 0x47&#x27;, &#x27;shr 0&#x27;, 84, 3, &#x27;shl 2&#x27;, &#x27;or 0xb8&#x27;, 30, 233], </span></span><br><span class="line"><span class="comment">#     [69, 146, 125, &#x27;and 0xfc&#x27;, 193, 225, 90, 120, &#x27;xor 0x6e&#x27;, 235, &#x27;ror 0xa&#x27;, &#x27;shr 6&#x27;], </span></span><br><span class="line"><span class="comment">#     [77, &#x27;rol 4&#x27;, 247, 176, 89, 93, &#x27;shl 1&#x27;, 61, 24, &#x27;and 0x3a&#x27;, &#x27;rol 0xed&#x27;, &#x27;xor 0x8a&#x27;], </span></span><br><span class="line"><span class="comment">#     [146, &#x27;shl 3&#x27;, 75, 170, &#x27;and 0xca&#x27;, 162, 228, 23, &#x27;and 0x38&#x27;, 226, 205, &#x27;ror 0xe5&#x27;], </span></span><br><span class="line"><span class="comment">#     [&#x27;and 0xfc&#x27;, 147, 101, 199, 180, 89, &#x27;xor 0xc&#x27;, 33, 143, 73, 227, 49], </span></span><br><span class="line"><span class="comment">#     [159, 245, 118, 217, 33, 157, &#x27;shr 1&#x27;, 10, 121, 182, 119, 232], </span></span><br><span class="line"><span class="comment">#     [233, &#x27;or 0x31&#x27;, 73, &#x27;xor 0x63&#x27;, 68, 156, 177, &#x27;and 0x9a&#x27;, &#x27;ror 0x7a&#x27;, 179, 77, 218], </span></span><br><span class="line"><span class="comment">#     [&#x27;xor 7&#x27;, &#x27;shl 6&#x27;, 50, 46, 179, 251, 63, 68, 105, &#x27;shl 4&#x27;, 243, 167], </span></span><br><span class="line"><span class="comment">#     [177, &#x27;xor 0xe7&#x27;, 119, &#x27;and 0xae&#x27;, 42, 73, 4, &#x27;ror 0x2f&#x27;, 148, &#x27;and 0xd&#x27;, &#x27;and 0x6b&#x27;, 196], </span></span><br><span class="line"><span class="comment">#     [1, 252, 58, 213, 28, &#x27;rol 0xfb&#x27;, &#x27;xor 0xfa&#x27;, &#x27;ror 0xf4&#x27;, &#x27;ror 0xdb&#x27;, 61, 52, 60], </span></span><br><span class="line"><span class="comment">#     [162, &#x27;ror 0x3b&#x27;, 4, &#x27;shl 0&#x27;, 207, 128, &#x27;ror 0x15&#x27;, &#x27;or 0x48&#x27;, 23, &#x27;rol 1&#x27;, 247, &#x27;shr 3&#x27;], </span></span><br><span class="line"><span class="comment">#     [62, &#x27;or 0x8b&#x27;, 21, 239, 145, 103, &#x27;shr 0&#x27;, &#x27;rol 0xe4&#x27;, 184, 241, 72, &#x27;xor 0x26&#x27;], </span></span><br><span class="line"><span class="comment">#     [&#x27;and 0xad&#x27;, &#x27;xor 0x17&#x27;, 101, 190, 63, 217, 214, 133, &#x27;xor 0x73&#x27;, &#x27;or 0x66&#x27;, 3, 181], </span></span><br><span class="line"><span class="comment">#     [202, 189, 61, 162, 202, &#x27;shl 0&#x27;, 194, &#x27;ror 0x14&#x27;, &#x27;shl 3&#x27;, 153, &#x27;and 0xd0&#x27;, &#x27;xor 0xff&#x27;], </span></span><br><span class="line"><span class="comment">#     [15, 41, &#x27;rol 0xb4&#x27;, &#x27;shr 3&#x27;, &#x27;ror 0x64&#x27;, 167, &#x27;rol 0x51&#x27;, &#x27;rol 0x20&#x27;, 36, 119, &#x27;xor 0xd5&#x27;, &#x27;shl 0&#x27;], </span></span><br><span class="line"><span class="comment">#     [&#x27;and 0xdf&#x27;, &#x27;shr 5&#x27;, &#x27;and 0x16&#x27;, &#x27;and 0x8c&#x27;, &#x27;or 0x42&#x27;, &#x27;and 0x51&#x27;, &#x27;or 0xae&#x27;, &#x27;shr 3&#x27;, &#x27;xor 0x8e&#x27;, 248, &#x27;and 0x93&#x27;, 84], </span></span><br><span class="line"><span class="comment">#     [66, 158, 152, 50, 87, 190, 255, 77, &#x27;xor 0xff&#x27;, 11, &#x27;and 0x94&#x27;, 229]</span></span><br><span class="line"><span class="comment"># ]</span></span><br><span class="line"><span class="comment"># B = [55708, 86516, 51475, 97579, 104060, 133855, 98530, 108831, 65551, 61438, 62593, 80711, 98024, 86875, 30801, 23335, 115183]</span></span><br><span class="line">x = [BitVec(<span class="string">f&quot;x<span class="subst">&#123;i&#125;</span>&quot;</span>, <span class="number">9</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>)]</span><br><span class="line">s = Solver()</span><br><span class="line"><span class="comment"># for i in range(len(x)):</span></span><br><span class="line"><span class="comment">#     s.add(x[i] &gt;= 0x20)</span></span><br><span class="line"><span class="comment">#     s.add(x[i] &lt; 0x7F)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rol</span>(<span class="params">x, v</span>):</span><br><span class="line">    v %= <span class="number">8</span></span><br><span class="line">    <span class="keyword">return</span> ((x &lt;&lt; v) | (x &gt;&gt; (<span class="number">8</span>-v))) &amp; <span class="number">0xFF</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ror</span>(<span class="params">x, v</span>):</span><br><span class="line">    v %= <span class="number">8</span></span><br><span class="line">    <span class="keyword">return</span> ((x &gt;&gt; v) | (x &lt;&lt; (<span class="number">8</span>-v))) &amp; <span class="number">0xFF</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A)):</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(A[i])):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span>(A[i][j]) == <span class="built_in">int</span>:</span><br><span class="line">            <span class="built_in">sum</span> += x[j] * A[i][j]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            code = A[i][j]</span><br><span class="line">            op, val = code.split(<span class="string">&quot; &quot;</span>)</span><br><span class="line">            val = <span class="built_in">int</span>(val, <span class="number">16</span>)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;and&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += x[j] &amp; val</span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;or&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += x[j] | val</span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;xor&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += x[j] ^ val</span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;rol&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += rol(x[j], val)</span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;ror&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += ror(x[j], val)</span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;shl&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += (x[j] &lt;&lt; val) &amp; <span class="number">0xFF</span></span><br><span class="line">            <span class="keyword">elif</span> op == <span class="string">&quot;shr&quot;</span>:</span><br><span class="line">                <span class="built_in">sum</span> += (x[j] &gt;&gt; val) &amp; <span class="number">0xFF</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(op)</span><br><span class="line">                exit(-<span class="number">2</span>)</span><br><span class="line">    s.add(<span class="built_in">sum</span> == B[i])</span><br><span class="line"><span class="built_in">print</span>(s.check())</span><br><span class="line">m = s.model()</span><br><span class="line">flag = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> x:</span><br><span class="line">    flag.append(m[i].as_long())</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>(flag))</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2022/07/04/2022googlectf/" title="2022 Google CTF Reverse - ELDAR writeup">http://apeng.re/2022/07/04/2022googlectf/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ELF/" rel="tag"># ELF</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/11/my-android-linker/" rel="prev" title="在Android上自己实现一个linker">
+                  <i class="fa fa-angle-left"></i> 在Android上自己实现一个linker
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/09/21/zygisk-module-sample-cmake/" rel="next" title="将 zygisk-module-sample 迁移至 cmake">
+                  将 zygisk-module-sample 迁移至 cmake <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

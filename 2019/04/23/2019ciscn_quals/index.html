@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="国赛初赛总算打完了。刚好是西湖论剑后一天，跟队友在杭州小宾馆里肝题。成绩还算可以吧，就是时间有点不够，做题慢了，不然还能出一道的。第一天1道easyGo，第二天四道题，这谁顶得住啊。安卓题还是不会做，要赶紧学安卓咯！ 下载地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 CISCN 线上赛">
+<meta property="og:url" content="http://apeng.re/2019/04/23/2019ciscn_quals/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="国赛初赛总算打完了。刚好是西湖论剑后一天，跟队友在杭州小宾馆里肝题。成绩还算可以吧，就是时间有点不够，做题慢了，不然还能出一道的。第一天1道easyGo，第二天四道题，这谁顶得住啊。安卓题还是不会做，要赶紧学安卓咯！ 下载地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-23T15:04:16.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:14:17.024Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="VM">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="DOS&#x2F;MBR">
+<meta property="article:tag" content="wasm逆向">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2019/04/23/2019ciscn_quals/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2019/04/23/2019ciscn_quals/","path":"/2019/04/23/2019ciscn_quals/","title":"2019 CISCN 线上赛"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2019 CISCN 线上赛 | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#easygo"><span class="nav-number">1.</span> <span class="nav-text">easyGo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bbvvmm"><span class="nav-number">2.</span> <span class="nav-text">bbvvmm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#username"><span class="nav-number">2.1.</span> <span class="nav-text">username</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#password"><span class="nav-number">2.2.</span> <span class="nav-text">password</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strang_int"><span class="nav-number">3.</span> <span class="nav-text">strang_int</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where_u_are"><span class="nav-number">4.</span> <span class="nav-text">where_u_are</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">算法分析</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2019/04/23/2019ciscn_quals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2019 CISCN 线上赛 | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2019 CISCN 线上赛
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-23 23:04:16" itemprop="dateCreated datePublished" datetime="2019-04-23T23:04:16+08:00">2019-04-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-24 22:14:17" itemprop="dateModified" datetime="2023-03-24T22:14:17+08:00">2023-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/" itemprop="url" rel="index"><span itemprop="name">CTF writeup</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF-writeup/2019/" itemprop="url" rel="index"><span itemprop="name">2019</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>国赛初赛总算打完了。刚好是西湖论剑后一天，跟队友在杭州小宾馆里肝题。成绩还算可以吧，就是时间有点不够，做题慢了，不然还能出一道的。第一天1道easyGo，第二天四道题，这谁顶得住啊。安卓题还是不会做，要赶紧学安卓咯！</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Apeng7364/ctf/tree/master/ctf2019/csicnxx">下载地址</a></p>
+<span id="more"></span>
+<h2 id="easygo">easyGo</h2>
+<p>这题是由Go语言编译成的二进制文件。之前没做过go的题目，有点无从下手。参考了一下夜影师傅的一篇<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-247232.htm">文章</a>，用文章中类似的方法能在<code>00000000004CEFB8</code>找到提示语字符串”Please
+input you flag like flag{123} to
+judge:“，通过查找引用能在<code>00000000004E1130</code>附近找到其他字符串的引用。再次查找引用定位到<code>sub_495150</code>，这里是主要加密逻辑。不过单纯静态做也有点乱，动调之后看到在<code>0000000000495318</code>对比长度0x2A，在</p>
+<p>.text:00000000004953A1 call sub_4023F0</p>
+<p>下断点，RDX直接指向了flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">000000C0000181B0  66 6C 61 67 7B 39 32 30  39 34 64 61 66 2D 33 33  flag&#123;92094daf-33</span><br><span class="line">000000C0000181C0  63 39 2D 34 33 31 65 2D  61 38 35 61 2D 38 62 66  c9-431e-a85a-8bf</span><br><span class="line">000000C0000181D0  62 64 35 64 66 39 38 61  64 7D 00 00 00 00 00 00  bd5df98ad&#125;......</span><br></pre></td></tr></table></figure>
+<p>之后仔细看看也能看到base64密文在<code>00000000004CF8B6</code>，加密表在<code>000000C00006C580</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">a = <span class="string">&quot;6789_-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345&quot;</span></span><br><span class="line">b = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">base_fix = <span class="string">&quot;tGRBtXMZgD6ZhalBtCUTgWgZfnkTgqoNsnAVsmUYsGtCt9pEtDEYsql3&quot;</span></span><br><span class="line">table = base_fix.maketrans(a, b)</span><br><span class="line"><span class="built_in">print</span>(base64.b64decode(base_fix.translate(table)))</span><br></pre></td></tr></table></figure>
+<h2 id="bbvvmm">bbvvmm</h2>
+<p>拿flag需要解出username和password，nc上去拿flag。</p>
+<h3 id="username">username</h3>
+<p>username用国密SM4加密，其中</p>
+<p>key = 'DA98F1DA312AB753A5703A0BFD290DD6'.decode('hex')</p>
+<p>cipher = 'RVYtG85NQ9OPHU4uQ8AuFM+MHVVrFMJMR8FuF8WJQ8Y='</p>
+<p>很明显是base64，但其实加密表也被替换了，在<code>0000000000406C20</code></p>
+<p>username的加密就是标准的国密加密。踩坑警告：不要用gmssl，用<a target="_blank" rel="noopener" href="https://github.com/yang3yen/pysm4">pysm4</a>！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> pysm4 <span class="keyword">import</span> *</span><br><span class="line">a = <span class="string">&quot;IJLMNOPKABDEFGHCQRTUVWXSYZbcdefa45789+/6ghjklmnioprstuvqwxz0123y&quot;</span></span><br><span class="line">b = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">base_fix = <span class="string">&quot;RVYtG85NQ9OPHU4uQ8AuFM+MHVVrFMJMR8FuF8WJQ8Y=&quot;</span></span><br><span class="line">key = <span class="built_in">int</span>(<span class="string">&#x27;DA98F1DA312AB753A5703A0BFD290DD6&#x27;</span>,<span class="number">16</span>)</span><br><span class="line">table = string.maketrans(a, b)</span><br><span class="line">cipher = <span class="built_in">int</span>(base64.b64decode(base_fix.translate(table)),<span class="number">16</span>)</span><br><span class="line">plain = decrypt(cipher,key)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(plain)[<span class="number">2</span>:-<span class="number">1</span>].decode(<span class="string">&#x27;hex&#x27;</span>).decode(<span class="string">&#x27;hex&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="password">password</h3>
+<p>虚拟机题</p>
+<p>vm结构体：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">00000000 vm              struc ; (sizeof=0x4D0, mappedto_10)</span><br><span class="line">00000000 reg             dd 12 dup(?)</span><br><span class="line">00000030 bytecode_base   dd ?</span><br><span class="line">00000034 zero            dd ?</span><br><span class="line">00000038 _ip             dq ?                    ; offset</span><br><span class="line">00000040 func            handle 73 dup(?)</span><br><span class="line">000004D0 vm              ends</span><br><span class="line">000004D0</span><br><span class="line">00000000 ; ---------------------------------------------------------------------------</span><br><span class="line">00000000</span><br><span class="line">00000000 handle          struc ; (sizeof=0x10, mappedto_11)</span><br><span class="line">00000000                                         ; XREF: vm/r</span><br><span class="line">00000000 num             dd ?</span><br><span class="line">00000004 zero            dd ?</span><br><span class="line">00000008 func            dq ?                    ; offset</span><br><span class="line">00000010 handle          ends</span><br></pre></td></tr></table></figure>
+<p>opcode反编译：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">B0 19 00 00 00 			push 0x19</span><br><span class="line">B5 0A					pop rA</span><br><span class="line">B2 0B 					push rB</span><br><span class="line">B4 09 					pop r9[rA]</span><br><span class="line">B0 1A 00 00 00 			push 0x1A</span><br><span class="line">B5 0A 					pop rA</span><br><span class="line">04 0B 09 				mov r9[rA], rB</span><br><span class="line">B0 1A 00 00 00 			push 0x1A</span><br><span class="line">B5 0A 					pop rA</span><br><span class="line">B2 0B 					push rB</span><br><span class="line">B4 09 					pop r9[rA]</span><br><span class="line">90 C2 00 00 00 			jmp short 0xC2</span><br><span class="line">91 						nop</span><br><span class="line">loc_00:---------------------------------</span><br><span class="line">01 1A 00 00 00 0A 		mov r5, 0x1A</span><br><span class="line">02 09 00 				mov r0, r9[rA]</span><br><span class="line">10 09 30 00 00 00 01 	lea r1, r9[0x30]</span><br><span class="line">B2 01 					push r1</span><br><span class="line">B2 00 					push r0</span><br><span class="line">C0 						mov arg0, arg1[arg0]</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">B0 F4 FF FF FF 			push 0xfffffff4			;-12</span><br><span class="line">B5 0A 					pop rA</span><br><span class="line">B1 00 					push r0[rA]</span><br><span class="line">B5 01 					pop r1</span><br><span class="line">01 1A 00 00 00 0A 		mov rA, 0x1A</span><br><span class="line">B1 09 					push r9[rA]</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">10 00 78 00 00 00 00 	lea r0, r0[0x78]</span><br><span class="line">70 00 FF 00 00 00 00 	and r0, 0xff</span><br><span class="line">50 00 18 00 00 00 00 	shl r0, r0, 0x18</span><br><span class="line">B2 00 					push r0</span><br><span class="line">B0 18 00 00 00 			push 18</span><br><span class="line">C8 						shr arg1,arg0</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">B2 01 					push r1</span><br><span class="line">B2 00 					push r0</span><br><span class="line">C3 						xor arg0,arg1</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">50 00 18 00 00 00 00 	shl r0, r0, 0x18</span><br><span class="line">B2 00 					push 0x18</span><br><span class="line">B0 18 00 00 00 			push 0x18</span><br><span class="line">C8 						shr arg1,arg0</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">70 00 FF 00 00 00 01 	and r0, r1, 0xff</span><br><span class="line">01 19 00 00 00 0A 		mov rA, 0x19</span><br><span class="line">02 09 00 				mov r0, r9[rA]</span><br><span class="line">11 01 00 00 			lea r0, r1[r0]</span><br><span class="line">loc_01:----------------------------------</span><br><span class="line">B0 19 00 00 00 			push 0x19</span><br><span class="line">B5 0A 					pop rA</span><br><span class="line">B2 00 					push r0</span><br><span class="line">B4 09 					pop rA[r9]</span><br><span class="line">01 1A 00 00 00 0A 		mov rA, 0x1A</span><br><span class="line">B1 09 					push r9</span><br><span class="line">B5 00 					pop r0</span><br><span class="line">10 00 01 00 00 00 00 	lea r0, r0[1]</span><br><span class="line">01 1A 00 00 00 0A 		mov rA, 0x1A</span><br><span class="line">04 00 09 				mov r9[rA], r0</span><br><span class="line">B0 1A 00 00 00 			push 0x1A</span><br><span class="line">B5 0A 					pop rA</span><br><span class="line">02 09 00 				mov r0, r9[rA]</span><br><span class="line">86 00 06 00 00 00 00 	cmp r0, r0, 0x06</span><br><span class="line">88 00 26 00 00 00 		jb loc_00</span><br><span class="line">91 						nop</span><br><span class="line">FF						exit</span><br></pre></td></tr></table></figure>
+<p>这部分算法很简单，不过直接看opcode会有点晕，建议直接调试，对着主要结构体看不难发现直接异或了0x78开始的6个字节，最后相加要为0。</p>
+<p>远程打不通，可能是read读了回车。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = remote(<span class="string">&#x27;39.106.224.151&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p.recv())</span><br><span class="line">p.sendline(<span class="string">&#x27;badrer12&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p.recv())</span><br><span class="line">p.send(<span class="string">&#x27;xyz&#123;|&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(p.recv())</span><br></pre></td></tr></table></figure>
+<h2 id="strang_int">strang_int</h2>
+<p>一开始不知道时啥架构的，后面放到linux里面file一下可以看到是DOS/MBR程序，直接用默认x86打开就行了。这题如果对操作系统比较熟悉的话做起来会上手一点。</p>
+<p>刚开始的一段代码是十六进制的，第一行的jmp其实跳的就是下一行，因为MBR加载的位置在0x7C00，之后初始化了一些东西，不用太关心。</p>
+<p>接下来0x01FE的代码是32进制的。注意到刚开始将ds赋值成了10h，所以接下来的寻址都要加0x100。</p>
+<p>000001FE开始的一部分初始化了一部分寄存器，也不用太关心。接下来的逻辑是关键：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">seg000:0000022C                 xor     ebx, ebx</span><br><span class="line">seg000:0000022E loc_22E:                                ; CODE XREF: seg000:0000025D↓j</span><br><span class="line">seg000:0000022E                 nop</span><br><span class="line">seg000:0000022F                 cmp     ebx, 10h</span><br><span class="line">seg000:00000232                 jge     short loc_25F</span><br><span class="line">seg000:00000234                 mov     eax, 80000h</span><br><span class="line">seg000:00000239                 lea     edx, ds:0D08h[ebx*4]</span><br><span class="line">seg000:00000240                 mov     edx, [edx]</span><br><span class="line">seg000:00000242                 mov     ax, dx</span><br><span class="line">seg000:00000245                 mov     dx, 8E00h</span><br><span class="line">seg000:00000249                 mov     ecx, 21h ; &#x27;!&#x27;</span><br><span class="line">seg000:0000024E                 add     ecx, ebx</span><br><span class="line">seg000:00000250                 lea     esi, ds:128h[ecx*8]</span><br><span class="line">seg000:00000257                 mov     [esi], eax</span><br><span class="line">seg000:00000259                 mov     [esi+4], edx</span><br><span class="line">seg000:0000025C                 inc     ebx</span><br><span class="line">seg000:0000025D                 jmp     short loc_22E</span><br></pre></td></tr></table></figure>
+<p>在第一个0x10的循环内，修改了ds:128h开始的一些数据，把ds:0D08h和8E00复制过去。去道0xE08并不能看出什么，但是如果再往下看0x100个字节，到了0xF08能看到刚好连续16个word指向了16个地址。顺着这些地址也发现不了什么，但是把这些地址都加0x100后，刚刚好能对应16个类似函数的代码。这时大概能猜到一点东西：程序里的偏移不太对。</p>
+<p>最终0x228+0x21*8这里存放了连续16个地址，映射到0xF08也就是`<code>00000D7C</code>开始的16个函数。</p>
+<p>再来看这一段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">seg000:0000025F ; --------------------------------------------------------------------</span><br><span class="line">seg000:0000025F</span><br><span class="line">seg000:0000025F loc_25F:                                ; CODE XREF: seg000:00000232↑j</span><br><span class="line">seg000:0000025F                                         ; seg000:00000266↓j</span><br><span class="line">seg000:0000025F                 call    sub_268</span><br><span class="line">seg000:00000264                 int     21h             ; DOS -</span><br><span class="line">seg000:00000266                 jmp     short loc_25F</span><br><span class="line">seg000:00000268</span><br><span class="line">seg000:00000268 ; =============== S U B R O U T I N E ================================</span><br><span class="line">seg000:00000268</span><br><span class="line">seg000:00000268</span><br><span class="line">seg000:00000268 sub_268         proc near               ; CODE XREF: seg000:loc_25F↑p</span><br><span class="line">seg000:00000268                 mov     edi, large ds:0B78h</span><br><span class="line">seg000:0000026E                 lea     edi, ds:0D48h[edi*4]</span><br><span class="line">seg000:00000275                 mov     eax, [edi]</span><br><span class="line">seg000:00000277                 mov     large ds:65h, al</span><br><span class="line">seg000:0000027C                 mov     ecx, [edi+4]</span><br><span class="line">seg000:0000027F                 mov     eax, [edi+8]</span><br><span class="line">seg000:00000282                 retn</span><br><span class="line">seg000:00000282 sub_268         endp</span><br></pre></td></tr></table></figure>
+<p>同样的，这里的0B78h和0D48h和65h应当对应地址0x0D78和0xF48和265h。在F48看到一连串相似的结构体，每个的第一个字节都是0x21到0x30中的某一个。</p>
+<p>继续看代码，从0xF48+[0xD78]*4读取一个字节，覆盖到0x265上，刚好覆盖了int
+指令的操作数那一字节，联系之前的修改函数地址，不难得出，这道题通过修改中断向量表，用中断服务程序实现了一个虚拟机功能，用ecx和eax实现操作数的传递。其中<code>00000D64</code>开始的5个dword是寄存器，<code>00000D78</code>是ip。接下来就分析<code>00000D7C</code>开始的每个handler了。</p>
+<p>用下面的代码可以得到opcode对应的汇编代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">opcode = [[<span class="number">0x21</span>, <span class="number">0x0</span>, <span class="number">0x81</span>], [<span class="number">0x27</span>, <span class="number">0x1</span>, <span class="number">0x1</span>], [<span class="number">0x24</span>, <span class="number">0x1</span>, <span class="number">0x1</span>], [<span class="number">0x23</span>, <span class="number">0x2</span>, <span class="number">0x0</span>], [<span class="number">0x22</span>, <span class="number">0x3</span>, <span class="number">0x2</span>], [<span class="number">0x21</span>, <span class="number">0x4</span>, <span class="number">0x8</span>], [<span class="number">0x28</span>, <span class="number">0x3</span>, <span class="number">0x4</span>], [<span class="number">0x27</span>, <span class="number">0x2</span>, <span class="number">0x3</span>], [<span class="number">0x28</span>, <span class="number">0x3</span>, <span class="number">0x4</span>], [<span class="number">0x27</span>, <span class="number">0x2</span>, <span class="number">0x3</span>], [<span class="number">0x28</span>, <span class="number">0x3</span>, <span class="number">0x4</span>], [<span class="number">0x27</span>, <span class="number">0x2</span>, <span class="number">0x3</span>], [<span class="number">0x27</span>, <span class="number">0x3</span>, <span class="number">0x3</span>], [<span class="number">0x23</span>, <span class="number">0x4</span>, <span class="number">0x3</span>], [<span class="number">0x24</span>, <span class="number">0x3</span>, <span class="number">0x2</span>], [<span class="number">0x27</span>, <span class="number">0x2</span>, <span class="number">0x4</span>], [<span class="number">0x24</span>, <span class="number">0x0</span>, <span class="number">0x2</span>], [<span class="number">0x21</span>, <span class="number">0x1</span>, <span class="number">0x1</span>], [<span class="number">0x25</span>, <span class="number">0x0</span>, <span class="number">0x1</span>], [<span class="number">0x22</span>, <span class="number">0x1</span>, <span class="number">0x0</span>], [<span class="number">0x21</span>, <span class="number">0x2</span>, <span class="number">0x81</span>], [<span class="number">0x26</span>, <span class="number">0x1</span>, <span class="number">0x2</span>], [<span class="number">0x21</span>, <span class="number">0x2</span>, <span class="number">0x9</span>], [<span class="number">0x26</span>, <span class="number">0x1</span>, <span class="number">0x2</span>], [<span class="number">0x21</span>, <span class="number">0x2</span>, <span class="number">0x9</span>], [<span class="number">0x2D</span>, <span class="number">0x2</span>, <span class="number">0x1</span>], [<span class="number">0x21</span>, <span class="number">0x0</span>, <span class="number">0x81</span>], [<span class="number">0x22</span>, <span class="number">0x1</span>, <span class="number">0x0</span>], [<span class="number">0x21</span>, <span class="number">0x2</span>, <span class="number">0x9</span>], [<span class="number">0x25</span>, <span class="number">0x1</span>, <span class="number">0x2</span>], [<span class="number">0x23</span>, <span class="number">0x3</span>, <span class="number">0x0</span>], [<span class="number">0x23</span>, <span class="number">0x4</span>, <span class="number">0x1</span>], [<span class="number">0x26</span>, <span class="number">0x3</span>, <span class="number">0x4</span>], [<span class="number">0x21</span>, <span class="number">0x4</span>, <span class="number">0x7E</span>], [<span class="number">0x2D</span>, <span class="number">0x4</span>, <span class="number">0x3</span>], [<span class="number">0x21</span>, <span class="number">0x3</span>, <span class="number">0x1</span>], [<span class="number">0x25</span>, <span class="number">0x0</span>, <span class="number">0x3</span>], [<span class="number">0x25</span>, <span class="number">0x1</span>, <span class="number">0x3</span>], [<span class="number">0x26</span>, <span class="number">0x2</span>, <span class="number">0x3</span>], [<span class="number">0x21</span>, <span class="number">0x4</span>, <span class="number">0x5A</span>], [<span class="number">0x2D</span>, <span class="number">0x4</span>, <span class="number">0x2</span>], [<span class="number">0x2F</span>, <span class="number">0x0</span>, <span class="number">0x0</span>], [<span class="number">0x30</span>, <span class="number">0x0</span>, <span class="number">0x0</span>]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ana</span>(<span class="params">a</span>):</span><br><span class="line">    <span class="keyword">if</span> a[<span class="number">0</span>] == <span class="number">0x21</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;mov r%d, 0x%x&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x22</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;mov r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x23</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;mov r%d, [r%d*4 +0E48h]&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x24</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;mov [r%d*4 + 0E48h], r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x25</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;add r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x26</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;sub r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x27</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;xor r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x28</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;shl r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x29</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;shr r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2a</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;and r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2b</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;jmp r%d&quot;</span>%(a[<span class="number">1</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2c</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;jz r%d, r%d&quot;</span>%(a[<span class="number">2</span>],a[<span class="number">1</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2d</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;jnz r%d, r%d&quot;</span>%(a[<span class="number">1</span>],a[<span class="number">2</span>]))</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2e</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;pause&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x2f</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;correct!&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> a[<span class="number">0</span>] == <span class="number">0x30</span>:</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;wrong!&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span> :</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;error!&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(opcode)):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%02d&#x27;</span>%i, ana(opcode[i]))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">00            mov r0, 0x81</span><br><span class="line">01            xor r1, r1</span><br><span class="line">02            mov [r1*4 + 0E48h], r1</span><br><span class="line">02 loc_03:     </span><br><span class="line">03            mov r2, [r0*4 +0E48h]	     ;plain</span><br><span class="line">04            mov r3, r2</span><br><span class="line">05            mov r4, 0x8</span><br><span class="line">06            shl r3, r4</span><br><span class="line">07            xor r2, r3</span><br><span class="line">08            shl r3, r4</span><br><span class="line">09            xor r2, r3</span><br><span class="line">10            shl r3, r4</span><br><span class="line">11            xor r2, r3</span><br><span class="line">11            </span><br><span class="line">12            xor r3, r3</span><br><span class="line">13            mov r4, [r3*4 +0E48h]</span><br><span class="line">14            mov [r3*4 + 0E48h], r2</span><br><span class="line">15            xor r2, r4</span><br><span class="line">16            mov [r0*4 + 0E48h], r2</span><br><span class="line">16            </span><br><span class="line">17            mov r1, 0x1</span><br><span class="line">18            add r0, r1</span><br><span class="line">19            mov r1, r0</span><br><span class="line">20            mov r2, 0x81</span><br><span class="line">21            sub r1, r2</span><br><span class="line">22            mov r2, 0x9</span><br><span class="line">23            sub r1, r2</span><br><span class="line">24            mov r2, 0x9</span><br><span class="line">25            jnz r2, r1				;loc_03</span><br><span class="line">25            </span><br><span class="line">26            mov r0, 0x81				;memcmp</span><br><span class="line">27            mov r1, r0</span><br><span class="line">28            mov r2, 0x9</span><br><span class="line">29            add r1, r2</span><br><span class="line">30 loc_30:    mov r3, [r0*4 +0E48h]</span><br><span class="line">31            mov r4, [r1*4 +0E48h]</span><br><span class="line">32            sub r3, r4</span><br><span class="line">33            mov r4, 0x7e</span><br><span class="line">34            jnz r4, r3				;loc_42</span><br><span class="line">35            mov r3, 0x1</span><br><span class="line">36            add r0, r3</span><br><span class="line">37            add r1, r3</span><br><span class="line">38            sub r2, r3</span><br><span class="line">39            mov r4, 0x5a</span><br><span class="line">40            jnz r4, r2				;loc_30</span><br><span class="line">41            correct!</span><br><span class="line">42 loc_42:    wrong!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>加密算法并不难，注意一开头将opcode的前4个字节清零，然后这里放每次循环得到的结果，下一个循环继续异或。</p>
+<p>写出解密算法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cipher = [<span class="number">0x65</span>, <span class="number">0x55</span>, <span class="number">0x63</span>, <span class="number">0x57</span>, <span class="number">0x01</span>, <span class="number">0x04</span>, <span class="number">0x53</span>, <span class="number">0x06</span>, <span class="number">0x49</span>, <span class="number">0x49</span>, <span class="number">0x49</span>, <span class="number">0x1F</span>, <span class="number">0x1F</span>, <span class="number">0x07</span>, <span class="number">0x57</span>, <span class="number">0x51</span>, <span class="number">0x57</span>, <span class="number">0x43</span>, <span class="number">0x5F</span>, <span class="number">0x57</span>, <span class="number">0x57</span>, <span class="number">0x5E</span>, <span class="number">0x43</span>, <span class="number">0x57</span>, <span class="number">0x0A</span>, <span class="number">0x02</span>, <span class="number">0x57</span>, <span class="number">0x43</span>, <span class="number">0x5E</span>, <span class="number">0x03</span>, <span class="number">0x5E</span>, <span class="number">0x57</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x59</span>, <span class="number">0x0F</span>]</span><br><span class="line">key = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line">plain = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">36</span>,<span class="number">4</span>):</span><br><span class="line">    temp = cipher[i:i+<span class="number">4</span>]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        temp[j] ^= key[j]</span><br><span class="line">    key = temp[:]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">4</span>)[::-<span class="number">1</span>]:</span><br><span class="line">        temp[j]^=temp[j-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        plain+=<span class="built_in">chr</span>(temp[j])</span><br><span class="line"><span class="built_in">print</span>(plain)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="where_u_are">where_u_are</h2>
+<h3 id="环境配置">环境配置</h3>
+<p>一道wasm逆向题。wasm的汇编代码比x86的恶心多了。。。</p>
+<p>用python本地可以开个web服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer <span class="number">8080</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>chrome中输入localhost:8080，点击html进入web服务。按f12，在sources界面可以调试。第一次打开并没有加载好wasm，刷新一次可以看到wasm，可以看到左侧各种函数，中间是主要的汇编代码，右侧有调用栈，断点，变量监视等。断点设好后可以在右侧Scope里看到各种全局变量和局部变量。之后静态分析不动了可以来这里动调确认猜想。</p>
+<p>另外跑web的服务的时候不清楚为啥点了确认之后会反复弹窗，点了取消猜出结果，而且只会输出两个浮点数，结果的提示语并不会输出。</p>
+<p>刚刚说了，wasm的汇编及其恶心。先用<a target="_blank" rel="noopener" href="https://github.com/WebAssembly/wabt/">wabt</a>的wasm2c将wasm转成C代码。这里的C代码仍然究极恶心。我们可以用gcc+IDA帮我们优化，然后阅读IDA反编译出来的代码。</p>
+<p>首先是wasm2c。编译好wabt后，在bin文件夹内能找到wasm2c，使用指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wasm2c where_u_are.wasm -o where_u_are.c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>得到wabt反编译的C代码，然后把wasm2c文件夹内的<code>wasm-rt.h</code>复制到同目录下，使用指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -c where_u_are.c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>得到只编译不连接的.o文件，这时就可以拖进ida分析了。</p>
+<h3 id="算法分析">算法分析</h3>
+<p>经过gcc+IDA的优化，代码总算多少能看了。main函数对应wasm的第25个函数即f25。</p>
+<p>分析算法之前，先明白wasm的字符串常量全都保存在文件末尾，我们不用太关心它是怎样使用的，只要知道哪里用到了这串字符串即可。用010editor在文件末尾我们看到了几个字符串："%s"
+"%lf %lf" "Correct!!" "Wrong!"</p>
+<p>回到main函数，可以看到几个类似偏移的数据：0x1170u 0x1173u 0x1186u
+0x117Cu。如果我们稍作计算，可以发现这些偏移和这些字符串是一一对应的。可以断定这里就是对应这些字符串，也就不难猜出f98和f97是类似printf和scanf的函数。那么主要逻辑应该在f23和f24里面。分析f23中的循环，先猜测f43是strlen，在循环内的f22中，看到另一个可疑的偏移0x400，在010editor中看到是一个长度32位的字符串，对应0-9a-z，字母部分空缺了几个。回到f23的循环，每个循环内部还有大小为5的循环，结合最后一行(&gt;&gt;j)&amp;1，以及刚刚的字符串，应该能想到，这里将输入的字符按照字符串映射到0到31，然后把每一个bit取出来，这样的到了n*5个bit</p>
+<p>来到f24，稍作分析这里的代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">v9 = <span class="number">0.0</span>;</span><br><span class="line">v10 = <span class="number">0.0</span>;</span><br><span class="line"><span class="keyword">if</span> ( ++wasm_rt_call_stack_depth &gt; <span class="number">0x1F4</span>u )</span><br><span class="line">  wasm_rt_trap(<span class="number">7LL</span>, a2, a3);</span><br><span class="line">v8 = g10;</span><br><span class="line">g10 += <span class="number">272</span>;</span><br><span class="line"><span class="keyword">if</span> ( g10 &gt;= g11 )</span><br><span class="line">  Z_envZ_abortStackOverflowZ_vi(<span class="number">272LL</span>, a2);</span><br><span class="line">v7 = v8 + <span class="number">112</span>;</span><br><span class="line">v11 = <span class="number">-180.0</span>;</span><br><span class="line">v12 = <span class="number">180.0</span>;</span><br><span class="line">v13 = <span class="number">-90.0</span>;</span><br><span class="line">v14 = <span class="number">90.0</span>;</span><br><span class="line"><span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">50</span>; ++i )</span><br><span class="line">&#123;</span><br><span class="line">  v6 = i32_load(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * i + (_DWORD)a1));</span><br><span class="line">  <span class="keyword">if</span> ( (i + <span class="number">1</span>) % <span class="number">2</span> == <span class="number">1</span> )</span><br><span class="line">    i32_store(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * ((i + <span class="number">1</span>) / <span class="number">2</span>) + v7), v6);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    i32_store(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * (i / <span class="number">2</span>) + v8), v6);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; <span class="number">20</span>; ++j )</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i32_load(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * j + v7)) == <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v11 = v10;</span><br><span class="line">    v10 = (v10 + v12) / <span class="number">2.0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i32_load(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * j + v7)) == <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v12 = v10;</span><br><span class="line">    v10 = (v11 + v10) / <span class="number">2.0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i32_load(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * j + v8)) == <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v13 = v9;</span><br><span class="line">    v9 = (v9 + v14) / <span class="number">2.0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i32_load(Z_envZ_memory, (<span class="type">unsigned</span> <span class="type">int</span>)(<span class="number">4</span> * j + v8)) == <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v14 = v9;</span><br><span class="line">    v9 = (v13 + v9) / <span class="number">2.0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>大概就是将刚刚的n*5个bit按奇偶分成两组，然后进行这里的“算法”。最终校验的代码IDA分析的不是很好，不过大概也能看出结果要为25和175。</p>
+<p>比赛时没看出是啥算法，就爆破了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1048576</span>):</span><br><span class="line">    a = <span class="string">&quot;&#123;0:020b&#125;&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">    v9 = <span class="number">0.0</span></span><br><span class="line">    v10 = <span class="number">0.0</span></span><br><span class="line">    v11 = -<span class="number">180.0</span></span><br><span class="line">    v12 = <span class="number">180.0</span></span><br><span class="line">    <span class="comment"># v11 = -90.0</span></span><br><span class="line">    <span class="comment"># v12 = 90.0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</span><br><span class="line">        <span class="keyword">if</span> a[i]==<span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            v12 = v10</span><br><span class="line">            v10 = (v11 + v10)/<span class="number">2.0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            v11 = v10</span><br><span class="line">            v10 = (v10 + v12) / <span class="number">2.0</span></span><br><span class="line">    <span class="keyword">if</span> (v10-<span class="number">175</span>)&gt;=-<span class="number">0.0001</span> <span class="keyword">and</span> (v10-<span class="number">175</span>)&lt;=<span class="number">0.0001</span>:</span><br><span class="line">        <span class="built_in">print</span>(a)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1048576</span>):</span><br><span class="line">    b = <span class="string">&quot;&#123;0:020b&#125;&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">    v9 = <span class="number">0.0</span></span><br><span class="line">    v10 = <span class="number">0.0</span></span><br><span class="line">    v11 = -<span class="number">90.0</span></span><br><span class="line">    v12 = <span class="number">90.0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</span><br><span class="line">        <span class="keyword">if</span> a[i]==<span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            v12 = v10</span><br><span class="line">            v10 = (v11 + v10)/<span class="number">2.0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            v11 = v10</span><br><span class="line">            v10 = (v10 + v12) / <span class="number">2.0</span></span><br><span class="line">    <span class="keyword">if</span> (v10-<span class="number">25</span>)&gt;=-<span class="number">0.0001</span> <span class="keyword">and</span> (v10-<span class="number">25</span>)&lt;=<span class="number">0.0001</span>:</span><br><span class="line">        <span class="built_in">print</span>(b)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="comment"># a = &#x27;11111100011100011100&#x27;</span></span><br><span class="line"><span class="comment"># b = &#x27;10100011100011100011&#x27;</span></span><br><span class="line">s = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a)):</span><br><span class="line">    s += a[i]</span><br><span class="line">    s += b[i]</span><br><span class="line"><span class="built_in">print</span>(s)</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line">table =  <span class="string">&#x27;0123456789bcdefghjkmnpqrstuvwxyz&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(s),<span class="number">5</span>):</span><br><span class="line">    flag += table[<span class="built_in">eval</span>(<span class="string">&#x27;0b&#x27;</span> + s[i:i+<span class="number">5</span>])]</span><br><span class="line">flag = <span class="string">&#x27;flag&#123;&#x27;</span> + flag + <span class="string">&#x27;&#125;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>赛后发现这其实是二分查找，奇偶两组是两个区间[-180, 180]和[-90,
+90]，每一个bit的0或1决定二分的方向，那只要求出查找175和25过程中的方向即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">getbit</span>(<span class="params">start, result, min_, max_</span>):</span><br><span class="line">    res = []</span><br><span class="line">    current = start</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</span><br><span class="line">        <span class="keyword">if</span> current&lt;result:</span><br><span class="line">            min_ = current</span><br><span class="line">            res.append(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            max_ = current</span><br><span class="line">            res.append(<span class="number">0</span>)</span><br><span class="line">        current = (min_+max_)/<span class="number">2.0</span></span><br><span class="line">    <span class="built_in">print</span>(current)</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">abs</span>(current-result)&lt;=<span class="number">0.0001</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">evenbit = getbit(<span class="number">0.0</span>,<span class="number">175.0</span>,-<span class="number">180.0</span>,<span class="number">180.0</span>)</span><br><span class="line">oddbit = getbit(<span class="number">0.0</span>,<span class="number">25.0</span>,-<span class="number">90.0</span>,<span class="number">90.0</span>)</span><br><span class="line">table =  <span class="string">&#x27;0123456789bcdefghjkmnpqrstuvwxyz&#x27;</span></span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line">s = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</span><br><span class="line">    s+=<span class="built_in">str</span>(evenbit[i])</span><br><span class="line">    s+=<span class="built_in">str</span>(oddbit[i])</span><br><span class="line"><span class="built_in">print</span>(s)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(s),<span class="number">5</span>):</span><br><span class="line">    flag += table[<span class="built_in">eval</span>(<span class="string">&#x27;0b&#x27;</span> + s[i:i+<span class="number">5</span>])]</span><br><span class="line">flag = <span class="string">&#x27;flag&#123;&#x27;</span> + flag + <span class="string">&#x27;&#125;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2019/04/23/2019ciscn_quals/" title="2019 CISCN 线上赛">http://apeng.re/2019/04/23/2019ciscn_quals/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/VM/" rel="tag"># VM</a>
+              <a href="/tags/Go/" rel="tag"># Go</a>
+              <a href="/tags/DOS-MBR/" rel="tag"># DOS/MBR</a>
+              <a href="/tags/wasm%E9%80%86%E5%90%91/" rel="tag"># wasm逆向</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/08/2019xihu_quals/" rel="prev" title="2019 西湖论剑 线上赛">
+                  <i class="fa fa-angle-left"></i> 2019 西湖论剑 线上赛
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/05/02/2019starctf/" rel="next" title="2019 *CTF">
+                  2019 *CTF <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
