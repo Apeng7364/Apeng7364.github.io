@@ -6,7 +6,7 @@
   <link href="http://apeng.re/atom.xml" rel="self"/>
   
   <link href="http://apeng.re/"/>
-  <updated>2023-10-05T16:52:30.322Z</updated>
+  <updated>2023-10-05T16:57:37.914Z</updated>
   <id>http://apeng.re/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://apeng.re/2023/09/28/adb-shell-zsh/"/>
     <id>http://apeng.re/2023/09/28/adb-shell-zsh/</id>
     <published>2023-09-28T12:08:19.000Z</published>
-    <updated>2023-10-05T16:52:30.322Z</updated>
+    <updated>2023-10-05T16:57:37.914Z</updated>
     
     
     <summary type="html">&lt;p&gt;Android 自带的 shell (/system/bin/sh)
@@ -33,10 +33,10 @@ adb shell 更换为 zsh，并能够使用 oh-my-zsh
     
     
     
+    <category term="使用技巧" scheme="http://apeng.re/categories/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    
     
     <category term="Android" scheme="http://apeng.re/tags/Android/"/>
-    
-    <category term="使用技巧" scheme="http://apeng.re/tags/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
     
   </entry>
   
