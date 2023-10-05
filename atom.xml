@@ -6,7 +6,7 @@
   <link href="http://apeng.re/atom.xml" rel="self"/>
   
   <link href="http://apeng.re/"/>
-  <updated>2023-09-21T13:19:12.413Z</updated>
+  <updated>2023-10-05T16:52:30.322Z</updated>
   <id>http://apeng.re/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>通过 Magisk 模块和 LineageOS 系统定制化 adb shell</title>
+    <link href="http://apeng.re/2023/09/28/adb-shell-zsh/"/>
+    <id>http://apeng.re/2023/09/28/adb-shell-zsh/</id>
+    <published>2023-09-28T12:08:19.000Z</published>
+    <updated>2023-10-05T16:52:30.322Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Android 自带的 shell (/system/bin/sh)
+太简单了，很多功能不支持。我个人一直喜欢用 LineageOS 的原因在于
+LineageOS 编译了一个 bash 放入系统，相比 sh
+功能强大一点。最近在和同事的折腾下，将 zsh 打包为一个 magisk 模块，将
+adb shell 更换为 zsh，并能够使用 oh-my-zsh
+以及相关的主题、插件等，大幅提高日常使用体验。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="http://apeng.re/tags/Android/"/>
+    
+    <category term="使用技巧" scheme="http://apeng.re/tags/%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    
+  </entry>
   
   <entry>
     <title>将 zygisk-module-sample 迁移至 cmake</title>
@@ -41,7 +65,7 @@
     <link href="http://apeng.re/2022/07/04/2022googlectf/"/>
     <id>http://apeng.re/2022/07/04/2022googlectf/</id>
     <published>2022-07-04T05:18:51.000Z</published>
-    <updated>2023-03-24T14:14:17.112Z</updated>
+    <updated>2023-10-05T16:52:50.262Z</updated>
     
     
     <summary type="html">&lt;p&gt;周末打了 Google CTF。这貌似是我第一次打 Google
@@ -459,46 +483,6 @@ time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Dec
     <category term="算法逆向" scheme="http://apeng.re/tags/%E7%AE%97%E6%B3%95%E9%80%86%E5%90%91/"/>
     
     <category term="SG11" scheme="http://apeng.re/tags/SG11/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2019 *CTF</title>
-    <link href="http://apeng.re/2019/05/02/2019starctf/"/>
-    <id>http://apeng.re/2019/05/02/2019starctf/</id>
-    <published>2019-05-02T08:29:44.000Z</published>
-    <updated>2023-03-24T14:14:17.028Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;比赛时间：4月29日-4月30日&lt;/p&gt;
-&lt;p&gt;XCTF联赛内的*ctf，由上海复旦大学******战队（sixstar）主办。&lt;/p&gt;
-&lt;p&gt;在De1ta打的这场比赛，最终第七名。re的题目ak，还做了个misc，还是有点小高兴。&lt;/p&gt;
-&lt;p&gt;总体体验还是不错的，希望能多打打这种高水平的比赛，继续磨练！&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/starctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
-    
-    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
-    
-    
-    <category term="Go" scheme="http://apeng.re/tags/Go/"/>
-    
-    <category term="花指令" scheme="http://apeng.re/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/"/>
-    
-    <category term="香农-范诺编码" scheme="http://apeng.re/tags/%E9%A6%99%E5%86%9C-%E8%8C%83%E8%AF%BA%E7%BC%96%E7%A0%81/"/>
-    
-    <category term="混淆" scheme="http://apeng.re/tags/%E6%B7%B7%E6%B7%86/"/>
-    
-    <category term="词法分析器" scheme="http://apeng.re/tags/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8/"/>
-    
-    <category term="lsb" scheme="http://apeng.re/tags/lsb/"/>
-    
-    <category term="zip" scheme="http://apeng.re/tags/zip/"/>
-    
-    <category term="doc" scheme="http://apeng.re/tags/doc/"/>
     
   </entry>
   
