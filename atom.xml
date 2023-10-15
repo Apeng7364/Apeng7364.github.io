@@ -6,7 +6,7 @@
   <link href="http://apeng.re/atom.xml" rel="self"/>
   
   <link href="http://apeng.re/"/>
-  <updated>2023-10-05T16:57:37.914Z</updated>
+  <updated>2023-10-15T06:08:45.385Z</updated>
   <id>http://apeng.re/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 Choicy 來管理 Frida Gadget</title>
+    <link href="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/"/>
+    <id>http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/</id>
+    <published>2023-10-14T07:11:12.000Z</published>
+    <updated>2023-10-15T06:08:45.385Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的
+frida-server 来使用 frida。但是在实际使用中 frida-server
+会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 &lt;a href=&quot;https://github.com/opa334/Choicy/&quot;&gt;Choicy&lt;/a&gt; 插件可以很方便的管理
+Frida Gadget。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="iOS" scheme="http://apeng.re/tags/iOS/"/>
+    
+    <category term="Frida" scheme="http://apeng.re/tags/Frida/"/>
+    
+  </entry>
   
   <entry>
     <title>通过 Magisk 模块和 LineageOS 系统定制化 adb shell</title>
@@ -449,40 +471,6 @@ time上看了。开赛前pizza突然问De1ta打不打，我说不打。之后Dec
     <category term="Unity 3D" scheme="http://apeng.re/tags/Unity-3D/"/>
     
     <category term="花指令" scheme="http://apeng.re/tags/%E8%8A%B1%E6%8C%87%E4%BB%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2019 RCTF</title>
-    <link href="http://apeng.re/2019/05/20/2019rctf/"/>
-    <id>http://apeng.re/2019/05/20/2019rctf/</id>
-    <published>2019-05-20T04:23:36.000Z</published>
-    <updated>2023-03-24T14:14:17.024Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;比赛时间：5月18日-5月19日&lt;/p&gt;
-&lt;p&gt;XCTF联赛内的RCTF，由福州大学RIOS战队主办。&lt;/p&gt;
-&lt;p&gt;De1ta最终排第7名。re再次ak&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Apeng7364/ctf/tree/master/ctf2019/rctf&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="CTF writeup" scheme="http://apeng.re/categories/CTF-writeup/"/>
-    
-    <category term="2019" scheme="http://apeng.re/categories/CTF-writeup/2019/"/>
-    
-    
-    <category term="VM" scheme="http://apeng.re/tags/VM/"/>
-    
-    <category term="xxtea" scheme="http://apeng.re/tags/xxtea/"/>
-    
-    <category term="Blowfish" scheme="http://apeng.re/tags/Blowfish/"/>
-    
-    <category term="RISC-V" scheme="http://apeng.re/tags/RISC-V/"/>
-    
-    <category term="算法逆向" scheme="http://apeng.re/tags/%E7%AE%97%E6%B3%95%E9%80%86%E5%90%91/"/>
-    
-    <category term="SG11" scheme="http://apeng.re/tags/SG11/"/>
     
   </entry>
   

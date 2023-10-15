@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"apeng.re","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的 frida-server 来使用 frida。但是在实际使用中 frida-server 会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 Choicy 插件可以很方便的管理 Frida Gadget。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Choicy 來管理 Frida Gadget">
+<meta property="og:url" content="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/index.html">
+<meta property="og:site_name" content="Apeng&#39;s blog">
+<meta property="og:description" content="通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的 frida-server 来使用 frida。但是在实际使用中 frida-server 会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 Choicy 插件可以很方便的管理 Frida Gadget。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-14T07:11:12.000Z">
+<meta property="article:modified_time" content="2023-10-15T06:08:45.385Z">
+<meta property="article:author" content="Apeng">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Frida">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/","path":"/2023/10/14/use-choicy-to-manage-frida-gadget/","title":"使用 Choicy 來管理 Frida Gadget"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 Choicy 來管理 Frida Gadget | Apeng's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Apeng's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Apeng's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Reverse Everything</p>
+      <img class="custom-logo-image" src="/uploads/custom-logo.png" alt="Apeng's blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#frida-server-%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="nav-number">1.</span> <span class="nav-text">Frida Server 的缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frida-gadget"><span class="nav-number">2.</span> <span class="nav-text">Frida Gadget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-choicy"><span class="nav-number">3.</span> <span class="nav-text">使用 Choicy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5-frida-gadget"><span class="nav-number">4.</span> <span class="nav-text">连接 Frida Gadget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Apeng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Apeng7364" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Apeng7364" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:apeng622@gmail.com" title="E-Mail → mailto:apeng622@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Apeng_7364" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Apeng_7364" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_nd.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="/friends" title="&#x2F;friends">Friends</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Apeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Choicy 來管理 Frida Gadget | Apeng's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Choicy 來管理 Frida Gadget
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-14 15:11:12" itemprop="dateCreated datePublished" datetime="2023-10-14T15:11:12+08:00">2023-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-15 14:08:45" itemprop="dateModified" datetime="2023-10-15T14:08:45+08:00">2023-10-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的
+frida-server 来使用 frida。但是在实际使用中 frida-server
+会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 <a target="_blank" rel="noopener" href="https://github.com/opa334/Choicy/">Choicy</a> 插件可以很方便的管理
+Frida Gadget。</p>
+<span id="more"></span>
+<h2 id="frida-server-的缺陷">Frida Server 的缺陷</h2>
+<p>在我日常使用中，发现Frida Server 有以下几个缺陷：</p>
+<ol type="1">
+<li>迷之稳定性。在我的 iPhone 11/iOS 14.1 设备上，通过 Taurine
+越狱后，使用frida时几乎必现内核 panic，设备直接重启。通过unc0ver 或
+checkra1n 越狱则没有这个问题。这使得我完全无法在 Taurine
+越狱后的设备上使用 frida，不得不改为用 unc0ver，但 unc0ver
+还是老旧了。frida 的仓库中有一些 issue
+提及这个问题，但都没找到具体的原因：
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/frida/frida/issues/2643">https://github.com/frida/frida/issues/2643</a>
+和我的情况相近</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/frida/frida/issues/1231#issuecomment-605534130">https://github.com/frida/frida/issues/1231#issuecomment-605534130</a>
+作者似乎表示只支持 unc0ver 越狱</li>
+</ul></li>
+<li>易被检测。有些 app 会在检测到安装官方 frida-server 后直接闪退。</li>
+</ol>
+<p>与之相对应的，Frida Gadget
+很稳定，至少没遇到过直接把内核搞崩的情况。Gadget 的隐蔽性也比 Server
+更好。</p>
+<h2 id="frida-gadget">Frida Gadget</h2>
+<p>注入 Frida Gadget 非常简单，只需要将 frida-gadget.dylib 和 配置文件
+frida-gadget.config ，以及 Substrate 的配置文件 frida-gadget.plist 放入
+Substrate 的模块目录
+<code>/Library/MobileSubstrate/DynamicLibraries</code> 即可。修改 plist
+中的 Filter 来手动指定需要注入的进程。可以通过指定 Bundles 为
+<code>com.apple.Security</code> 来注入所有进程。例子如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">key</span>&gt;</span>Filter<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">key</span>&gt;</span>Bundles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.apple.Security<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>编辑 <code>frida-gadget.config</code> 来配置 gadget 的行为（可参考 <a target="_blank" rel="noopener" href="https://frida.re/docs/gadget/">frida-gadget
+文档</a>）。推荐配置如下： <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;interaction&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;listen&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">27052</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;on_port_conflict&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pick-next&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;on_load&quot;</span><span class="punctuation">:</span> <span class="string">&quot;resume&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样会在 <code>com.app.Security</code> 加载的时候，注入
+frida-gadget.dylib。而所有 app 都会加载 <code>com.app.Security</code>
+这个 bundle，也就是说所有 app 都会被注入 frida-gadget.dylib。跟进
+frida-gadget 的配置文件，进程将会在 <code>127.0.0.1:27052</code> 开放
+frida 服务。如果该端口冲突，则会选用下一个端口。注入 frida-gadget.dylib
+后，会自动恢复进程的执行。</p>
+<h2 id="使用-choicy">使用 Choicy</h2>
+<p>我们可以手动编辑 <code>frida-gadget.plist</code>
+文件来配置进程过滤规则，不过这样每次都要手动编辑。使用 Choicy
+的好处在于可以提供一个手机上的 gui 界面，手动选择那些进程需要注入
+frida-gadget。</p>
+<p>添加 opa334 的源 <code>https://opa334.github.io/</code>，下载 Choicy
+插件安装后，即可在设置中找到 Choicy 的设置界面。</p>
+<p>首先可以配置全局插件配置，选择那些插件全局打开或关闭。</p>
+<p>在进程配置一节中，可以针对
+<code>SpringBoard</code>、每个应用、每个守护进程或额外的可执行文件单独配置。</p>
+<p>在我们的场景下，可以使用“白名单”和“黑名单”两种配置方法：</p>
+<ul>
+<li>白名单模式：所有 app 都不会被注入
+<code>frida-gadget</code>，仅有我们手动开启的app才会被注入</li>
+<li>黑名单模式：所有 app 都会被注入
+<code>frida-gadget</code>，仅有我们手动关闭的app才会被注入</li>
+</ul>
+<p>实际应用中应该只有少数 app 需要使用
+frida-gadget。白名单配置如下：</p>
+<ol type="1">
+<li>在 <code>frida-gadget.plist</code> 中确保 <code>Filter</code> 的
+<code>Bundles</code> 为 <code>com.apple.Security</code> 或其他所有 app
+都加载的 bundle。</li>
+<li>在 Choicy
+的<code>Global Tweak Configuration</code>中，<strong>关闭</strong>
+frida-gadget 的开关。</li>
+<li>进入 Choicy 的 Applications 页面，选择进入你需要注入 firda-gadget
+的应用，<strong>打开</strong>
+<code>Overwrite Global Tweak Configuration</code>，<strong>打开</strong>
+<code>Custom Tweak Configuration</code> 选项，在 <code>Allow</code>
+标签页中<strong>打开</strong> <code>frida-gadget</code> 的开关。</li>
+</ol>
+<p>如果真的有什么需求需要用到黑名单模式，只需要打开
+<code>frida-gadget</code> 的全局配置，然后在需要关闭的app中的
+<code>Deny</code> 页面里打开 <code>frida-gadget</code> 的开关即可。</p>
+<h2 id="连接-frida-gadget">连接 Frida Gadget</h2>
+<p>当某个进程注入 <code>frida-gadget.dylib</code> 后，会从 27052
+开始依次选择可用的端口创建 frida
+服务。如果只给一个进程配白了，那么这个进程肯定在 27052
+上创建（除非该端口已被别的什么服务占用）。可以在 iOS 中使用
+<code>lsof -t -i tcp:27052</code> 获取占用该端口的进程 pid，再用 ps
+确认进程名。合起来就是 <code>ps -p $(lsof -t -i tcp:27052)</code>。</p>
+<p>如果使用 usb 连接 iOS 设备的话，接下来在 <code>host</code> 端通过
+<code>iproxy 27052:27052</code> 转发端口，然后使用
+<code>frida -H localhost:27052 gadget</code> 即可连接到
+frida-gadget。</p>
+<p>如果想使用 wifi 连接 iOS 设备，则需要修改
+<code>frida-gadget.config</code>，将 <code>interaction</code> 中的
+<code>address</code> 改为 <code>0.0.0.0</code>。此时无需使用 iproxy
+转发端口，直接用 <code>frida -H &lt;device_ip&gt;:27052 gadget</code>
+即可连接到 frida-gadget。</p>
+<p>如果有需求需要同时注入多个进程并连接 frida，需要手动确定每个进程的
+<code>frida-gadget</code>
+开放在哪个端口，然后分别（转发端口并）连接即可。</p>
+<blockquote>
+<p>ps1: 也可以改到 27042 端口，这样 frida -H
+连接的时候可以不用指定端口号。</p>
+</blockquote>
+<blockquote>
+<p>ps2: 使用 frida-ps 看到的进程名为 Gadget</p>
+</blockquote>
+<p>下面这个脚本可以获取所有注入了 <code>frida-gadget</code>
+的进程、pid、以及对应的端口号：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">frida-<span class="function"><span class="title">port</span></span>() &#123;</span><br><span class="line">  port=<span class="variable">$&#123;1:-27052&#125;</span></span><br><span class="line">  pid=$(lsof -t -i tcp:<span class="variable">$port</span>)</span><br><span class="line">  <span class="keyword">while</span> [ <span class="string">&quot;<span class="variable">$pid</span>&quot;</span> != <span class="string">&quot;&quot;</span> ]</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">comm</span>=$(<span class="built_in">basename</span> $(ps -p <span class="variable">$pid</span> -o <span class="built_in">comm</span>=))</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$pid</span>\t<span class="variable">$port</span>\t<span class="variable">$comm</span>&quot;</span></span><br><span class="line">    port=$((<span class="variable">$port</span>+<span class="number">1</span>))</span><br><span class="line">    pid=$(lsof -t -i tcp:<span class="variable">$port</span>)</span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>本文只是抛砖隐喻，实际使用中可以按照自己的个人习惯修改 plist，config
+等。</p>
+<p>使用 Choicy 管理 frida-gadget 时，在多 app 场景下需要手动确认每个 app
+的 frida-gadget 开启在哪个端口上。另外无法自定义配置每个 app
+所需要的配置文件。我的想法是单独写一个插件来管理
+frida-gadget，为每个需要注入 frida-gadget 的 app
+单独做一份配置。目前已经新建文件夹了，后面写的差不多了再放出来
+XDDDD。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://frida.re/docs/gadget/">https://frida.re/docs/gadget/</a></li>
+<li><a target="_blank" rel="noopener" href="https://iphonedev.wiki/Cydia_Substrate#MobileLoader">https://iphonedev.wiki/Cydia_Substrate#MobileLoader</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/opa334/Choicy">https://github.com/opa334/Choicy</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Apeng
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/" title="使用 Choicy 來管理 Frida Gadget">http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/Frida/" rel="tag"># Frida</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/28/adb-shell-zsh/" rel="prev" title="通过 Magisk 模块和 LineageOS 系统定制化 adb shell">
+                  <i class="fa fa-angle-left"></i> 通过 Magisk 模块和 LineageOS 系统定制化 adb shell
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Apeng</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Apeng7364" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
