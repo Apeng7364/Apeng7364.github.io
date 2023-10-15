@@ -6,7 +6,7 @@
   <link href="http://apeng.re/atom.xml" rel="self"/>
   
   <link href="http://apeng.re/"/>
-  <updated>2023-10-15T06:08:45.385Z</updated>
+  <updated>2023-10-15T06:15:02.229Z</updated>
   <id>http://apeng.re/</id>
   
   <author>
@@ -21,13 +21,10 @@
     <link href="http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/"/>
     <id>http://apeng.re/2023/10/14/use-choicy-to-manage-frida-gadget/</id>
     <published>2023-10-14T07:11:12.000Z</published>
-    <updated>2023-10-15T06:08:45.385Z</updated>
+    <updated>2023-10-15T06:15:02.229Z</updated>
     
     
-    <summary type="html">&lt;p&gt;通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的
-frida-server 来使用 frida。但是在实际使用中 frida-server
-会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 &lt;a href=&quot;https://github.com/opa334/Choicy/&quot;&gt;Choicy&lt;/a&gt; 插件可以很方便的管理
-Frida Gadget。&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;通常来说，我们在越狱后的 iOS 平台都会直接使用 Frida 官方提供的 frida-server 来使用 frida。但是在实际使用中 frida-server 会有一些缺陷。frida-gadget 会是一个更好的选择。使用 opa334 的 &lt;a href=&quot;https://github.com/opa334/Choicy/&quot;&gt;Choicy&lt;/a&gt; 插件可以很方便的管理 Frida Gadget。&lt;/p&gt;</summary>
     
     
     
